@@ -59,12 +59,6 @@ class Event
      */
     private $eventResult;
 
-    /**
-     * @ORM\ManyToOne(targetEntity=template::class)
-     * @ORM\JoinColumn(nullable=false)
-     */
-    private $Template;
-
     public function __construct()
     {
         $this->electors = new ArrayCollection();

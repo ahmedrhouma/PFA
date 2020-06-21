@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Elector index{% endblock %}
+
+{% block body %}
+    <h1>Elector index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>First_name</th>
+                <th>Last_name</th>
+                <th>Email</th>
+                <th>Phone</th>
+                <th>Gender</th>
+                <th>Language</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for elector in electors %}
+            <tr>
+                <td>{{ elector.id }}</td>
+                <td>{{ elector.firstName }}</td>
+                <td>{{ elector.lastName }}</td>
+                <td>{{ elector.email }}</td>
+                <td>{{ elector.phone }}</td>
+                <td>{{ elector.gender }}</td>
+                <td>{{ elector.language }}</td>
+                <td>
+                    <a href="{{ path('elector_show', {'id': elector.id}) }}">show</a>
+                    <a href="{{ path('elector_edit', {'id': elector.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('elector_new') }}">Create new</a>
+{% endblock %}

@@ -1,0 +1,46 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Elector{% endblock %}
+
+{% block body %}
+    <h1>Elector</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ elector.id }}</td>
+            </tr>
+            <tr>
+                <th>First_name</th>
+                <td>{{ elector.firstName }}</td>
+            </tr>
+            <tr>
+                <th>Last_name</th>
+                <td>{{ elector.lastName }}</td>
+            </tr>
+            <tr>
+                <th>Email</th>
+                <td>{{ elector.email }}</td>
+            </tr>
+            <tr>
+                <th>Phone</th>
+                <td>{{ elector.phone }}</td>
+            </tr>
+            <tr>
+                <th>Gender</th>
+                <td>{{ elector.gender }}</td>
+            </tr>
+            <tr>
+                <th>Language</th>
+                <td>{{ elector.language }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('elector_index') }}">back to list</a>
+
+    <a href="{{ path('elector_edit', {'id': elector.id}) }}">edit</a>
+
+    {{ include('elector/_delete_form.html.twig') }}
+{% endblock %}
