@@ -1,0 +1,37 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Liste index{% endblock %}
+
+{% block body %}
+    <h1>Liste index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>List_name</th>
+                <th>Type</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for liste in listes %}
+            <tr>
+                <td>{{ liste.id }}</td>
+                <td>{{ liste.listName }}</td>
+                <td>{{ liste.type }}</td>
+                <td>
+                    <a href="{{ path('liste_show', {'id': liste.id}) }}">show</a>
+                    <a href="{{ path('liste_edit', {'id': liste.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="4">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('liste_new') }}">Create new</a>
+{% endblock %}
