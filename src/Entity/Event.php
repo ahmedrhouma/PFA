@@ -205,16 +205,4 @@ class Event
 
         return $this;
     }
-
-    public function getTemplate(): ?template
-    {
-        return $this->Template;
-    }
-
-    public function setTemplate(?template $Template): self
-    {
-        $this->Template = $Template;
-
-        return $this;
-    }
 }
