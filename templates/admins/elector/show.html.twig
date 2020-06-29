@@ -1,0 +1,88 @@
+
+
+
+<div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
+    <div class="app-header white bg b-b">
+        <div class="navbar" data-pjax>
+            <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0">
+                <i class="ion-navicon"></i>
+            </a>
+            <div class="navbar-item pull-left h5" id="pageTitle">Electeurs</div>
+
+        </div>
+    </div>
+
+    <div class="app-body">
+
+        <!-- ############ PAGE START-->
+        <div class="row-col">
+            <div class="col-lg b-r">
+
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="box">
+                                <div class="box-header">
+
+                                    produit <strong>{{ elector.firstName }} {{ elector.lastName }}</strong> <a  class="label success pull-right" href="{{ path('elector_new') }}">Ajouter nouveau</a>
+                                    <a  class="label danger pull-right"  href="{{ path('elector') }}">Liste des electeurs</a>
+                                </div>
+                                <table class="table">
+                                    <tbody>
+                                    <tr>
+                                        <th>Id</th>
+                                        <td>{{ elector.id }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>First_name</th>
+                                        <td>{{ elector.firstName }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Last_name</th>
+                                        <td>{{ elector.lastName }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Email</th>
+                                        <td>{{ elector.email }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Phone</th>
+                                        <td>{{ elector.phone }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Gender</th>
+                                        <td>{{ elector.gender }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Language</th>
+                                        <td>{{ elector.language }}</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Image</th>
+                                        <td><img src="/uploads/{{ elector.photo }}"></td>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+
+                                <a class="btn btn-danger"  href="{{ path('elector_edit', {'id': elector.id}) }}">edit</a>
+
+
+                                {{ include('admins/elector/_delete_form.html.twig') }}
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+
+        <!-- ############ PAGE END-->
+
+    </div>
+</div>
+<!-- / -->

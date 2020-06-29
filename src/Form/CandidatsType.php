@@ -6,6 +6,8 @@ use App\Entity\Candidats;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 class CandidatsType extends AbstractType
 {
@@ -16,7 +18,8 @@ class CandidatsType extends AbstractType
             ->add('last_name')
             ->add('gender')
             ->add('birthday')
-            ->add('event')
+            ->add('photo', FileType::class, array('data_class' => null,'required' => false))
+
         ;
     }
 

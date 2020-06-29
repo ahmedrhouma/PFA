@@ -1,7 +1,7 @@
 {% extends 'admins/base.html.twig' %}
 
 
-    {% block title %}Tableau du board{% endblock %}
+    {% block title %}E-VOTE{% endblock %}
     {% block body %}
 
         <div class="app" id="app">
@@ -13,9 +13,9 @@
 
                             <ul class="nav" data-ui-nav>
                                 <li class="nav-header hidden-folded">
-                                    <img class="img-fluid" src="images/logo/logo-mini.png"/>
+                                    <img class="img-fluid" src="{{ asset('images/logo/logo-mini.png') }}" alt=""/>
                                 </li>
-                                <li>
+                                <li {% if currentRoute == "dashboard" %} class="active" {% endif %}>
                                     <a href="/dashboard" class="b-danger">
 
                   <span class="nav-icon text-white no-fade">
@@ -24,39 +24,23 @@
                                         <span class="nav-text">Tableau du board</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="/utilisateurs" class="b-success">
+                                <li {% if currentRoute == "elector" %} class="active" {% endif %}>
+                                    <a href="/elector" class="b-success">
                   <span class="nav-icon text-white no-fade">
                     <i class="ion-android-apps"></i>
                   </span>
-                                        <span class="nav-text">Liste d'ulitisateurs</span>
+                                        <span class="nav-text">Liste des electeurs</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="/categorie" class="b-info">
+                                <li {% if currentRoute == "candidats" %} class="active" {% endif %}>
+                                    <a href="/candidats" class="b-info">
                   <span class="nav-icon text-white no-fade">
                     <i class="ion-email"></i>
                   </span>
-                                        <span class="nav-text">Categories</span>
+                                        <span class="nav-text">Liste des candidats</span>
                                     </a>
                                 </li>
-                                <li>
-                                    <a href="/produit" class="b-default">
 
-                                        <span class="nav-icon">
-                    <i class="ion-chatbubble-working"></i>
-                  </span>
-                                        <span class="nav-text">Produits</span>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="/commande  " class="b-default">
-                  <span class="nav-icon">
-                    <i class="ion-person"></i>
-                  </span>
-                                        <span class="nav-text">Commandes</span>
-                                    </a>
-                                </li>
                             </ul>
                         </nav>
                     </div>
@@ -77,14 +61,33 @@
                             </a>
                             <div class="dropdown-menu w dropdown-menu-scale ">
 
-                                <a class="dropdown-item" href="logout">Deconnexion</a>
+                                <a class="dropdown-item" href="/logout">Deconnexion</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            {{ include('admins/dashboard/accuiel.html.twig') }}
+            {{ currentRoute }}
+            {% if currentRoute == "dashboard" %}
+                {{ include('admins/dashboard/accueil.html.twig') }}
+            {% elseif currentRoute == "elector" %}
+                {{ include('admins/elector/index.html.twig') }}
+            {% elseif currentRoute == "elector_new" %}
+                {{ include('admins/elector/new.html.twig') }}
+            {% elseif currentRoute == "elector_show" %}
+                {{ include('admins/elector/show.html.twig') }}
+            {% elseif currentRoute == "elector_edit" %}
+                {{ include('admins/elector/edit.html.twig') }}
+            {% elseif currentRoute == "candidats" %}
+                {{ include('admins/candidats/index.html.twig') }}
+            {% elseif currentRoute == "candidats_new" %}
+                {{ include('admins/candidats/new.html.twig') }}
+            {% elseif currentRoute == "candidats_show" %}
+                {{ include('admins/candidats/show.html.twig') }}
+            {% elseif currentRoute == "candidats_edit" %}
+                {{ include('admins/candidats/edit.html.twig') }}
+            {% endif %}
 
         </div>
 

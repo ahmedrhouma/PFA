@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * @Route("/candidats")
@@ -16,13 +17,18 @@ use Symfony\Component\Routing\Annotation\Route;
 class CandidatsController extends AbstractController
 {
     /**
-     * @Route("/", name="candidats_index", methods={"GET"})
+     * @Route("/", name="candidats", methods={"GET"})
      */
-    public function index(CandidatsRepository $candidatsRepository): Response
+    public function index(CandidatsRepository $candidatsRepository , Request $request): Response
     {
-        return $this->render('candidats/index.html.twig', [
+
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'candidats' => $candidatsRepository->findAll(),
+            'currentRoute' => $currentRoute
         ]);
+
+
     }
 
     /**
@@ -34,27 +40,49 @@ class CandidatsController extends AbstractController
         $form = $this->createForm(CandidatsType::class, $candidat);
         $form->handleRequest($request);
 
+        $currentRoute = $request->attributes->get('_route');
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('photo')->getData();
+            $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
+            // Move the file to the directory where images are stored
+            try {
+                $file->move(
+                    $this->getParameter('upload_directory'),
+                    $fileName
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            // updates the 'image' property to store the PDF file name
+            // instead of its contents
+
+            $candidat->setphoto($fileName);
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($candidat);
             $entityManager->flush();
 
-            return $this->redirectToRoute('candidats_index');
+            return $this->redirectToRoute('candidats');
         }
 
-        return $this->render('candidats/new.html.twig', [
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'candidat' => $candidat,
             'form' => $form->createView(),
+            'currentRoute' => $currentRoute
         ]);
     }
 
     /**
      * @Route("/{id}", name="candidats_show", methods={"GET"})
      */
-    public function show(Candidats $candidat): Response
+    public function show(Candidats $candidat ,  Request $request): Response
     {
-        return $this->render('candidats/show.html.twig', [
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'candidat' => $candidat,
+            'currentRoute' => $currentRoute
         ]);
     }
 
@@ -65,16 +93,17 @@ class CandidatsController extends AbstractController
     {
         $form = $this->createForm(CandidatsType::class, $candidat);
         $form->handleRequest($request);
-
+        $currentRoute = $request->attributes->get('_route');
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('candidats_index');
+            return $this->redirectToRoute('candidats');
         }
 
-        return $this->render('candidats/edit.html.twig', [
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'candidat' => $candidat,
             'form' => $form->createView(),
+            'currentRoute' => $currentRoute
         ]);
     }
 
@@ -89,6 +118,6 @@ class CandidatsController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('candidats_index');
+        return $this->redirectToRoute('candidats');
     }
 }

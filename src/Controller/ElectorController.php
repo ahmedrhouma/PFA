@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 
 /**
  * @Route("/elector")
@@ -16,12 +17,15 @@ use Symfony\Component\Routing\Annotation\Route;
 class ElectorController extends AbstractController
 {
     /**
-     * @Route("/", name="elector_index", methods={"GET"})
+     * @Route("/", name="elector", methods={"GET"})
      */
-    public function index(ElectorRepository $electorRepository): Response
+    public function index(ElectorRepository $electorRepository , Request $request): Response
     {
-        return $this->render('elector/index.html.twig', [
+
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'electors' => $electorRepository->findAll(),
+            'currentRoute' => $currentRoute
         ]);
     }
 
@@ -33,8 +37,27 @@ class ElectorController extends AbstractController
         $elector = new Elector();
         $form = $this->createForm(ElectorType::class, $elector);
         $form->handleRequest($request);
-
+        $currentRoute = $request->attributes->get('_route');
         if ($form->isSubmitted() && $form->isValid()) {
+
+
+            $file = $form->get('photo')->getData();
+            $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
+            // Move the file to the directory where images are stored
+            try {
+                $file->move(
+                    $this->getParameter('upload_directory'),
+                    $fileName
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            // updates the 'image' property to store the PDF file name
+            // instead of its contents
+
+            $elector->setphoto($fileName);
+
+
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($elector);
             $entityManager->flush();
@@ -42,19 +65,22 @@ class ElectorController extends AbstractController
             return $this->redirectToRoute('elector_index');
         }
 
-        return $this->render('elector/new.html.twig', [
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'elector' => $elector,
             'form' => $form->createView(),
+            'currentRoute' => $currentRoute
         ]);
     }
 
     /**
      * @Route("/{id}", name="elector_show", methods={"GET"})
      */
-    public function show(Elector $elector): Response
+    public function show(Elector $elector , Request $request): Response
     {
-        return $this->render('elector/show.html.twig', [
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'elector' => $elector,
+            'currentRoute' => $currentRoute
         ]);
     }
 
@@ -63,6 +89,7 @@ class ElectorController extends AbstractController
      */
     public function edit(Request $request, Elector $elector): Response
     {
+        $currentRoute = $request->attributes->get('_route');
         $form = $this->createForm(ElectorType::class, $elector);
         $form->handleRequest($request);
 
@@ -72,9 +99,10 @@ class ElectorController extends AbstractController
             return $this->redirectToRoute('elector_index');
         }
 
-        return $this->render('elector/edit.html.twig', [
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'elector' => $elector,
             'form' => $form->createView(),
+            'currentRoute' => $currentRoute
         ]);
     }
 

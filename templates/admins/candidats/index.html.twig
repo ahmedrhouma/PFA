@@ -1,0 +1,97 @@
+<div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
+
+    <div class="app-header white bg b-b">
+        <div class="navbar" data-pjax>
+            <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0">
+                <i class="ion-navicon"></i>
+            </a>
+            <div class="navbar-item pull-left h5" id="pageTitle">Candidats</div>
+
+        </div>
+    </div>
+
+    <div class="app-body">
+
+        <!-- ############ PAGE START-->
+        <div class="row-col">
+            <div class="col-lg b-r">
+
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="box">
+                                <div class="box-header">
+
+                                    liste des candidats <a class="label success pull-right"
+                                                           href="#openModal-about">Ajouter nouveau</a>
+                                    <!--modals-->
+                                    <div id="openModal-about" class="modalDialog">
+                                        <div>
+                                            <a href="#close" title="Close" class="close">X</a>
+                                            <h2>Ajouter nouveaux candidats</h2>
+                                            <hr>
+                                            <div class="row">
+                                                <div class=" col-6 "><a style="font-size: 100% !important;"
+                                                                        class="label primary  pull-center">Import
+                                                        candidats (fichier
+                                                        xls)</a></div>
+                                                <div class=" col-6 "><a style="font-size: 100% !important;"
+                                                                        class="label primary  pull-center"
+                                                                        href="{{ path('candidats_new') }}">Ajouter
+                                                        nouveau candidat
+                                                        (Formulaire)</a></div>
+
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+                                </div>
+                                <table class="table">
+                                    <thead>
+                                    <tr>
+
+                                        <th>Nom et Prenom</th>
+                                        <th>Date du naissance </th>
+                                        <th>actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tbody>
+
+                                    {% for candidat in candidats %}
+                                        <tr>
+
+                                            <td>{{ candidat.fistName }} {{ candidat.lastName }}</td>
+
+                                            <td>{{ candidat.birthday ? candidat.birthday|date('Y-m-d') : '' }}</td>
+
+                                            <td>
+                                                <a class="label danger "
+                                                   href="{{ path('candidats_show', {'id': candidat.id}) }}">Montrer</a>
+                                                <a class="label primary "
+                                                   href="{{ path('candidats_edit', {'id': candidat.id}) }}">Modifier</a>
+                                            </td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td colspan="8">no records found</td>
+                                        </tr>
+                                    {% endfor %}
+                                    </tbody>
+                                </table>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ############ PAGE END-->
+
+    </div>
+</div>

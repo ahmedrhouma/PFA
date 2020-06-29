@@ -38,9 +38,14 @@ class Candidats
     private $birthday;
 
     /**
-     * @ORM\ManyToOne(targetEntity=event::class, inversedBy="candidats")
+     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="candidats")
      */
     private $event;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $photo;
 
     public function getId(): ?int
     {
@@ -105,5 +110,20 @@ class Candidats
         $this->event = $event;
 
         return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+    public function __toString() {
+        return $this->fist_name;
     }
 }

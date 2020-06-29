@@ -54,6 +54,11 @@ class Elector
      */
     private $event;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $photo;
+
     public function __construct()
     {
         $this->event = new ArrayCollection();
@@ -160,5 +165,20 @@ class Elector
         }
 
         return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
+
+        return $this;
+    }
+    public function __toString() {
+        return $this->first_name;
     }
 }
