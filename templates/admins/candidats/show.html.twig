@@ -1,4 +1,5 @@
 
+
 <div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
     <div class="app-header white bg b-b">
         <div class="navbar" data-pjax>
@@ -12,6 +13,18 @@
 
     <div class="app-body">
 
+        <div class="avatar-upload" style="z-index: 1000;">
+
+            <div class="avatar-preview" style="margin-top: -45px;margin-bottom: -125px;">
+                <div id="imagePreview">
+                    <img style="width: 192px;height: 182px;position: relative;border-radius: 100%;"
+                         id="output"
+                         class="img-fluid" src="/uploads/{{ candidat.photo }}" alt="">
+                </div>
+            </div>
+
+        </div>
+
         <!-- ############ PAGE START-->
         <div class="row-col">
             <div class="col-lg b-r">
@@ -22,40 +35,33 @@
                             <div class="box">
                                 <div class="box-header">
 
-                                    produit <strong>{{ candidat.fistName }} {{ candidat.lastName }}</strong> <a  class="label success pull-right" href="{{ path('candidats_new') }}">Ajouter nouveau</a>
-                                    <a  class="label danger pull-right"  href="{{ path('candidats') }}">Liste des candidats</a>
+                                    <a
+                                            class="label success pull-right" href="{{ path('candidats_new') }}">Ajouter
+                                        nouveau</a>
+                                    <a class="label danger pull-right" href="{{ path('candidats') }}">Liste des
+                                        candidats</a>
                                 </div>
                                 <table class="table">
                                     <tbody>
                                     <tr>
-                                        <th>Id</th>
-                                        <td>{{ candidat.id }}</td>
+                                        <th>Nom et prenom</th>
+                                        <td>{{ candidat.fistName }} {{ candidat.lastName }}</td>
                                     </tr>
+
                                     <tr>
-                                        <th>Fist_name</th>
-                                        <td>{{ candidat.fistName }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Last_name</th>
-                                        <td>{{ candidat.lastName }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Gender</th>
+                                        <th>Sexe</th>
                                         <td>{{ candidat.gender }}</td>
                                     </tr>
                                     <tr>
-                                        <th>Birthday</th>
+                                        <th>Date du naissance</th>
                                         <td>{{ candidat.birthday ? candidat.birthday|date('Y-m-d') : '' }}</td>
                                     </tr>
-                                    <tr>
-                                        <th>Image</th>
-                                        <td><img src="/uploads/{{ candidat.photo }}"></td>
-                                    </tr>
+
                                     </tbody>
                                 </table>
 
 
-                                <a class="btn btn-danger"  href="{{ path('candidats_edit', {'id': candidat.id}) }}">edit</a>
+                                <a class="btn btn-primary  col-2" href="{{ path('candidats_edit', {'id': candidat.id}) }}">Mettre à jour</a>
 
 
                                 {{ include('admins/candidats/_delete_form.html.twig') }}
@@ -68,7 +74,6 @@
             </div>
 
         </div>
-
 
 
         <!-- ############ PAGE END-->

@@ -62,7 +62,7 @@ class ElectorController extends AbstractController
             $entityManager->persist($elector);
             $entityManager->flush();
 
-            return $this->redirectToRoute('elector_index');
+            return $this->redirectToRoute('elector');
         }
 
         return $this->render('admins/dashboard/dashboard.html.twig', [
@@ -96,7 +96,7 @@ class ElectorController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('elector_index');
+            return $this->redirectToRoute('elector');
         }
 
         return $this->render('admins/dashboard/dashboard.html.twig', [
@@ -117,6 +117,6 @@ class ElectorController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('elector_index');
+        return $this->redirectToRoute('elector');
     }
 }

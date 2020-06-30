@@ -24,7 +24,7 @@
                                         <span class="nav-text">Tableau du board</span>
                                     </a>
                                 </li>
-                                <li {% if currentRoute == "elector" %} class="active" {% endif %}>
+                                <li {% if (currentRoute == "elector")  or (currentRoute == 'elector_new')  or (currentRoute == 'elector_show')  or (currentRoute == 'elector_edit')  %} class="active" {% endif %}>
                                     <a href="/elector" class="b-success">
                   <span class="nav-icon text-white no-fade">
                     <i class="ion-android-apps"></i>
@@ -32,7 +32,7 @@
                                         <span class="nav-text">Liste des electeurs</span>
                                     </a>
                                 </li>
-                                <li {% if currentRoute == "candidats" %} class="active" {% endif %}>
+                                <li {% if (currentRoute == "candidats" ) or (currentRoute == "candidats_new" )or (currentRoute == "candidats_show" )or (currentRoute == "candidats_edit" ) %} class="active" {% endif %}>
                                     <a href="/candidats" class="b-info">
                   <span class="nav-icon text-white no-fade">
                     <i class="ion-email"></i>
@@ -68,7 +68,7 @@
                 </div>
             </div>
 
-            {{ currentRoute }}
+
             {% if currentRoute == "dashboard" %}
                 {{ include('admins/dashboard/accueil.html.twig') }}
             {% elseif currentRoute == "elector" %}
