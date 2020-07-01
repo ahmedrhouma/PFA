@@ -1,5 +1,0 @@
-<form method="post" action="{{ path('liste_delete', {'id': liste.id}) }}" onsubmit="return confirm('Êtes-vous sûr de bien vouloir supprimer cette liste?');">
-    <input type="hidden" name="_method" value="DELETE">
-    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ liste.id) }}">
-    <button style="margin-left: 81%; margin-top: -61px;" class="btn btn-danger col-2">Supprimer</button>
-</form>

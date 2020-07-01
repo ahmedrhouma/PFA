@@ -55,6 +55,11 @@ class Elector
      */
     private $photo;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $cin;
+
     public function __construct()
     {
         $this->event = new ArrayCollection();
@@ -165,5 +170,17 @@ class Elector
     }
     public function __toString() {
         return $this->first_name;
+    }
+
+    public function getCin(): ?int
+    {
+        return $this->cin;
+    }
+
+    public function setCin(int $cin): self
+    {
+        $this->cin = $cin;
+
+        return $this;
     }
 }

@@ -64,11 +64,11 @@ class Candidats
     private $email;
 
 
+
     /**
-     * @ORM\ManyToOne(targetEntity="Liste", inversedBy="candidats")
-     * @ORM\JoinColumn(name="liste_id", referencedColumnName="id")
+     * @ORM\Column(type="integer")
      */
-    private $liste;
+    private $cin;
 
     public function getId(): ?int
     {
@@ -190,14 +190,17 @@ class Candidats
         return $this;
     }
 
-    public function getListe()
+
+
+
+    public function getCin(): ?int
     {
-        return $this->liste;
+        return $this->cin;
     }
 
-    public function setListe($liste): self
+    public function setCin(int $cin): self
     {
-        $this->liste = $liste;
+        $this->cin = $cin;
 
         return $this;
     }

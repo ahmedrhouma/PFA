@@ -21,6 +21,10 @@
 <form>
     <div class="form-row">
         <div class="form-group col-md-6">
+            <label >C.I.N</label>
+            {{ form_widget(form.cin) }}
+        </div>
+        <div class="form-group col-md-6">
             <label >Nom</label>
             {{ form_widget(form.first_name) }}
         </div>
@@ -44,10 +48,7 @@
             <label for="inputAddress2">Telephone</label>
             {{ form_widget(form.phone) }}
         </div>
-        <div class="form-group col-md-6">
-            <label for="inputAddress2">Liste</label>
-            {{ form_widget(form.liste) }}
-        </div>
+
         <div class="form-group col-md-12">
             <label for="inputAddress2">Description</label>
             {{ form_widget(form.description) }}

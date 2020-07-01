@@ -29,12 +29,6 @@
                                         <span class="nav-text">Liste des candidats</span>
                                     </a>
                                 </li>
-                                <li  class="" >
-                                    <a href="/listes" class="b-primary">
-                                        <span class="nav-icon text-white no-fade"><i class="ion-email"></i></span>
-                                        <span class="nav-text">Liste des listes</span>
-                                    </a>
-                                </li>
                             </ul>
                         </nav>
                     </div>
@@ -83,14 +77,6 @@
                 {{ include('admins/candidats/show.html.twig') }}
             {% elseif currentRoute == "candidats_edit" %}
                 {{ include('admins/candidats/edit.html.twig') }}
-            {% elseif currentRoute == "liste" %}
-                {{ include('admins/liste/index.html.twig') }}
-            {% elseif currentRoute == "liste_new" %}
-                {{ include('admins/liste/new.html.twig') }}
-            {% elseif currentRoute == "liste_show" %}
-                {{ include('admins/liste/show.html.twig') }}
-            {% elseif currentRoute == "liste_edit" %}
-                {{ include('admins/liste/edit.html.twig') }}
             {% endif %}
 
         </div>

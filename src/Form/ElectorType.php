@@ -17,6 +17,11 @@ class ElectorType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('cin', NumberType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                ]
+            ])
             ->add('first_name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'

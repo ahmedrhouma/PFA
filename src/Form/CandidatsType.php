@@ -19,6 +19,11 @@ class CandidatsType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         $builder
+            ->add('cin', NumberType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
+            ])
             ->add('first_name', TextType::class, [
                 'attr' => [
                     'class' => 'form-control'
@@ -59,11 +64,7 @@ class CandidatsType extends AbstractType
                     'rows' => '4'
                 ]
             ])
-            ->add('liste', null, [
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
+
             ->add('photo', FileType::class,
                 array('data_class' => null,'required' => true,'attr' => [
                     'onchange' => 'document.getElementById(\'output\').src = window.URL.createObjectURL(this.files[0])',
