@@ -45,7 +45,7 @@ class ElectorType extends AbstractType
             ->add('gender', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control'
-                ],
+                ], 
                 'choices'  => [
                     'homme' =>  'Homme',
                     'femme' => 'Femme',
