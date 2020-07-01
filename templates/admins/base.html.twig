@@ -5,32 +5,33 @@
     <title>{% block title %}Welcome!{% endblock %}</title>
     {% block stylesheets %}
         <!-- style -->
-    <link href="{{ asset('assets/css/animate.css/animate.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/glyphicons/glyphicons.css') }}" rel="stylesheet" />
-<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link href="{{ asset('assets/css/material-design-icons/material-design-icons.css') }}" rel="stylesheet" />
-    <link href="{{ asset('aassets/css/ionicons/css/ionicons.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet" />
-    <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/styles/app.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/styles/style.css') }}" rel="stylesheet" />
-    <link href="{{ asset('assets/css/styles/font.css') }}" rel="stylesheet" />
+        <link href="{{ asset('assets/css/animate.css/animate.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/glyphicons/glyphicons.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/material-design-icons/material-design-icons.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/styles/app.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/styles/font.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/styles/style.css') }}" rel="stylesheet"/>
 
 
-{#        <link rel="stylesheet" href="/assets/css/animate.css/animate.min.css" type="text/css" />#}
-{#        <link rel="stylesheet" href="/assets/css/glyphicons/glyphicons.css" type="text/css" />#}
-{#        <link rel="stylesheet" href="/assets/css/font-awesome/css/font-awesome.min.css" type="text/css" />#}
-{#        <link rel="stylesheet" href="/assets/css/material-design-icons/material-design-icons.css" type="text/css" />#}
-{#        <link rel="stylesheet" href="/assets/css/ionicons/css/ionicons.min.css" type="text/css" />#}
-{#        <link rel="stylesheet" href="/assets/css/simple-line-icons/css/simple-line-icons.css" type="text/css" />#}
-{#        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">#}
-{#        <!-- build:css css/styles/app.min.css -->#}
-{#        <link rel="stylesheet" href="/assets/css/styles/app.css" type="text/css" />#}
-{#        <link rel="stylesheet" href="/assets/css/styles/style.css" type="text/css" />#}
-{#        <!-- endbuild -->#}
-{#        <link rel="stylesheet" href="/assets/css/styles/font.css" type="text/css" />#}
-{#        <!-- build:js scripts/app.min.js -->#}
-{#        <!-- jQuery -->#}
+
+
+        {#        <link rel="stylesheet" href="/assets/css/animate.css/animate.min.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/glyphicons/glyphicons.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/font-awesome/css/font-awesome.min.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/material-design-icons/material-design-icons.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/ionicons/css/ionicons.min.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/simple-line-icons/css/simple-line-icons.css" type="text/css" />#}
+        {#        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">#}
+        {#        <!-- build:css css/styles/app.min.css -->#}
+        {#        <link rel="stylesheet" href="/assets/css/styles/app.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/styles/style.css" type="text/css" />#}
+        {#        <!-- endbuild -->#}
+        {#        <link rel="stylesheet" href="/assets/css/styles/font.css" type="text/css" />#}
+        {#        <!-- build:js scripts/app.min.js -->#}
+        {#        <!-- jQuery -->#}
 
     {% endblock %}
 </head>
@@ -42,32 +43,35 @@
 {% endblock %}
 {% block javascripts %}
 
-    <script src="jquery/jquery-3.2.1.min.js"></script>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
+    <script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>
     <!-- Bootstrap -->
-{#    <script src="/assets/libs/tether/dist/js/tether.min.js"></script>#}
-{#    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>#}
-{#    <!-- core -->#}
-{#    <script src="/assets/libs/jQuery-Storage-API/jquery.storageapi.min.js"></script>#}
-{#    <script src="/assets/libs/PACE/pace.min.js"></script>#}
-{#    <script src="/assets/libs/jquery-pjax/jquery.pjax.js"></script>#}
-{#    <script src="/assets/libs/blockUI/jquery.blockUI.js"></script>#}
-{#    <script src="/assets/libs/jscroll/jquery.jscroll.min.js"></script>#}
-{#    <script src="/assets/scripts/config.lazyload.js"></script>#}
-{#    <script src="/assets/scripts/ui-load.js"></script>#}
-{#    <script src="/assets/scripts/ui-jp.js"></script>#}
-{#    <script src="/assets/scripts/ui-include.js"></script>#}
-{#    <script src="/assets/scripts/ui-device.js"></script>#}
-{#    <script src="/assets/scripts/ui-form.js"></script>#}
-{#    <script src="/assets/scripts/ui-modal.js"></script>#}
-{#    <script src="/assets/scripts/ui-nav.js"></script>#}
-{#    <script src="/assets/scripts/ui-list.js"></script>#}
-{#    <script src="/assets/scripts/ui-screenfull.js"></script>#}
-{#    <script src="/assets/scripts/ui-scroll-to.js"></script>#}
-{#    <script src="/assets/scripts/ui-toggle-class.js"></script>#}
-{#    <script src="/assets/scripts/ui-taburl.js"></script>#}
-{#    <script src="/assets/scripts/app.js"></script>#}
-{#    <script src="/assets/scripts/ajax.js"></script>#}
+    {#    <script src="/assets/libs/tether/dist/js/tether.min.js"></script>#}
+    {#    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>#}
+    {#    <!-- core -->#}
+    {#    <script src="/assets/libs/jQuery-Storage-API/jquery.storageapi.min.js"></script>#}
+    {#    <script src="/assets/libs/PACE/pace.min.js"></script>#}
+    {#    <script src="/assets/libs/jquery-pjax/jquery.pjax.js"></script>#}
+    {#    <script src="/assets/libs/blockUI/jquery.blockUI.js"></script>#}
+    {#    <script src="/assets/libs/jscroll/jquery.jscroll.min.js"></script>#}
+    {#    <script src="/assets/scripts/config.lazyload.js"></script>#}
+    {#    <script src="/assets/scripts/ui-load.js"></script>#}
+    {#    <script src="/assets/scripts/ui-jp.js"></script>#}
+    {#    <script src="/assets/scripts/ui-include.js"></script>#}
+    {#    <script src="/assets/scripts/ui-device.js"></script>#}
+    {#    <script src="/assets/scripts/ui-form.js"></script>#}
+    {#    <script src="/assets/scripts/ui-modal.js"></script>#}
+    {#    <script src="/assets/scripts/ui-nav.js"></script>#}
+    {#    <script src="/assets/scripts/ui-list.js"></script>#}
+    {#    <script src="/assets/scripts/ui-screenfull.js"></script>#}
+    {#    <script src="/assets/scripts/ui-scroll-to.js"></script>#}
+    {#    <script src="/assets/scripts/ui-toggle-class.js"></script>#}
+    {#    <script src="/assets/scripts/ui-taburl.js"></script>#}
+    {#    <script src="/assets/scripts/app.js"></script>#}
+    {#    <script src="/assets/scripts/ajax.js"></script>#}
 {% endblock %}
 </body>
 

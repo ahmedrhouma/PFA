@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Liste;
 use App\Form\ListeType;
+use App\Repository\CandidatsRepository;
 use App\Repository\ListeRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -11,17 +12,19 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 
 /**
- * @Route("/liste")
+ * @Route("/listes")
  */
 class ListeController extends AbstractController
 {
     /**
-     * @Route("/", name="liste_index", methods={"GET"})
+     * @Route("/", name="liste", methods={"GET"})
      */
-    public function index(ListeRepository $listeRepository): Response
+    public function index(ListeRepository $listeRepository , Request $request): Response
     {
-        return $this->render('liste/index.html.twig', [
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'listes' => $listeRepository->findAll(),
+            'currentRoute' => $currentRoute
         ]);
     }
 
@@ -34,27 +37,50 @@ class ListeController extends AbstractController
         $form = $this->createForm(ListeType::class, $liste);
         $form->handleRequest($request);
 
+        $currentRoute = $request->attributes->get('_route');
+
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('photo')->getData();
+            $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
+            // Move the file to the directory where images are stored
+            try {
+                $file->move(
+                    $this->getParameter('upload_directory'),
+                    $fileName
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            // updates the 'image' property to store the PDF file name
+            // instead of its contents
+
+            $liste->setphoto($fileName);
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($liste);
             $entityManager->flush();
 
-            return $this->redirectToRoute('liste_index');
+            return $this->redirectToRoute('liste');
         }
 
-        return $this->render('liste/new.html.twig', [
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'liste' => $liste,
             'form' => $form->createView(),
+            'currentRoute' => $currentRoute
         ]);
     }
 
     /**
      * @Route("/{id}", name="liste_show", methods={"GET"})
      */
-    public function show(Liste $liste): Response
+    public function show(Liste $liste  ,  Request $request ,  CandidatsRepository $candidatsRepository ): Response
     {
-        return $this->render('liste/show.html.twig', [
+        $id = $request->get('id');
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'liste' => $liste,
+            'candidats' => $candidatsRepository->findBy(array('liste'=>$id)),
+            'currentRoute' => $currentRoute
         ]);
     }
 
@@ -65,16 +91,17 @@ class ListeController extends AbstractController
     {
         $form = $this->createForm(ListeType::class, $liste);
         $form->handleRequest($request);
-
+        $currentRoute = $request->attributes->get('_route');
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('liste_index');
+            return $this->redirectToRoute('liste');
         }
 
-        return $this->render('liste/edit.html.twig', [
+        return $this->render('admins/dashboard/dashboard.html.twig', [
             'liste' => $liste,
             'form' => $form->createView(),
+            'currentRoute' => $currentRoute
         ]);
     }
 
@@ -89,6 +116,6 @@ class ListeController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('liste_index');
+        return $this->redirectToRoute('liste');
     }
 }

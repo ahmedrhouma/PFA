@@ -40,14 +40,10 @@ class Elector
     private $phone;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=255)
      */
     private $gender;
 
-    /**
-     * @ORM\Column(type="string", length=2)
-     */
-    private $language;
 
     /**
      * @ORM\ManyToMany(targetEntity=Event::class, inversedBy="electors")
@@ -117,29 +113,18 @@ class Elector
         return $this;
     }
 
-    public function getGender(): ?int
+    public function getGender(): ?string
     {
         return $this->gender;
     }
 
-    public function setGender(int $gender): self
+    public function setGender(string $gender): self
     {
         $this->gender = $gender;
 
         return $this;
     }
 
-    public function getLanguage(): ?string
-    {
-        return $this->language;
-    }
-
-    public function setLanguage(string $language): self
-    {
-        $this->language = $language;
-
-        return $this;
-    }
 
     /**
      * @return Collection|Event[]

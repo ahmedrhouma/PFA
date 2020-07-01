@@ -95,6 +95,22 @@ class CandidatsController extends AbstractController
         $form->handleRequest($request);
         $currentRoute = $request->attributes->get('_route');
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('photo')->getData();
+            $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
+            // Move the file to the directory where images are stored
+            try {
+                $file->move(
+                    $this->getParameter('upload_directory'),
+                    $fileName
+                );
+            } catch (FileException $e) {
+                // ... handle exception if something happens during file upload
+            }
+            // updates the 'image' property to store the PDF file name
+            // instead of its contents
+
+            $candidat->setphoto($fileName);
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('candidats');

@@ -20,7 +20,7 @@ class Candidats
     /**
      * @ORM\Column(type="string", length=255)
      */
-    private $fist_name;
+    private $first_name;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -28,14 +28,14 @@ class Candidats
     private $last_name;
 
     /**
-     * @ORM\Column(type="smallint")
+     * @ORM\Column(type="string", length=255)
      */
     private $gender;
 
     /**
      * @ORM\Column(type="date")
      */
-    private $birthday;
+    private $date_of_birth;
 
     /**
      * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="candidats")
@@ -47,19 +47,42 @@ class Candidats
      */
     private $photo;
 
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $phone;
+
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $description;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     */
+    private $email;
+
+
+    /**
+     * @ORM\ManyToOne(targetEntity="Liste", inversedBy="candidats")
+     * @ORM\JoinColumn(name="liste_id", referencedColumnName="id")
+     */
+    private $liste;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getFistName(): ?string
+    public function getFirstName(): ?string
     {
-        return $this->fist_name;
+        return $this->first_name;
     }
 
-    public function setFistName(string $fist_name): self
+    public function setFirstName(string $first_name): self
     {
-        $this->fist_name = $fist_name;
+        $this->first_name = $first_name;
 
         return $this;
     }
@@ -76,26 +99,38 @@ class Candidats
         return $this;
     }
 
-    public function getGender(): ?int
+    public function getGender(): ?string
     {
         return $this->gender;
     }
 
-    public function setGender(int $gender): self
+    public function setGender(string $gender): self
     {
         $this->gender = $gender;
 
         return $this;
     }
 
-    public function getBirthday(): ?\DateTimeInterface
+    public function getDateOfBirth(): ?\DateTimeInterface
     {
-        return $this->birthday;
+        return $this->date_of_birth;
     }
 
-    public function setBirthday(\DateTimeInterface $birthday): self
+    public function setDateOfBirth(\DateTimeInterface $date_of_birth): self
     {
-        $this->birthday = $birthday;
+        $this->date_of_birth = $date_of_birth;
+
+        return $this;
+    }
+
+    public function getPhoto(): ?string
+    {
+        return $this->photo;
+    }
+
+    public function setPhoto(string $photo): self
+    {
+        $this->photo = $photo;
 
         return $this;
     }
@@ -112,18 +147,58 @@ class Candidats
         return $this;
     }
 
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
+
+    public function __toString() {
+        return $this->first_name;
     }
 
-    public function setPhoto(string $photo): self
+    public function getPhone(): ?string
     {
-        $this->photo = $photo;
+        return $this->phone;
+    }
+
+    public function setPhone(string $phone): self
+    {
+        $this->phone = $phone;
 
         return $this;
     }
-    public function __toString() {
-        return $this->fist_name;
+
+
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(string $description): self
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    public function getEmail(): ?string
+    {
+        return $this->email;
+    }
+
+    public function setEmail(string $email): self
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    public function getListe()
+    {
+        return $this->liste;
+    }
+
+    public function setListe($liste): self
+    {
+        $this->liste = $liste;
+
+        return $this;
     }
 }

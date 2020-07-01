@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Elector;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -36,16 +37,16 @@ class ElectorType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('gender', NumberType::class, [
+            ->add('gender', ChoiceType::class, [
                 'attr' => [
                     'class' => 'form-control'
-                ]
+                ],
+                'choices'  => [
+                    'homme' =>  'Homme',
+                    'femme' => 'Femme',
+                ],
             ])
-            ->add('language', TextType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ]
-            ])
+
             ->add('photo', FileType::class,
                 array('data_class' => null,'required' => false,'attr' => [
                     'onchange' => 'document.getElementById(\'output\').src = window.URL.createObjectURL(this.files[0])',

@@ -22,8 +22,8 @@
                             <div class="box">
                                 <div class="box-header">
 
-                                    liste des candidats <a class="label success pull-right"
-                                                           href="#openModal-about">Ajouter nouveau</a>
+                                    <strong>Liste des candidats</strong> <a class="label success pull-right"
+                                                                            href="#openModal-about">Ajouter nouveau</a>
                                     <!--modals-->
                                     <div id="openModal-about" class="modalDialog">
                                         <div>
@@ -40,20 +40,22 @@
                                                                         href="{{ path('candidats_new') }}">Ajouter
                                                         nouveau candidat
                                                         (Formulaire)</a></div>
-
-
                                             </div>
 
                                         </div>
                                     </div>
                                 </div>
-                                <table class="table">
+                                <table class="table  table-striped table-bordered" id="example" >
                                     <thead>
                                     <tr>
-
+                                        <th>#</th>
                                         <th>Nom et Prenom</th>
-                                        <th>Date du naissance </th>
-                                        <th>actions</th>
+                                        <th>Date du naissance</th>
+                                        <th>Email</th>
+                                        <th>Sexe</th>
+                                        <th>Liste</th>
+
+                                        <th class="pull-right">Actions</th>
                                     </tr>
                                     </thead>
                                     <tbody>
@@ -61,15 +63,18 @@
                                     {% for candidat in candidats %}
                                         <tr>
 
-                                            <td>{{ candidat.fistName }} {{ candidat.lastName }}</td>
-
-                                            <td>{{ candidat.birthday ? candidat.birthday|date('Y-m-d') : '' }}</td>
-
-                                            <td>
+                                            <td><img style="width: 50px" src="/uploads/{{ candidat.photo }}" alt=""></td>
+                                            <td>{{ candidat.firstName }} {{ candidat.lastName }}</td>
+                                            <td>{{ candidat.dateOfBirth ? candidat.dateOfBirth|date('Y-m-d') : '' }}</td>
+                                            <td>{{ candidat.email }} </td>
+                                            <td>{{ candidat.gender }} </td>
+                                            <td>{{ candidat.liste }} </td>
+                                            <td class="pull-right">
                                                 <a class="label danger "
                                                    href="{{ path('candidats_show', {'id': candidat.id}) }}">Montrer</a>
                                                 <a class="label primary "
                                                    href="{{ path('candidats_edit', {'id': candidat.id}) }}">Modifier</a>
+
                                             </td>
                                         </tr>
                                     {% else %}

@@ -58,16 +58,13 @@
                                         <th>Gender</th>
                                         <td>{{ elector.gender }}</td>
                                     </tr>
-                                    <tr>
-                                        <th>Language</th>
-                                        <td>{{ elector.language }}</td>
-                                    </tr>
+
 
                                     </tbody>
                                 </table>
 
 
-                                <a class="btn btn-primary  col-2" href="{{ path('elector_edit', {'id': elector.id}) }}">Mettre à jour</a>
+                                <a class="btn btn-primary  col-2" href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
 
 
                                 {{ include('admins/elector/_delete_form.html.twig') }}

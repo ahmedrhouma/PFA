@@ -40,8 +40,9 @@ class ElectorController extends AbstractController
         $currentRoute = $request->attributes->get('_route');
         if ($form->isSubmitted() && $form->isValid()) {
 
-
             $file = $form->get('photo')->getData();
+
+            if (!empty($file) ){
             $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
             // Move the file to the directory where images are stored
             try {
@@ -54,9 +55,12 @@ class ElectorController extends AbstractController
             }
             // updates the 'image' property to store the PDF file name
             // instead of its contents
-
             $elector->setphoto($fileName);
 
+            }
+            else{
+                $elector->setphoto('profile.jpg');
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($elector);
@@ -94,6 +98,28 @@ class ElectorController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('photo')->getData();
+
+            if (!empty($file) ){
+                $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
+                // Move the file to the directory where images are stored
+                try {
+                    $file->move(
+                        $this->getParameter('upload_directory'),
+                        $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                // updates the 'image' property to store the PDF file name
+                // instead of its contents
+                $elector->setphoto($fileName);
+
+            }
+            else{
+                $elector->setphoto('profile.jpg');
+            }
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('elector');

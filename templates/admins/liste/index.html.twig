@@ -1,9 +1,10 @@
+
 <div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
     <div class="app-header white bg b-b">
         <div class="navbar" data-pjax>
             <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0"><i class="ion-navicon"></i></a>
             <div class="navbar-item pull-left h5" id="pageTitle">
-                Electeurs
+                Listes
             </div>
         </div>
     </div>
@@ -16,20 +17,20 @@
                         <div class="col-sm-12">
                             <div class="box">
                                 <div class="box-header">
-                                    <strong>liste des electeurs</strong>
+                                    <strong>liste des listes</strong>
                                     <a class="label success pull-right"href="#openModal-about">Ajouter nouveau</a>
                                     <!--modals-->
                                     <div id="openModal-about" class="modalDialog">
                                         <div>
                                             <a href="#close" title="Close" class="close">X</a>
-                                            <h2>Ajouter nouveaux electeurs</h2>
+                                            <h2>Ajouter nouveaux listes</h2>
                                             <hr>
                                             <div class="row">
                                                 <div class=" col-6 ">
-                                                    <a style="font-size: 100% !important;"class="label primary  pull-center">Import electeurs (fichierxls)</a>
+                                                    <a style="font-size: 100% !important;"class="label primary  pull-center">Import listes (fichierxls)</a>
                                                 </div>
                                                 <div class=" col-6 ">
-                                                    <a style="font-size: 100% !important;"class="label primary  pull-center"href="{{ path('elector_new') }}">Ajouter nouveau electeur(Formulaire)</a>
+                                                    <a style="font-size: 100% !important;"class="label primary  pull-center"href="{{ path('liste_new') }}">Ajoute nouveau liste(Formulaire)</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -42,10 +43,10 @@
                                             #
                                         </th>
                                         <th>
-                                            Nom et Prenom
+                                            Nom du liste
                                         </th>
                                         <th>
-                                            Email
+                                            Type
                                         </th>
                                         <th class="pull-right">
                                             Actions
@@ -53,20 +54,20 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for elector in electors %}
+                                    {% for liste in listes %}
                                         <tr>
                                             <td>
-                                                <img style="width: 50px" src="/uploads/{{ elector.photo }}" alt="">
+                                                <img style="width: 50px" src="/uploads/{{ liste.photo }}" alt="">
                                             </td>
                                             <td>
-                                                {{ elector.firstName }} {{ elector.lastName }}
+                                                {{ liste.listName }}
                                             </td>
                                             <td>
-                                                {{ elector.email }}
+                                                {{ liste.type }}
                                             </td>
                                             <td class="pull-right">
-                                                <a class="label danger "href="{{ path('elector_show', {'id': elector.id}) }}">Montrer</a>
-                                                <a class="label primary "href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
+                                                <a class="label danger "href="{{ path('liste_show', {'id': liste.id}) }}">Montrer</a>
+                                                <a class="label primary "href="{{ path('liste_edit', {'id': liste.id}) }}">Modifier</a>
                                             </td>
                                         </tr>
                                     {% else %}

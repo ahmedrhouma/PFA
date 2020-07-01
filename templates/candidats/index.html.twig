@@ -20,7 +20,7 @@
         {% for candidat in candidats %}
             <tr>
                 <td>{{ candidat.id }}</td>
-                <td>{{ candidat.fistName }}</td>
+                <td>{{ candidat.firstName }}</td>
                 <td>{{ candidat.lastName }}</td>
                 <td>{{ candidat.gender }}</td>
                 <td>{{ candidat.birthday ? candidat.birthday|date('Y-m-d') : '' }}</td>
