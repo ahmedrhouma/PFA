@@ -19,7 +19,7 @@ class ElectorController extends AbstractController
     /**
      * @Route("/", name="elector", methods={"GET"})
      */
-    public function index(ElectorRepository $electorRepository , Request $request): Response
+    public function index(ElectorRepository $electorRepository, Request $request): Response
     {
 
         $currentRoute = $request->attributes->get('_route');
@@ -34,6 +34,31 @@ class ElectorController extends AbstractController
      */
     public function new(Request $request): Response
     {
+        if ($request->get('upload')!== null) {
+            if (is_uploaded_file($_FILES['file1']['tmp_name'])) {
+                $csvFile = fopen($_FILES['file1']['tmp_name'], 'r');
+                while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
+                    $phone = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
+                    $firstname = (isset($line[1]) && $line[1] != '') ? $line[1] : NULL;
+                    $lastname = (isset($line[2]) && $line[2] != '') ? $line[2] : NULL;
+                    $cin = (isset($line[3]) && $line[3] != '') ? $line[3] : NULL;
+                    $birth = (isset($line[4]) && $line[4] != '') ? $line[4] : NULL;
+                    $gender = (isset($line[5]) && $line[5] != '') ? $line[5] : NULL;
+                    $email = (isset($line[6]) && $line[6] != '') ? $line[6] : NULL;
+                    $elector = new Elector();
+                    $elector->setPhone(intval($phone));
+                    $elector->setFirstName($firstname);
+                    $elector->setLastName($lastname);
+                    $elector->setCin(intval($cin));
+                    $elector->setGender($gender);
+                    $elector->setEmail($email);
+                    $elector->setBirth(new \DateTime(strtotime($birth)));
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($elector);
+                    $entityManager->flush();
+                }
+            }
+        }
         $elector = new Elector();
         $form = $this->createForm(ElectorType::class, $elector);
         $form->handleRequest($request);
@@ -42,23 +67,21 @@ class ElectorController extends AbstractController
 
             $file = $form->get('photo')->getData();
 
-            if (!empty($file) ){
-            $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
-            // Move the file to the directory where images are stored
-            try {
-                $file->move(
-                    $this->getParameter('upload_directory'),
-                    $fileName
-                );
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
-            }
-            // updates the 'image' property to store the PDF file name
-            // instead of its contents
-            $elector->setphoto($fileName);
-
-            }
-            else{
+            if (!empty($file)) {
+                $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
+                // Move the file to the directory where images are stored
+                try {
+                    $file->move(
+                        $this->getParameter('upload_directory'),
+                        $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                // updates the 'image' property to store the PDF file name
+                // instead of its contents
+                $elector->setphoto($fileName);
+            } else {
                 $elector->setphoto('profile.jpg');
             }
 
@@ -79,7 +102,7 @@ class ElectorController extends AbstractController
     /**
      * @Route("/{id}", name="elector_show", methods={"GET"})
      */
-    public function show(Elector $elector , Request $request): Response
+    public function show(Elector $elector, Request $request): Response
     {
         $currentRoute = $request->attributes->get('_route');
         return $this->render('admins/dashboard/dashboard.html.twig', [
@@ -101,8 +124,8 @@ class ElectorController extends AbstractController
 
             $file = $form->get('photo')->getData();
 
-            if (!empty($file) ){
-                $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
+            if (!empty($file)) {
+                $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
                 // Move the file to the directory where images are stored
                 try {
                     $file->move(
@@ -115,9 +138,7 @@ class ElectorController extends AbstractController
                 // updates the 'image' property to store the PDF file name
                 // instead of its contents
                 $elector->setphoto($fileName);
-
-            }
-            else{
+            } else {
                 $elector->setphoto('profile.jpg');
             }
             $this->getDoctrine()->getManager()->flush();
@@ -137,7 +158,7 @@ class ElectorController extends AbstractController
      */
     public function delete(Request $request, Elector $elector): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$elector->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $elector->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($elector);
             $entityManager->flush();

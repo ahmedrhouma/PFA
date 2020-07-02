@@ -17,23 +17,8 @@
                             <div class="box">
                                 <div class="box-header">
                                     <strong>liste des electeurs</strong>
-                                    <a class="label success pull-right"href="#openModal-about">Ajouter nouveau</a>
+                                    <a class="label success pull-right" href="{{ path('elector_new') }}">Ajouter nouveau</a>
                                     <!--modals-->
-                                    <div id="openModal-about" class="modalDialog">
-                                        <div>
-                                            <a href="#close" title="Close" class="close">X</a>
-                                            <h2>Ajouter nouveaux electeurs</h2>
-                                            <hr>
-                                            <div class="row">
-                                                <div class=" col-6 ">
-                                                    <a style="font-size: 100% !important;"class="label primary  pull-center">Import electeurs (fichierxls)</a>
-                                                </div>
-                                                <div class=" col-6 ">
-                                                    <a style="font-size: 100% !important;"class="label primary  pull-center"href="{{ path('elector_new') }}">Ajouter nouveau electeur(Formulaire)</a>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
                                 </div>
                                 <table class="table">
                                     <thead>

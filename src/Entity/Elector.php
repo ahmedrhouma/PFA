@@ -60,6 +60,11 @@ class Elector
      */
     private $cin;
 
+    /**
+     * @ORM\Column(type="date", nullable=true)
+     */
+    private $birth;
+
     public function __construct()
     {
         $this->event = new ArrayCollection();
@@ -180,6 +185,18 @@ class Elector
     public function setCin(int $cin): self
     {
         $this->cin = $cin;
+
+        return $this;
+    }
+
+    public function getBirth(): ?\DateTimeInterface
+    {
+        return $this->birth;
+    }
+
+    public function setBirth(?\DateTimeInterface $birth): self
+    {
+        $this->birth = $birth;
 
         return $this;
     }
