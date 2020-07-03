@@ -14,13 +14,13 @@
                 <div class="padding">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="box" style="border-top: #22b66e solid;">
+                            <div class="box" style="border-top: #2196f3  solid;">
                                 <div class="box-header">
                                     <strong>liste des electeurs</strong>
-                                    <a class="label success pull-right" href="{{ path('elector_new') }}">Ajouter nouveau</a>
+                                    <a class="label primary pull-right" href="{{ path('elector_new') }}">Ajouter nouveau</a>
                                     <!--modals-->
                                 </div>
-                                <table class="table">
+                                <table class="table table-striped table-bordered">
                                     <thead>
                                     <tr>
                                         <th>
@@ -51,7 +51,7 @@
                                             </td>
                                             <td class="pull-right">
                                                 <a class="label danger "href="{{ path('elector_show', {'id': elector.id}) }}">Montrer</a>
-                                                <a class="label primary "href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
+                                                <a class="label success "href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
                                             </td>
                                         </tr>
                                     {% else %}

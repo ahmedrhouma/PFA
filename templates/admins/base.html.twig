@@ -14,13 +14,17 @@
         <link href="{{ asset('assets/css/styles/app.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/styles/font.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/styles/style.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/datatables/datatables.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet"/>
 
+        <link href='https://fonts.googleapis.com/css?family=Ubuntu:300,300italic,400,400italic,500,500italic,700,700italic&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext'
+              rel='stylesheet' type='text/css'>
 
 
 
         {#        <link rel="stylesheet" href="/assets/css/animate.css/animate.min.css" type="text/css" />#}
         {#        <link rel="stylesheet" href="/assets/css/glyphicons/glyphicons.css" type="text/css" />#}
-        {#        <link rel="stylesheet" href="/assets/css/font-awesome/css/font-awesome.min.css" type="text/css" />#}
+
         {#        <link rel="stylesheet" href="/assets/css/material-design-icons/material-design-icons.css" type="text/css" />#}
         {#        <link rel="stylesheet" href="/assets/css/ionicons/css/ionicons.min.css" type="text/css" />#}
         {#        <link rel="stylesheet" href="/assets/css/simple-line-icons/css/simple-line-icons.css" type="text/css" />#}
@@ -48,6 +52,15 @@
     <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 
     <script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/datatables.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/vfs_fonts.js') }}"></script>
+
     <script>
 
         // You can modify the upload files to pdf's, docs etc
@@ -55,6 +68,17 @@
 
         $(document).ready(function ($) {
 
+
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                scrollX: true,
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                language: {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
+                }
+            });
             // Upload btn on change call function
             $(".uploadlogo").change(function () {
                 var filename = readURL(this);
