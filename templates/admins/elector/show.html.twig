@@ -13,9 +13,10 @@
 
         <div class="avatar-upload" style="z-index: 1000;">
 
-            <div class="avatar-preview" style="margin-top: -45px;margin-bottom: -125px;">
+            <div class="avatar-preview"
+                 style="border-color: #22b66e !important;  margin-top: -45px;margin-bottom: -125px;">
                 <div id="imagePreview">
-                    <img style="width: 192px;height: 182px;position: relative;border-radius: 100%;"
+                    <img style="width: 192px;height: 186px;position: relative;border-radius: 100%;"
                          id="output"
                          class="img-fluid" src="/uploads/{{ elector.photo }}" alt="">
                 </div>
@@ -30,38 +31,40 @@
                 <div class="padding">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="box">
+                            <div class="box" style="border-top: #22b66e solid;">
                                 <div class="box-header">
 
                                     <a
                                             class="label success pull-right" href="{{ path('elector_new') }}">Ajouter
                                         nouveau</a>
-                                    <a class="label danger pull-right" href="{{ path('elector') }}">Liste des
+                                    <a class="label success pull-left" href="{{ path('elector') }}">Liste des
                                         electeurs</a>
                                 </div>
-                                <table class="table">
-                                    <tbody>
+                                <div style="    margin-top: 50px;" class="row">
 
-                                    <tr>
-                                        <th>Nom et Prenom </th>
-                                        <td>{{ elector.firstName }} {{ elector.lastName }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Email</th>
-                                        <td>{{ elector.email }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Telephone</th>
-                                        <td>{{ elector.phone }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Gender</th>
-                                        <td>{{ elector.gender }}</td>
-                                    </tr>
+                                    <table>
+                                        <tbody>
+                                        <tr>
+                                            <th>Nom et prenom</th>
+                                            <td>{{ elector.firstName }} {{ elector.lastName }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Email</th>
+                                            <td>{{ elector.email }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Telephone</th>
+                                            <td>{{ elector.phone }}}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>Sexe</th>
+                                            <td>{{ elector.gender }}}</td>
+                                        </tr>
+                                        </tbody>
+                                    </table>
 
 
-                                    </tbody>
-                                </table>
+                                </div>
 
 
                                 <a class="btn btn-primary  col-2" href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>

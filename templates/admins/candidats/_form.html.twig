@@ -20,37 +20,37 @@
 
 <form>
     <div class="form-row">
-        <div class="form-group col-md-6">
-            <label >C.I.N</label>
+        <div class="form-group col-md-4">
+            <label class="label-form" >C.I.N</label>
             {{ form_widget(form.cin) }}
         </div>
-        <div class="form-group col-md-6">
-            <label >Nom</label>
+        <div class="form-group col-md-4">
+            <label class="label-form" >Nom</label>
             {{ form_widget(form.first_name) }}
         </div>
-        <div class="form-group col-md-6">
-            <label >Prenom</label>
+        <div class="form-group col-md-4">
+            <label class="label-form" >Prenom</label>
             {{ form_widget(form.last_name) }}
         </div>
-        <div class="form-group col-md-6">
-            <label >date du naissance</label>
+        <div class="form-group col-md-4">
+            <label class="label-form" >date du naissance</label>
             {{ form_widget(form.date_of_birth) }}
         </div>
-        <div class="form-group col-md-6">
-            <label >Email</label>
+        <div class="form-group col-md-4">
+            <label class="label-form" >Email</label>
             {{ form_widget(form.email) }}
         </div>
-        <div class="form-group col-md-6">
-            <label for="inputAddress2">Sexe</label>
+        <div class="form-group col-md-4">
+            <label class="label-form" >Sexe</label>
             {{ form_widget(form.gender) }}
         </div>
-        <div class="form-group col-md-6">
-            <label for="inputAddress2">Telephone</label>
+        <div class="form-group col-md-4">
+            <label class="label-form" >Telephone</label>
             {{ form_widget(form.phone) }}
         </div>
 
         <div class="form-group col-md-12">
-            <label for="inputAddress2">Description</label>
+            <label class="label-form" >Description</label>
             {{ form_widget(form.description) }}
         </div>
 
@@ -58,10 +58,14 @@
 
 
         {{ form_widget(form._token) }}
+        <div style="margin-left: 83.33333333%;" class="form-group col-md-2 ">
+            <button  class="btn btn-primary col-12">
+                <strong>{{ button_label|default('Enregistrer') }}</strong></button>
+        </div>
+
     </div>
 
-    <button style="margin-left: 41.5%;margin-bottom: 10px;" class="btn btn-primary col-2">
-        <strong>{{ button_label|default('Enregistrer') }}</strong></button>
+
 
 
 </form>

@@ -298,6 +298,69 @@ Card
 .card {
   border-color: rgba(120, 130, 140, 0.13); }
 
+.label-form{
+  font-weight: 600;
+  font-size: 14px;
+}
+
+
+
+.blue-btn:hover,
+.blue-btn:active,
+.blue-btn:focus,
+.blue-btn {
+  background: transparent;
+  border: solid 1px #1aa351;
+  border-radius: 3px;
+  color: #1aa351;
+  font-size: 16px;
+  margin-bottom: 20px;
+  outline: none !important;
+  padding: 10px 20px;
+}
+
+
+.blue-btn:hover,
+.blue-btn:active,
+.blue-btn.candidat:focus,
+.blue-btn.candidat {
+  background: transparent;
+  border: solid 1px #2196f3;
+  border-radius: 3px;
+  color: #2196f3;
+  font-size: 16px;
+  margin-bottom: 20px;
+  outline: none !important;
+  padding: 10px 20px;
+}
+
+.fileUpload {
+  position: relative;
+  overflow: hidden;
+  height: 43px;
+  margin-top: 0;
+}
+
+.fileUpload input.uploadlogo {
+  position: absolute;
+  top: 0;
+  right: 0;
+  margin: 0;
+  padding: 0;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0;
+  filter: alpha(opacity=0);
+  width: 100%;
+  height: 42px;
+}
+
+/*Chrome fix*/
+input::-webkit-file-upload-button {
+  cursor: pointer !important;
+  height: 42px;
+  width: 100%;
+}
 /*
 Carousel 
 */
@@ -357,7 +420,7 @@ Carousel
   height: 192px;
   position: relative;
   border-radius: 100%;
-  border: 6px solid #565656;
+  border: 3px solid #565656;
   box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, 0.1);
 }
 .avatar-upload .avatar-preview > div {
@@ -367,6 +430,122 @@ Carousel
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
+}
+.group::after, .tabBlock-tabs::after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.unstyledList, .tabBlock-tabs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tabBlock {
+  margin: 0 0 2.5rem;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.15), 0 -1px 0px rgba(0, 0, 0, 0.02);
+}
+
+.tabBlock-tab {
+  width: 50%;
+  background-color: #eeeff0;
+  border-color: #d8d8d8;
+
+  border-top: solid;
+  border-width: 2px;
+  color: #93a59c;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  float: left;
+  padding: 0.625rem 1.25rem;
+  position: relative;
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+  text-align: center;
+}
+
+
+
+.tabBlock-tab.candidat {
+  width: 50%;
+  background-color: #eeeff0;
+  border-color: #d8d8d8;
+
+  border-top: solid;
+  border-width: 2px;
+  color: #799db9;
+  cursor: pointer;
+  display: inline-block;
+  font-weight: 600;
+  float: left;
+  padding: 0.625rem 1.25rem;
+  position: relative;
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+  text-align: center;
+}
+
+.tabBlock-tab::before, .tabBlock-tab::after {
+  content: "";
+  display: block;
+  height: 4px;
+  position: absolute;
+  -webkit-transition: 0.1s ease-in-out;
+  transition: 0.1s ease-in-out;
+}
+.tabBlock-tab::before {
+  background-color: #93a59c;
+  left: -2px;
+  right: -2px;
+  top: -2px;
+}
+.tabBlock-tab.candidat::before {
+  background-color: #799db9;
+  left: -2px;
+  right: -2px;
+  top: -2px;
+}
+.tabBlock-tab::after {
+  background-color: transparent;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+}
+
+.tabBlock-tab.is-active {
+  position: relative;
+  color: #22b66e;
+  z-index: 1;
+  background: white;
+}
+
+.tabBlock-tab.candidat.is-active {
+  position: relative;
+  color: #2196f3;
+  z-index: 1;
+  background: white;
+}
+.tabBlock-tab.is-active::before {
+  background-color: #22b66e;
+}
+.tabBlock-tab.candidat.is-active::before {
+  background-color: #2196f3;
+}
+.tabBlock-tab.is-active::after {
+  background-color: #fff;
+}
+
+.tabBlock-content {
+  background-color: #fff;
+
+  padding: 1.25rem;
+}
+
+.tabBlock-pane > :last-child {
+  margin-bottom: 0;
 }
 
 
@@ -3842,13 +4021,13 @@ Colors
 
 .primary {
   color: rgba(255, 255, 255, 0.87) !important;
-  background-color: #4BC0C0; }
+  background-color: #2196f3; }
   .primary .lt {
-    background-color: #58c5c5; }
+    background-color: #2196f3; }
   .primary .dk {
-    background-color: #41b9b9; }
+    background-color: #2196f3; }
   .primary .bg {
-    background-color: #4BC0C0; }
+    background-color: #2196f3; }
 
 .accent {
   color: rgba(255, 255, 255, 0.87);

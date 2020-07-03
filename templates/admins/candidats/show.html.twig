@@ -15,9 +15,9 @@
 
         <div class="avatar-upload" style="z-index: 1000;">
 
-            <div class="avatar-preview" style="margin-top: -45px;margin-bottom: -125px;">
+            <div class="avatar-preview" style="    border-color: #2196f3 !important; margin-top: -45px;margin-bottom: -125px;">
                 <div id="imagePreview">
-                    <img style="width: 192px;height: 182px;position: relative;border-radius: 100%;"
+                    <img style="width: 192px;height: 186px;position: relative;border-radius: 100%;"
                          id="output"
                          class="img-fluid" src="/uploads/{{ candidat.photo }}" alt="">
                 </div>
@@ -32,13 +32,13 @@
                 <div class="padding">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="box">
+                            <div class="box" style="border-top: #2196f3 solid;">
                                 <div class="box-header">
 
                                     <a
-                                            class="label success pull-right" href="{{ path('candidats_new') }}">Ajouter
+                                            class="label primary pull-right" href="{{ path('candidats_new') }}">Ajouter
                                         nouveau</a>
-                                    <a class="label danger pull-right" href="{{ path('candidats') }}">Liste des
+                                    <a class="label primary pull-left" href="{{ path('candidats') }}">Liste des
                                         candidats</a>
                                 </div>
                                 <table class="table">
@@ -68,10 +68,7 @@
                                         <th>Description</th>
                                         <td>{{ candidat.description }}</td>
                                     </tr>
-                                    <tr>
-                                        <th>liste</th>
-                                        <td>{{ candidat.liste }}</td>
-                                    </tr>
+
 
 
                                     </tbody>

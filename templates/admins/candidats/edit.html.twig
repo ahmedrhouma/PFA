@@ -19,10 +19,10 @@
                 <div class="padding">
                     <div class="row">
                         <div class="col-sm-12">
-                            <div class="box">
+                            <div class="box" style="border-top: #2196f3 solid;">
                                 <div class="box-header">
 
-                                    <a class="label danger pull-right" href="{{ path('candidats') }}">liste des Candidats</a>
+                                    <a class="label primary pull-right" href="{{ path('candidats') }}">liste des Candidats</a>
                                 </div>
                                 <div>
                                     {{ include('admins/Candidats/_form.html.twig', {'button_label': 'Enregistrer'}) }}

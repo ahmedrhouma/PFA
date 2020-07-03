@@ -53,6 +53,7 @@ class ElectorController extends AbstractController
                     $elector->setGender($gender);
                     $elector->setEmail($email);
                     $elector->setBirth(new \DateTime(strtotime($birth)));
+                    $elector->setPhoto('profile.jpg');
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($elector);
                     $entityManager->flush();
