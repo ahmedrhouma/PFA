@@ -37,12 +37,16 @@
                                     <a
                                             class="label success pull-right" href="{{ path('elector_new') }}">Ajouter
                                         nouveau</a>
+
+                                        <a style="    margin-right: 10px;" class="label primary pull-right "
+                                           href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
+
                                     <a class="label success pull-left" href="{{ path('elector') }}">Liste des
                                         electeurs</a>
                                 </div>
                                 <div style="    margin-top: 50px;" class="row">
 
-                                    <table>
+                                    <table class="col-2 table" style="    margin-left: 41.66666667%;">
                                         <tbody>
                                         <tr>
                                             <th>Nom et prenom</th>
@@ -66,11 +70,8 @@
 
                                 </div>
 
+                                        {{ include('admins/elector/_delete_form.html.twig') }}
 
-                                <a class="btn btn-primary  col-2" href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
-
-
-                                {{ include('admins/elector/_delete_form.html.twig') }}
                             </div>
                         </div>
 

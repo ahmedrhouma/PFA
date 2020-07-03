@@ -38,10 +38,15 @@
                                     <a
                                             class="label primary pull-right" href="{{ path('candidats_new') }}">Ajouter
                                         nouveau</a>
+
+                                    <a style="    margin-right: 10px;" class="label success pull-right "
+                                       href="{{ path('candidats_edit', {'id': candidat.id}) }}">Modifier</a>
                                     <a class="label primary pull-left" href="{{ path('candidats') }}">Liste des
                                         candidats</a>
                                 </div>
-                                <table class="table">
+                                <div style="    margin-top: 50px;" class="row">
+
+                                    <table class="col-2 table" style="    margin-left: 41.66666667%;">
                                     <tbody>
                                     <tr>
                                         <th>Nom et prenom</th>
@@ -73,9 +78,7 @@
 
                                     </tbody>
                                 </table>
-
-
-                                <a class="btn btn-primary  col-2" href="{{ path('candidats_edit', {'id': candidat.id}) }}">Modifier</a>
+                                </div>
 
 
                                 {{ include('admins/candidats/_delete_form.html.twig') }}
