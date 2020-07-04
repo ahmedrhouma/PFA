@@ -59,7 +59,7 @@ class CandidatsController extends Controller
         $form1->handleRequest($request);
         if ($form1->isSubmitted() && $form1->isValid()) {
             if ($form1->get('input')->getData()) {
-                $csvFile = fopen($form1->get('input')->getData(), 'r'); 
+                $csvFile = fopen($form1->get('input')->getData(), 'r');
                 $event = $form1->get('event')->getData();
                 $row = 0;
                 while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
@@ -95,7 +95,7 @@ class CandidatsController extends Controller
                         }
                         $password = $firstname . uniqid();
                         $user = $userManager->createUser();
-                        $user->setUsername($firstname);
+                        $user->setUsername($firstname.$lastname);
                         $user->setEmail($email);
                         $user->setEmailCanonical($email);
                         $user->setEnabled(1);
@@ -138,6 +138,37 @@ class CandidatsController extends Controller
             // instead of its contents
 
             $candidat->setphoto($fileName);
+            $email_exist = $userManager->findUserByEmail($form->get('email')->getData());
+            if ($email_exist) {
+                return $this->render('admins/dashboard/dashboard.html.twig', [
+                    'error' => 1,
+                    'form' => $form->createView(),
+                    'form1' => $form1->createView(),
+                    'candidat' => $candidat,
+                    'currentRoute' => $currentRoute
+                ]);
+            }
+            $cin_Exist = $this->getDoctrine()
+                ->getRepository(Candidats::class)
+                ->findOneBy(['cin' => $form->get('cin')->getData()]);
+            if ($cin_Exist) {
+                return $this->render('admins/dashboard/dashboard.html.twig', [
+                    'error' => 1,
+                    'form' => $form->createView(),
+                    'form1' => $form1->createView(),
+                    'candidat' => $candidat,
+                    'currentRoute' => $currentRoute
+                ]);
+            }
+            $password = $form->get('first_name')->getData() . uniqid();
+            $user = $userManager->createUser();
+            $user->setUsername($form->get('first_name')->getData().$form->get('last_name')->getData());
+            $user->setEmail($form->get('email')->getData());
+            $user->setEmailCanonical($form->get('photo')->getData());
+            $user->setEnabled(1);
+            $user->setRoles(['ROLE_ELECTOR', 'ROLE_CANDIDAT']);
+            $user->setPlainPassword($password);
+            $userManager->updateUser($user);
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($candidat);

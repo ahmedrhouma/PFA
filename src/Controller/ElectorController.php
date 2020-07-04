@@ -61,7 +61,7 @@ class ElectorController extends Controller
             if ($form1->get('input')->getData()) {
                 $csvFile = fopen($form1->get('input')->getData(), 'r');
                 $event = $form1->get('event')->getData();
-                while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) { 
+                while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
                     if ($row != 0) {
                         $cin = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
                         $firstname = (isset($line[1]) && $line[1] != '') ? $line[1] : NULL;
@@ -92,7 +92,7 @@ class ElectorController extends Controller
                         }
                         $password = $firstname . uniqid();
                         $user = $userManager->createUser();
-                        $user->setUsername($firstname);
+                        $user->setUsername($firstname.$lastname);
                         $user->setEmail($email);
                         $user->setEmailCanonical($email);
                         $user->setEnabled(1);
@@ -123,7 +123,35 @@ class ElectorController extends Controller
                 $elector->addEvent($event);
             }
             $file = $form->get('photo')->getData();
-
+            $email_exist = $userManager->findUserByEmail($form->get('email')->getData());
+            if ($email_exist) {
+                return $this->render('admins/dashboard/dashboard.html.twig', [
+                    'error' => 1,
+                    'form' => $form->createView(),
+                    'form1' => $form1->createView(),
+                    'currentRoute' => $currentRoute
+                ]);
+            }
+            $cin_Exist = $this->getDoctrine()
+                ->getRepository(Elector::class)
+                ->findOneBy(['cin' => $form->get('cin')->getData()]);
+            if ($cin_Exist) {
+                return $this->render('admins/dashboard/dashboard.html.twig', [
+                    'error' => 1,
+                    'form' => $form->createView(),
+                    'form1' => $form1->createView(),
+                    'currentRoute' => $currentRoute
+                ]);
+            }
+            $password = $form->get('first_name')->getData() . uniqid();
+            $user = $userManager->createUser();
+            $user->setUsername($form->get('first_name')->getData().$form->get('last_name')->getData());
+            $user->setEmail($form->get('email')->getData());
+            $user->setEmailCanonical($form->get('email')->getData());
+            $user->setEnabled(1);
+            $user->setRoles(['ROLE_ELECTOR']);
+            $user->setPlainPassword($password);
+            $userManager->updateUser($user);
             if (!empty($file)) {
                 $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
                 // Move the file to the directory where images are stored
