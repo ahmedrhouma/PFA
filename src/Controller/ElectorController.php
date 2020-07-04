@@ -38,10 +38,10 @@ class ElectorController extends AbstractController
             if (is_uploaded_file($_FILES['file1']['tmp_name'])) {
                 $csvFile = fopen($_FILES['file1']['tmp_name'], 'r');
                 while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
-                    $phone = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
+                    $cin = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
                     $firstname = (isset($line[1]) && $line[1] != '') ? $line[1] : NULL;
                     $lastname = (isset($line[2]) && $line[2] != '') ? $line[2] : NULL;
-                    $cin = (isset($line[3]) && $line[3] != '') ? $line[3] : NULL;
+                    $phone = (isset($line[3]) && $line[3] != '') ? $line[3] : NULL;
                     $birth = (isset($line[4]) && $line[4] != '') ? $line[4] : NULL;
                     $gender = (isset($line[5]) && $line[5] != '') ? $line[5] : NULL;
                     $email = (isset($line[6]) && $line[6] != '') ? $line[6] : NULL;
@@ -50,7 +50,7 @@ class ElectorController extends AbstractController
                     $elector->setFirstName($firstname);
                     $elector->setLastName($lastname);
                     $elector->setCin(intval($cin));
-                    $elector->setGender($gender);
+                    $elector->setGender($gender); 
                     $elector->setEmail($email);
                     $elector->setBirth(new \DateTime(strtotime($birth)));
                     $elector->setPhoto('profile.jpg');
@@ -65,7 +65,9 @@ class ElectorController extends AbstractController
         $form->handleRequest($request);
         $currentRoute = $request->attributes->get('_route');
         if ($form->isSubmitted() && $form->isValid()) {
-
+            foreach ($elector->getEvent() as $event){
+                $elector->addEvent($event);
+            }
             $file = $form->get('photo')->getData();
 
             if (!empty($file)) {
