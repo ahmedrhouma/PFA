@@ -59,10 +59,7 @@ class Event
      */
     private $eventResult;
 
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $photo;
+
 
     public function __construct()
     {
@@ -209,5 +206,9 @@ class Event
         }
 
         return $this;
+    }
+    function __toString()
+    {
+        return $this->title;
     }
 }
