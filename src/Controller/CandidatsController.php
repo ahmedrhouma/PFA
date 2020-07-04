@@ -66,8 +66,7 @@ class CandidatsController extends AbstractController
                 }
             }
         }
-        $candidat = new
-         Candidats();
+        $candidat = new Candidats();
         $form = $this->createForm(CandidatsType::class, $candidat);
         $form->handleRequest($request);
 

@@ -49,11 +49,10 @@ class ElectorType extends AbstractType
                     'class' => 'form-control'
                 ],
                 'choices'  => [
-                    'homme' =>  'Homme',
-                    'femme' => 'Femme',
+                    'Homme' => '0',
+                    'Femme' => '1',
                 ],
             ])
-
             ->add(
                 'photo',
                 FileType::class,
