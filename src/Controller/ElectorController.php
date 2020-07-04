@@ -3,18 +3,21 @@
 namespace App\Controller;
 
 use App\Entity\Elector;
+use App\Entity\Event;
 use App\Form\ElectorType;
 use App\Repository\ElectorRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 
 /**
  * @Route("/elector")
  */
-class ElectorController extends AbstractController
+class ElectorController extends Controller
 {
     /**
      * @Route("/", name="elector", methods={"GET"})
@@ -34,38 +37,89 @@ class ElectorController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        if ($request->get('upload')!== null) {
-            if (is_uploaded_file($_FILES['file1']['tmp_name'])) {
-                $csvFile = fopen($_FILES['file1']['tmp_name'], 'r');
-                while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
-                    $cin = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
-                    $firstname = (isset($line[1]) && $line[1] != '') ? $line[1] : NULL;
-                    $lastname = (isset($line[2]) && $line[2] != '') ? $line[2] : NULL;
-                    $phone = (isset($line[3]) && $line[3] != '') ? $line[3] : NULL;
-                    $birth = (isset($line[4]) && $line[4] != '') ? $line[4] : NULL;
-                    $gender = (isset($line[5]) && $line[5] != '') ? $line[5] : NULL;
-                    $email = (isset($line[6]) && $line[6] != '') ? $line[6] : NULL;
-                    $elector = new Elector();
-                    $elector->setPhone(intval($phone));
-                    $elector->setFirstName($firstname);
-                    $elector->setLastName($lastname);
-                    $elector->setCin(intval($cin));
-                    $elector->setGender($gender); 
-                    $elector->setEmail($email);
-                    $elector->setBirth(new \DateTime(strtotime($birth)));
-                    $elector->setPhoto('profile.jpg');
-                    $entityManager = $this->getDoctrine()->getManager();
-                    $entityManager->persist($elector);
-                    $entityManager->flush();
-                }
-            }
-        }
         $elector = new Elector();
         $form = $this->createForm(ElectorType::class, $elector);
         $form->handleRequest($request);
         $currentRoute = $request->attributes->get('_route');
+        $userManager = $this->get('fos_user.user_manager');
+        $entityManager = $this->getDoctrine()->getManager();
+        $row = 0;
+        $form1 = $this->createFormBuilder()
+            ->add('input', FileType::class, ['required' => true, 'attr' => [
+                'accept' => '.csv',
+                'name' => "file1",
+                'id' => "input-file-now",
+                'name' => "file1",
+                'class' => "dropify uploadlogo"
+            ]])
+            ->add('event', EntityType::class, ['required' => true, 'class' => Event::class, 'attr' => [
+                'class' => 'form-control'
+            ]])
+            ->getForm();
+        $form1->handleRequest($request);
+        if ($form1->isSubmitted() && $form1->isValid()) {
+            if ($form1->get('input')->getData()) {
+                $csvFile = fopen($form1->get('input')->getData(), 'r');
+                $event = $form1->get('event')->getData();
+                while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
+                    if ($row != 0) {
+                        $cin = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
+                        $firstname = (isset($line[1]) && $line[1] != '') ? $line[1] : NULL;
+                        $lastname = (isset($line[2]) && $line[2] != '') ? $line[2] : NULL;
+                        $phone = (isset($line[3]) && $line[3] != '') ? $line[3] : NULL;
+                        $birth = (isset($line[4]) && $line[4] != '') ? $line[4] : NULL;
+                        $gender = (isset($line[5]) && $line[5] != '') ? $line[5] : NULL;
+                        $email = (isset($line[6]) && $line[6] != '') ? $line[6] : NULL;
+                        $email_exist = $userManager->findUserByEmail($email);
+                        if ($email_exist) {
+                            return $this->render('admins/dashboard/dashboard.html.twig', [
+                                'error' => 1,
+                                'form' => $form->createView(),
+                                'form1' => $form1->createView(),
+                                'currentRoute' => $currentRoute
+                            ]);
+                        }
+                        $cin_Exist = $this->getDoctrine()
+                            ->getRepository(Elector::class)
+                            ->findOneBy(['cin' => $cin]);
+                        if ($cin_Exist) {
+                            return $this->render('admins/dashboard/dashboard.html.twig', [
+                                'error' => 1,
+                                'form' => $form->createView(),
+                                'form1' => $form1->createView(),
+                                'currentRoute' => $currentRoute
+                            ]);
+                        }
+                        $password = $firstname . uniqid();
+                        $user = $userManager->createUser();
+                        $user->setUsername($firstname);
+                        $user->setEmail($email);
+                        $user->setEmailCanonical($email);
+                        $user->setEnabled(1);
+                        $user->setRoles(['ROLE_ELECTOR']);
+                        $user->setPlainPassword($password);
+                        $userManager->updateUser($user);
+                        $elector = new Elector();
+                        $elector->setPhone(intval($phone));
+                        $elector->setFirstName($firstname);
+                        $elector->setLastName($lastname);
+                        $elector->setCin(intval($cin));
+                        $elector->setGender($gender);
+                        $elector->setEmail($email);
+                        $elector->addEvent($event);
+                        $elector->setBirth(new \DateTime($birth));
+                        $elector->setPhoto('profile.jpg');
+                        $entityManager->persist($elector);
+                        $entityManager->flush();
+                    }
+                    $row++;
+                }
+                return $this->redirectToRoute('elector');
+            }
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
-            foreach ($elector->getEvent() as $event){
+            foreach ($elector->getEvent() as $event) {
                 $elector->addEvent($event);
             }
             $file = $form->get('photo')->getData();
@@ -98,7 +152,9 @@ class ElectorController extends AbstractController
         return $this->render('admins/dashboard/dashboard.html.twig', [
             'elector' => $elector,
             'form' => $form->createView(),
-            'currentRoute' => $currentRoute
+            'form1' => $form1->createView(),
+            'currentRoute' => $currentRoute,
+            'error' => 0
         ]);
     }
 

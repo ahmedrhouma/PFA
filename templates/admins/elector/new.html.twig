@@ -27,6 +27,8 @@
                                 </ul>
                                 <div class="tabBlock-content">
                                     <div class="tabBlock-pane">
+                                    {{ form_start(form1) }}
+
                                         <form action="" id="myForm" method="POST" class="col-md-12"
                                               enctype="multipart/form-data" novalidate>
 
@@ -53,8 +55,7 @@
                                                     <div class="card-body m-r-0 m-l-0">
                                                         <div class="fileUpload blue-btn btn width100">
                                                             <span><strong>Choisir un fichier (*.csv)</strong></span>
-                                                            <input type="file" id="input-file-now" name="file1"
-                                                                   class="dropify uploadlogo"/>
+                                                            {{ form_widget(form1.input) }}
                                                         </div>
 
                                                     </div>
@@ -74,18 +75,14 @@
 																	<span class="mdi mdi-web"></span>
 																</span>
                                                             </div>
-                                                            <select name="website" id="website"
-                                                                    class="form-control select-search form-control-line"
-                                                                    placeholder="Choose website">
-                                                                <option disabled selected>Select un evenement</option>
-
-                                                            </select>
+                                                            {{ form_widget(form1.event) }}
                                                         </div>
                                                     </div>
                                                 </div>
                                             </div>
 
                                             <div class="form-actions">
+                                            {{ form_widget(form1._token) }}
                                                 <button  style="margin-left: 83.33333333%;" type="submit" name="upload"
                                                         class="col-2 btn btn-primary waves-effect waves-light m-r-10">
                                                     <i class="fa fa-check"></i>
@@ -94,6 +91,7 @@
 
                                             </div>
                                         </form>
+                                        {{ form_end(form1) }}
                                     </div>
                                     <div class="tabBlock-pane">
                                         <ul>
@@ -114,7 +112,18 @@
 
     </div>
 
-
+    <script src="{{ asset('assets/sweetAlert2/sweetalert2.all.min.js') }}"></script>
+    <script>
+    let error = {{ error }}
+    if(error == 1){
+    Swal.fire({
+        icon: 'error',
+        title: 'Oops...',
+        text: 'Elector deja existe!',
+        footer: 'S il vous plais verifier votre electeurs'
+    })
+    }
+    </script>
     <!-- ############ PAGE END-->
 
 </div></div>

@@ -205,4 +205,8 @@ class Event
 
         return $this;
     }
+    function __toString()
+    {
+        return $this->title;
+    }
 }

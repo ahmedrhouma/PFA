@@ -17,7 +17,8 @@ class DashboardController extends AbstractController
 
         $currentRoute = $request->attributes->get('_route');
         return $this->render('admins/dashboard/dashboard.html.twig', [
-            'currentRoute' => $currentRoute
+            'currentRoute' => $currentRoute,
+            'success' => 0
         ]);
     }
 
