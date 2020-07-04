@@ -1,0 +1,66 @@
+{{ form_start(form) }}
+
+
+<form>
+    <div class="form-row">
+        <div class="col-md-4">
+            <div class="form-group col-md-12">
+                <div style="border-radius: 0px !important; " class="avatar-upload">
+                    <div  style="border-radius: 0px !important; right: 4px !important; top: -14px !important;" class="avatar-edit">
+
+                        {{ form_widget(form.photo) }}
+                        <label for="event_photo"></label>
+                    </div>
+                    <div style="border-radius: 0px !important;" class="avatar-preview">
+                        <div style="border-radius: 0px !important;" id="imagePreview">
+                            <img style="width: 192px;height: 182px;position: relative;border-radius: 0%;" id="output"
+                                 class="img-fluid"  src="/images/event.png" alt="">
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+        <div class="col-md-8">
+            <div class="row">
+                <div class="form-group col-md-6">
+                    <label class="label-form">Nom de l'evenement</label>
+                    {{ form_widget(form.title) }}
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="label-form">Status</label>
+                    {{ form_widget(form.status) }}
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="label-form">Date du debut</label>
+                    <div class="form-group">
+                        <div class='input-group date' id='datetimepicker5'>
+                    {{ form_widget(form.date_start) }}
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group col-md-6">
+                    <label class="label-form">Date du fin</label>
+                    {{ form_widget(form.date_end) }}
+                </div>
+
+                <div class="form-group col-md-12">
+                    <label class="label-form">Description</label>
+                    {{ form_widget(form.description) }}
+                </div>
+
+                {{ form_widget(form._token) }}
+                <div style="margin-left: 83.33333333%;" class="form-group col-md-2 ">
+                    <button class="btn btn-primary col-12">
+                        <strong>{{ button_label|default('Enregistrer') }}</strong>
+                    </button>
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+</form>
+
+
+{{ form_end(form) }}

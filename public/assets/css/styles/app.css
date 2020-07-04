@@ -516,7 +516,10 @@ Card
     -ms-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
-
+.dt-buttons{
+    display: inline;
+    padding: 20px;
+}
 /*Chrome fix*/
 input::-webkit-file-upload-button {
     cursor: pointer !important;
@@ -860,6 +863,7 @@ Dropdown menu
     transform: scale(1);
     pointer-events: auto;
     display: block !important;
+    margin-top: -31px;
 }
 
 .dropdown-header {

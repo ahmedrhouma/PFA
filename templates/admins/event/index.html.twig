@@ -1,3 +1,4 @@
+
 <div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
     <div class="app-header white bg b-b">
         <div class="navbar" data-pjax>
@@ -16,8 +17,8 @@
                         <div class="col-sm-12">
                             <div class="box" style="border-top: #2196f3  solid;">
                                 <div class="box-header">
-                                    <strong>liste des electeurs</strong>
-                                    <a class="label primary pull-right" href="{{ path('elector_new') }}">Ajouter nouveau</a>
+                                    <strong>liste des evenements</strong>
+                                    <a class="label primary pull-right" href="{{ path('event_new') }}">Ajouter nouveau</a>
                                     <!--modals-->
                                 </div>
                                 <table class="table table-striped table-bordered" id="example" style="width: 100%">
@@ -27,16 +28,13 @@
                                             #
                                         </th>
                                         <th>
-                                            CIN
+                                            Nom de l'evenement
                                         </th>
                                         <th>
-                                            Nom et Prenom
+                                            date du debut
                                         </th>
                                         <th>
-                                            Email
-                                        </th>
-                                        <th>
-                                            Telephone
+                                            date du fin
                                         </th>
                                         <th class="pull-right">
                                             Actions
@@ -44,26 +42,23 @@
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    {% for elector in electors %}
+                                    {% for event in events %}
                                         <tr>
                                             <td>
-                                                <img style="width: 50px" src="/uploads/{{ elector.photo }}" alt="">
+                                                <img style="width: 50px" src="/uploads/{{ event.photo }}" alt="">
                                             </td>
                                             <td>
-                                                {{ elector.cin }}
+                                                {{ event.title }}
                                             </td>
                                             <td>
-                                                {{ elector.firstName }} {{ elector.lastName }}
+                                                {{ event.dateStart ? event.dateStart|date('Y-m-d') : '' }}
                                             </td>
                                             <td>
-                                                {{ elector.email }}
-                                            </td>
-                                            <td>
-                                                {{ elector.phone }}
+                                                {{ event.dateEnd ? event.dateEnd|date('Y-m-d') : '' }}
                                             </td>
                                             <td class="pull-right">
-                                                <a class="label danger "href="{{ path('elector_show', {'id': elector.id}) }}">Montrer</a>
-                                                <a class="label success "href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
+                                                <a class="label danger "href="{{ path('event_show', {'id': event.id}) }}">Montrer</a>
+                                                <a class="label success "href="{{ path('event_edit', {'id': event.id}) }}">Modifier</a>
                                             </td>
                                         </tr>
                                     {% else %}
@@ -84,13 +79,3 @@
         <!-- ############ PAGE END-->
     </div>
 </div>
-    <script src="{{ asset('assets/sweetAlert2/sweetalert2.all.min.js') }}"></script>
-    <script>
-    let success = {{ success }}
-    if(success == 1){
-    Swal.fire({
-        icon: 'success',
-        title: 'succées',
-        text: 'electeurs ajouter avec succées'
-    })
-    }

@@ -61,7 +61,7 @@ class ElectorController extends Controller
             if ($form1->get('input')->getData()) {
                 $csvFile = fopen($form1->get('input')->getData(), 'r');
                 $event = $form1->get('event')->getData();
-                while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
+                while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) { 
                     if ($row != 0) {
                         $cin = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
                         $firstname = (isset($line[1]) && $line[1] != '') ? $line[1] : NULL;

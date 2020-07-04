@@ -1,0 +1,98 @@
+
+<div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
+    <div class="app-header white bg b-b">
+        <div class="navbar" data-pjax>
+            <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0">
+                <i class="ion-navicon"></i>
+            </a>
+            <div class="navbar-item pull-left h5" id="pageTitle">Electeurs</div>
+
+        </div>
+    </div>
+
+    <div class="app-body">
+
+
+
+        <!-- ############ PAGE START-->
+        <div class="row-col">
+            <div class="col-lg b-r">
+
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="box" style="border-top: #2196f3 solid;">
+                                <div class="box-header">
+
+                                    <a
+                                            class="label primary pull-right" href="{{ path('event_new') }}">Ajouter
+                                        nouveau</a>
+
+                                    <a style="    margin-right: 10px;" class="label success pull-right "
+                                       href="{{ path('event_edit', {'id': event.id}) }}">Modifier</a>
+
+                                    <a class="label primary pull-left" href="{{ path('event') }}">Liste des
+                                        evenements</a>
+                                </div>
+                                <div style="    margin-top: 50px;" class="row">
+                                    <div class="col-6 avatar-upload" style="border-radius: 0%;z-index: 1000;">
+
+                                        <div class="avatar-preview"
+                                             style="border-radius: 0%;border-color: #2196f3 !important;  margin-top: -45px;margin-bottom: -125px;">
+                                            <div id="imagePreview">
+                                                <img style="width: 192px;height: 186px;position: relative;border-radius: 0%;"
+                                                     id="output"
+                                                     class="img-fluid" src="/uploads/{{ event.photo }}" alt="">
+                                            </div>
+                                        </div>
+
+                                    </div>
+                                    <table class="col-6 table">
+
+                                            <tbody>
+
+                                            <tr>
+                                                <th>Nom de l'evenement</th>
+                                                <td>{{ event.title }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Description</th>
+                                                <td>{{ event.description }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Date du debut</th>
+                                                <td>{{ event.dateStart ? event.dateStart|date('Y-m-d') : '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Date du fin</th>
+                                                <td>{{ event.dateEnd ? event.dateEnd|date('Y-m-d') : '' }}</td>
+                                            </tr>
+                                            <tr>
+                                                <th>Status</th>
+                                                <td>{{ event.status }}</td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+
+
+
+                                </div>
+
+                                {{ include('admins/event/_delete_form.html.twig') }}
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ############ PAGE END-->
+
+    </div>
+</div>
+<!-- / -->

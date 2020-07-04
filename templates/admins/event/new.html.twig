@@ -1,0 +1,49 @@
+
+<div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
+    <div class="app-header white bg b-b">
+        <div class="navbar" data-pjax>
+            <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0">
+                <i class="ion-navicon"></i>
+            </a>
+            <div class="navbar-item pull-left h5" id="pageTitle">Evenements</div>
+
+        </div>
+    </div>
+
+    <div
+            class="app-body">
+
+        <!-- ############ PAGE START-->
+        <div class="row-col">
+            <div class="col-lg b-r">
+
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="box" style="border-top: #2196f3 solid;">
+                                <div class="box-header">
+                                    <strong>Ajouter nouvelle evenement</strong>
+                                    <a class="label primary pull-right" href="{{ path('elector') }}">liste des
+                                        Evenements</a>
+                                </div>
+                                <div>
+
+                                    {{ include('admins/event/_form.html.twig') }}
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- ############ PAGE END-->
+
+</div></div>

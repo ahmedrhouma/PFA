@@ -59,7 +59,7 @@ class CandidatsController extends Controller
         $form1->handleRequest($request);
         if ($form1->isSubmitted() && $form1->isValid()) {
             if ($form1->get('input')->getData()) {
-                $csvFile = fopen($form1->get('input')->getData(), 'r');
+                $csvFile = fopen($form1->get('input')->getData(), 'r'); 
                 $event = $form1->get('event')->getData();
                 $row = 0;
                 while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
@@ -120,6 +120,12 @@ class CandidatsController extends Controller
                 }
             }
         }
+<<<<<<< HEAD
+=======
+        $candidat = new Candidats();
+        $form = $this->createForm(CandidatsType::class, $candidat);
+        $form->handleRequest($request);
+>>>>>>> origin/master
 
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -49,11 +49,10 @@ class ElectorType extends AbstractType
                     'class' => 'form-control'
                 ],
                 'choices'  => [
-                    'homme' =>  'Homme',
-                    'femme' => 'Femme',
+                    'Homme' => '0',
+                    'Femme' => '1',
                 ],
             ])
-
             ->add(
                 'photo',
                 FileType::class,
@@ -64,11 +63,16 @@ class ElectorType extends AbstractType
                 ])
             )
             ->add('event', EntityType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'id' => 'exampleFormControlSelect1',
+                ],
                 // looks for choices from this entity
                 'class' => Event::class,
                 'multiple' => true,
                 'translation_domain' => 'Default',
                 'required' => false
+
             ]);
     }
 
