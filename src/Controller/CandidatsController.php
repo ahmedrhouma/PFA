@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 
 use App\Entity\Candidats;
+use App\Entity\Elector;
 use App\Form\CandidatsType;
 use App\Repository\CandidatsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -95,7 +96,7 @@ class CandidatsController extends Controller
                         }
                         $password = $firstname . uniqid();
                         $user = $userManager->createUser();
-                        $user->setUsername($firstname.$lastname);
+                        $user->setUsername($firstname .' '. $lastname);
                         $user->setEmail($email);
                         $user->setEmailCanonical($email);
                         $user->setEnabled(1);
@@ -112,8 +113,20 @@ class CandidatsController extends Controller
                         $candidat->setEvent($event);
                         $candidat->setDateOfBirth(new \DateTime($birth));
                         $candidat->setPhoto('profile.jpg');
+                        $Elector = new Elector();
+                        $Elector->setPhone(intval($phone));
+                        $Elector->setFirstName($firstname);
+                        $Elector->setLastName($lastname);
+                        $Elector->setCin(intval($cin));
+                        $Elector->setGender($gender);
+                        $Elector->setEmail($email);
+                        $Elector->AddEvent($event);
+                        $Elector->setBirth(new \DateTime($birth));
+                        $Elector->setPhoto('profile.jpg');
                         $entityManager = $this->getDoctrine()->getManager();
                         $entityManager->persist($candidat);
+                        $entityManager->flush();
+                        $entityManager->persist($Elector);
                         $entityManager->flush();
                     }
                     $row++;
@@ -162,7 +175,7 @@ class CandidatsController extends Controller
             }
             $password = $form->get('first_name')->getData() . uniqid();
             $user = $userManager->createUser();
-            $user->setUsername($form->get('first_name')->getData().$form->get('last_name')->getData());
+            $user->setUsername($form->get('first_name')->getData() .' '. $form->get('last_name')->getData());
             $user->setEmail($form->get('email')->getData());
             $user->setEmailCanonical($form->get('photo')->getData());
             $user->setEnabled(1);
@@ -170,10 +183,21 @@ class CandidatsController extends Controller
             $user->setPlainPassword($password);
             $userManager->updateUser($user);
 
+            $Elector = new Elector();
+            $Elector->setPhone(intval($form->get('phone')->getData()));
+            $Elector->setFirstName($form->get('first_name')->getData());
+            $Elector->setLastName($form->get('last_name')->getData());
+            $Elector->setCin(intval($form->get('cin')->getData()));
+            $Elector->setGender($form->get('gender')->getData());
+            $Elector->setEmail($form->get('email')->getData());
+            $Elector->AddEvent($form->get('event')->getData());
+            $Elector->setBirth($form->get('date_of_birth')->getData());
+            $Elector->setPhoto('profile.jpg');
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($candidat);
             $entityManager->flush();
-
+            $entityManager->persist($Elector);
+            $entityManager->flush();
             return $this->redirectToRoute('candidats');
         }
 
