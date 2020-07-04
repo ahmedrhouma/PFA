@@ -36,7 +36,38 @@ class CandidatsController extends AbstractController
      */
     public function new(Request $request): Response
     {
-        $candidat = new Candidats();
+        if ($request->get('upload') !== null) {
+            if (is_uploaded_file($_FILES['file1']['tmp_name'])) {
+                $csvFile = fopen($_FILES['file1']['tmp_name'], 'r');
+                $row = 0;
+                while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
+                    if ($row > 0) {
+                        $cin = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
+                        $firstname = (isset($line[1]) && $line[1] != '') ? $line[1] : NULL;
+                        $lastname = (isset($line[2]) && $line[2] != '') ? $line[2] : NULL;
+                        $phone = (isset($line[3]) && $line[3] != '') ? $line[3] : NULL;
+                        $birth = (isset($line[4]) && $line[4] != '') ? $line[4] : NULL;
+                        $gender = (isset($line[5]) && $line[5] != '') ? $line[5] : NULL;
+                        $email = (isset($line[6]) && $line[6] != '') ? $line[6] : NULL;
+                        $candidat = new Candidats();
+                        $candidat->setPhone(intval($phone));
+                        $candidat->setFirstName($firstname);
+                        $candidat->setLastName($lastname);
+                        $candidat->setCin(intval($cin));
+                        $candidat->setGender($gender);
+                        $candidat->setEmail($email);
+                        $candidat->setDateOfBirth(new \DateTime($birth));
+                        $candidat->setPhoto('profile.jpg');
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($candidat);
+                        $entityManager->flush();
+                    }
+                    $row++;
+                }
+            }
+        }
+        $candidat = new
+         Candidats();
         $form = $this->createForm(CandidatsType::class, $candidat);
         $form->handleRequest($request);
 

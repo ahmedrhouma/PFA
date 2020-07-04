@@ -65,13 +65,16 @@ class CandidatsType extends AbstractType
                 ]
             ])
 
-            ->add('photo', FileType::class,
-                array('data_class' => null,'required' => true,'attr' => [
+            ->add(
+                'photo',
+                FileType::class,
+                array('data_class' => null, 'required' => true, 'attr' => [
                     'onchange' => 'document.getElementById(\'output\').src = window.URL.createObjectURL(this.files[0])',
                     'accept' => 'image/*',
 
-                ]))
-        ;
+                ])
+            )
+            ->add('event');
     }
 
     public function configureOptions(OptionsResolver $resolver)
