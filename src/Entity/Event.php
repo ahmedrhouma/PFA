@@ -210,24 +210,4 @@ class Event
 
         return $this;
     }
-<<<<<<< HEAD
-    function __toString()
-    {
-=======
-
-    public function getPhoto(): ?string
-    {
-        return $this->photo;
-    }
-
-    public function setPhoto(string $photo): self
-    {
-        $this->photo = $photo;
-
-        return $this;
-    }
-    public function __toString() {
->>>>>>> origin/master
-        return $this->title;
-    }
 }

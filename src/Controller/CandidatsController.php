@@ -120,13 +120,6 @@ class CandidatsController extends Controller
                 }
             }
         }
-<<<<<<< HEAD
-=======
-        $candidat = new Candidats();
-        $form = $this->createForm(CandidatsType::class, $candidat);
-        $form->handleRequest($request);
->>>>>>> origin/master
-
 
         if ($form->isSubmitted() && $form->isValid()) {
 
