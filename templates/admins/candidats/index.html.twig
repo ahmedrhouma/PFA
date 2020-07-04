@@ -31,9 +31,11 @@
                                     <thead>
                                     <tr>
                                         <th>#</th>
+                                        <th>CIN</th>
                                         <th>Nom et Prenom</th>
                                         <th>Date du naissance</th>
                                         <th>Email</th>
+                                        <th>phone</th>
                                         <th>Sexe</th>
 
 
@@ -46,9 +48,11 @@
                                         <tr>
 
                                             <td><img style="width: 50px" src="/uploads/{{ candidat.photo }}" alt=""></td>
+                                            <td>{{ candidat.cin }} </td>
                                             <td>{{ candidat.firstName }} {{ candidat.lastName }}</td>
                                             <td>{{ candidat.dateOfBirth ? candidat.dateOfBirth|date('Y-m-d') : '' }}</td>
                                             <td>{{ candidat.email }} </td>
+                                            <td>{{ candidat.phone }} </td>
                                             <td>{{ candidat.gender }} </td>
 
                                             <td class="pull-right">

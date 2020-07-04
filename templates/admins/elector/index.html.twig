@@ -27,10 +27,16 @@
                                             #
                                         </th>
                                         <th>
+                                            CIN
+                                        </th>
+                                        <th>
                                             Nom et Prenom
                                         </th>
                                         <th>
                                             Email
+                                        </th>
+                                        <th>
+                                            Telephone
                                         </th>
                                         <th class="pull-right">
                                             Actions
@@ -44,10 +50,16 @@
                                                 <img style="width: 50px" src="/uploads/{{ elector.photo }}" alt="">
                                             </td>
                                             <td>
+                                                {{ elector.cin }}
+                                            </td>
+                                            <td>
                                                 {{ elector.firstName }} {{ elector.lastName }}
                                             </td>
                                             <td>
                                                 {{ elector.email }}
+                                            </td>
+                                            <td>
+                                                {{ elector.phone }}
                                             </td>
                                             <td class="pull-right">
                                                 <a class="label danger "href="{{ path('elector_show', {'id': elector.id}) }}">Montrer</a>

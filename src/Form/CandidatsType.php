@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Candidats;
 
+use App\Entity\Event;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
@@ -74,7 +76,17 @@ class CandidatsType extends AbstractType
 
                 ])
             )
-            ->add('event');
+            ->add('event', EntityType::class, [
+                'attr' => [
+                    'class' => 'form-control',
+                    'id' => 'exampleFormControlSelect1',
+                ],
+                // looks for choices from this entity
+                'class' => Event::class,
+                'multiple' => false,
+                'translation_domain' => 'Default',
+                'required' => false
+            ]);
     }
 
     public function configureOptions(OptionsResolver $resolver)
