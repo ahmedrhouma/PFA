@@ -214,6 +214,9 @@
     "symfony/dotenv": {
         "version": "v4.2.12"
     },
+    "symfony/error-handler": {
+        "version": "v4.4.10"
+    },
     "symfony/event-dispatcher": {
         "version": "v4.2.12"
     },
@@ -272,6 +275,18 @@
     "symfony/intl": {
         "version": "v4.2.12"
     },
+    "symfony/mailer": {
+        "version": "4.3",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "master",
+            "version": "4.3",
+            "ref": "15658c2a0176cda2e7dba66276a2030b52bd81b2"
+        },
+        "files": [
+            "./config/packages/mailer.yaml"
+        ]
+    },
     "symfony/maker-bundle": {
         "version": "1.0",
         "recipe": {
@@ -280,6 +295,9 @@
             "version": "1.0",
             "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
         }
+    },
+    "symfony/mime": {
+        "version": "v4.4.10"
     },
     "symfony/monolog-bridge": {
         "version": "v4.2.12"
@@ -330,6 +348,12 @@
     },
     "symfony/polyfill-php72": {
         "version": "v1.17.0"
+    },
+    "symfony/polyfill-php73": {
+        "version": "v1.17.1"
+    },
+    "symfony/polyfill-php80": {
+        "version": "v1.17.1"
     },
     "symfony/process": {
         "version": "v4.2.12"

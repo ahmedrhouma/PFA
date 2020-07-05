@@ -13,6 +13,8 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 /**
  * @Route("/elector")
@@ -35,7 +37,7 @@ class ElectorController extends Controller
     /**
      * @Route("/new", name="elector_new", methods={"GET","POST"})
      */
-    public function new(Request $request): Response
+    public function new(Request $request, MailerInterface $mailer): Response
     {
         $elector = new Elector();
         $form = $this->createForm(ElectorType::class, $elector);
@@ -92,7 +94,7 @@ class ElectorController extends Controller
                         }
                         $password = $firstname . uniqid();
                         $user = $userManager->createUser();
-                        $user->setUsername($firstname.$lastname);
+                        $user->setUsername($firstname . $lastname);
                         $user->setEmail($email);
                         $user->setEmailCanonical($email);
                         $user->setEnabled(1);
@@ -109,6 +111,13 @@ class ElectorController extends Controller
                         $elector->addEvent($event);
                         $elector->setBirth(new \DateTime($birth));
                         $elector->setPhoto('profile.jpg');
+                        $emailSend = (new Email())
+                            ->from('EvotePro@gmail.com')
+                            ->to($email)
+                            ->subject('Bienvenue a E-Vote!')
+                            ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $lastname . ' ' . $firstname . '</strong></div><div style="margin-bottom:10px">login : ' . $email. '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
+
+                        $mailer->send($emailSend);
                         $entityManager->persist($elector);
                         $entityManager->flush();
                     }
@@ -145,7 +154,7 @@ class ElectorController extends Controller
             }
             $password = $form->get('first_name')->getData() . uniqid();
             $user = $userManager->createUser();
-            $user->setUsername($form->get('first_name')->getData().$form->get('last_name')->getData());
+            $user->setUsername($form->get('first_name')->getData() . $form->get('last_name')->getData());
             $user->setEmail($form->get('email')->getData());
             $user->setEmailCanonical($form->get('email')->getData());
             $user->setEnabled(1);
@@ -173,6 +182,13 @@ class ElectorController extends Controller
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($elector);
             $entityManager->flush();
+            $email = (new Email())
+                ->from('EvotePro@gmail.com')
+                ->to($form->get('email')->getData())
+                ->subject('Bienvenue a E-Vote!')
+                ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $form->get('last_name')->getData() . ' ' . $form->get('first_name')->getData() . '</strong></div><div style="margin-bottom:10px">login : ' . $form->get('email')->getData() . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
+
+            $mailer->send($email);
 
             return $this->redirectToRoute('elector');
         }
