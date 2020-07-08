@@ -36,6 +36,9 @@
                                         <th>
                                             date du fin
                                         </th>
+                                        <th>
+                                            durée (Jours)
+                                        </th>
                                         <th class="pull-right">
                                             Actions
                                         </th>
@@ -56,9 +59,33 @@
                                             <td>
                                                 {{ event.dateEnd ? event.dateEnd|date('Y-m-d') : '' }}
                                             </td>
+                                            <td>
+                                                {{ event.duration }}
+                                            </td>
                                             <td class="pull-right">
+                                                {% if event.status == 0 %}
+
+                                                    {{ include('admins/event/updateInIndex/_start_form.html.twig') }}
+
+                                                    {{ include('admins/event/updateInIndex/_delete_form.html.twig') }}
+
+                                                {% elseif event.status == 1 %}
+
+                                                    {{ include('admins/event/updateInIndex/_stop_form.html.twig') }}
+
+                                                    {{ include('admins/event/updateInIndex/_pause_form.html.twig') }}
+
+                                                {% elseif event.status == 2 %}
+
+                                                    {{ include('admins/event/updateInIndex/_delete_form.html.twig') }}
+
+                                                {% endif %}
+
                                                 <a class="label danger "href="{{ path('event_show', {'id': event.id}) }}">Montrer</a>
+                                                {% if event.status == 0 %}
                                                 <a class="label success "href="{{ path('event_edit', {'id': event.id}) }}">Modifier</a>
+                                                {% endif %}
+
                                             </td>
                                         </tr>
                                     {% else %}
