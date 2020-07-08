@@ -20,10 +20,15 @@ class EventController extends AbstractController
      */
     public function index(EventRepository $eventRepository, Request $request): Response
     {
+
         $currentRoute = $request->attributes->get('_route');
         return $this->render('admins/dashboard/dashboard.html.twig', [
+            'error' => 0,
             'events' => $eventRepository->findAll(),
-            'currentRoute' => $currentRoute
+            'currentRoute' => $currentRoute,
+           'text' => "",
+            'title' => "",
+            'footer' => "",
         ]);
     }
 
@@ -54,8 +59,7 @@ class EventController extends AbstractController
             // instead of its contents
             if (!empty($file)) {
                 $event->setphoto($fileName);
-            }
-            else{
+            } else {
                 $event->setphoto('event.jpg');
             }
             $event->setStatus(0);
@@ -134,8 +138,10 @@ class EventController extends AbstractController
     /**
      * @Route("/{id}", name="event_update", methods={"UPDATE"})
      */
-    public function delete(Request $request, Event $event): Response
+    public function delete(Request $request, Event $event, EventRepository $eventRepository): Response
     {
+
+
 
         $entityManager = $this->getDoctrine()->getManager();
 
@@ -174,8 +180,45 @@ class EventController extends AbstractController
             $stop->setDateEnd(\DateTime::createFromFormat('Y-m-d', date("Y-m-d")));
 
             $entityManager->flush();
+//            return $this->redirectToRoute('event', [
+//                'error' => 1
+//            ]);
+        }
+        $title = "";
+        if ($event->getStatus() == 0) {
+            $title = "evenement en attente";
+        } elseif ($event->getStatus() == 1) {
+            $title = "evenement en marche";
+        } elseif ($event->getStatus() == 2) {
+            $title = "evenement en arrête";
         }
 
-        return $this->redirectToRoute('event');
+
+        $text = "";
+        if ($event->getStatus() == 0) {
+            $text = "l evenement " . $event->getTitle() . " est en attente";
+        } elseif ($event->getStatus() == 1) {
+            $text = "l evenement " . $event->getTitle() . " est en marche";
+        } elseif ($event->getStatus() == 2) {
+            $text = "l evenement " . $event->getTitle() . " est arrêté";
+        }
+
+        $footer = "";
+        if ($event->getStatus() == 0) {
+            $footer = "l'evenement est visible et en pause pour les electeurs";
+        } elseif ($event->getStatus() == 1) {
+            $footer = "l'evenement est visible et en marche pour les electeurs";
+        } elseif ($event->getStatus() == 2) {
+            $footer = "l'evenement non visible  pour les electeurs";
+        }
+
+        return $this->render('admins/dashboard/dashboard.html.twig', [
+            'error' => 1,
+            'events' => $eventRepository->findAll(),
+            'currentRoute' => 'event',
+            'text' => $text,
+            'title' => $title,
+            'footer' => $footer,
+        ]);
     }
 }
