@@ -52,8 +52,13 @@ class EventController extends AbstractController
             }
             // updates the 'image' property to store the PDF file name
             // instead of its contents
-
-            $event->setphoto($fileName);
+            if (!empty($file)) {
+                $event->setphoto($fileName);
+            }
+            else{
+                $event->setphoto('event.jpg');
+            }
+            $event->setStatus(0);
             if ($form->get('duration')->getData() > 0) {
                 $event->setDateEnd(\DateTime::createFromFormat('Y-m-d', date('Y-m-d', strtotime("+" . $form->get('duration')->getData() . "day", strtotime($event->getDateStart()->format('Y-m-d'))))));
 

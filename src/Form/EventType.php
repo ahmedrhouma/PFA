@@ -40,17 +40,6 @@ class EventType extends AbstractType
                     'class' => 'form-control'
                 ]
             ])
-            ->add('status', ChoiceType::class, [
-                'attr' => [
-                    'class' => 'form-control'
-                ],
-                'choices'  => [
-                    'En attente' => '0',
-                    'En cours' => '1',
-                    'Terminé' => '2',
-
-                ],
-            ])
 
             ->add(
                 'photo',
