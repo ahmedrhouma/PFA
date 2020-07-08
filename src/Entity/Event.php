@@ -64,6 +64,11 @@ class Event
      */
     private $photo;
 
+    /**
+     * @ORM\Column(type="integer")
+     */
+    private $duration;
+
 
 
     public function __construct()
@@ -225,6 +230,18 @@ class Event
     public function setPhoto(string $photo): self
     {
         $this->photo = $photo;
+
+        return $this;
+    }
+
+    public function getDuration(): ?int
+    {
+        return $this->duration;
+    }
+
+    public function setDuration(int $duration): self
+    {
+        $this->duration = $duration;
 
         return $this;
     }

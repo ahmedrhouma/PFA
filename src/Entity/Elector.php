@@ -65,6 +65,7 @@ class Elector
      */
     private $birth;
 
+
     public function __construct()
     {
         $this->event = new ArrayCollection();
@@ -200,4 +201,6 @@ class Elector
 
         return $this;
     }
+
+
 }

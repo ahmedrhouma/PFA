@@ -1,0 +1,5 @@
+<form  style="display: inline;"  method="post" action="{{ path('event_update', {'id': event.id}) }}" onsubmit="return confirm('Êtes-vous sûr de bien vouloir pauser cette evenement?');">
+    <input type="hidden" name="_method" value="UPDATE">
+    <input type="hidden" name="_token" value="{{ csrf_token('pause' ~ event.id) }}">
+    <button style="  width: 100%" class="btn btn-success">Pause</button>
+</form>

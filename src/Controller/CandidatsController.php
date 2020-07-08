@@ -60,6 +60,8 @@ class CandidatsController extends Controller
         $form1->handleRequest($request);
         if ($form1->isSubmitted() && $form1->isValid()) {
             if ($form1->get('input')->getData()) {
+
+
                 $csvFile = fopen($form1->get('input')->getData(), 'r');
                 $event = $form1->get('event')->getData();
                 $row = 0;
@@ -85,6 +87,7 @@ class CandidatsController extends Controller
                         $cin_Exist = $this->getDoctrine()
                             ->getRepository(Candidats::class)
                             ->findOneBy(['cin' => $cin]);
+
                         if ($cin_Exist) {
                             return $this->render('admins/dashboard/dashboard.html.twig', [
                                 'error' => 1,
@@ -164,6 +167,7 @@ class CandidatsController extends Controller
             $cin_Exist = $this->getDoctrine()
                 ->getRepository(Candidats::class)
                 ->findOneBy(['cin' => $form->get('cin')->getData()]);
+
             if ($cin_Exist) {
                 return $this->render('admins/dashboard/dashboard.html.twig', [
                     'error' => 1,
@@ -190,7 +194,9 @@ class CandidatsController extends Controller
             $Elector->setCin(intval($form->get('cin')->getData()));
             $Elector->setGender($form->get('gender')->getData());
             $Elector->setEmail($form->get('email')->getData());
-            $Elector->AddEvent($form->get('event')->getData());
+            if($form->get('event')->getData() != null) {
+                $Elector->AddEvent($form->get('event')->getData());
+            }
             $Elector->setBirth($form->get('date_of_birth')->getData());
             $Elector->setPhoto('profile.jpg');
             $entityManager = $this->getDoctrine()->getManager();

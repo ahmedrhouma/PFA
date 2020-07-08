@@ -18,7 +18,7 @@ class EventController extends AbstractController
     /**
      * @Route("/", name="event", methods={"GET"})
      */
-    public function index(EventRepository $eventRepository  , Request $request): Response
+    public function index(EventRepository $eventRepository, Request $request): Response
     {
         $currentRoute = $request->attributes->get('_route');
         return $this->render('admins/dashboard/dashboard.html.twig', [
@@ -40,7 +40,7 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $file = $form->get('photo')->getData();
-            $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
+            $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
             // Move the file to the directory where images are stored
             try {
                 $file->move(
@@ -54,6 +54,13 @@ class EventController extends AbstractController
             // instead of its contents
 
             $event->setphoto($fileName);
+            if ($form->get('duration')->getData() > 0) {
+                $event->setDateEnd(\DateTime::createFromFormat('Y-m-d', date('Y-m-d', strtotime("+" . $form->get('duration')->getData() . "day", strtotime($event->getDateStart()->format('Y-m-d'))))));
+
+            } else {
+                $event->setDateEnd(\DateTime::createFromFormat('Y-m-d', date('Y-m-d', strtotime(($event->getDateStart()->format('Y-m-d'))))));
+                $event->setDuration(1);
+            }
 
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($event);
@@ -72,7 +79,7 @@ class EventController extends AbstractController
     /**
      * @Route("/{id}", name="event_show", methods={"GET"})
      */
-    public function show(Event $event,  Request $request) : Response
+    public function show(Event $event, Request $request): Response
     {
         $currentRoute = $request->attributes->get('_route');
         return $this->render('admins/dashboard/dashboard.html.twig', [
@@ -92,7 +99,7 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $file = $form->get('photo')->getData();
-            $fileName =''.md5(uniqid()).'.'.$file->guessExtension();
+            $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
             // Move the file to the directory where images are stored
             try {
                 $file->move(
@@ -120,13 +127,47 @@ class EventController extends AbstractController
     }
 
     /**
-     * @Route("/{id}", name="event_delete", methods={"DELETE"})
+     * @Route("/{id}", name="event_update", methods={"UPDATE"})
      */
     public function delete(Request $request, Event $event): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
+
+        $entityManager = $this->getDoctrine()->getManager();
+
+        if ($this->isCsrfTokenValid('delete' . $event->getId(), $request->request->get('_token'))) {
             $entityManager->remove($event);
+            $entityManager->flush();
+        }
+
+        if ($this->isCsrfTokenValid('pause' . $event->getId(), $request->request->get('_token'))) {
+            $pause = $this->getDoctrine()
+                ->getRepository(Event::class)
+                ->find($event);
+            $pause->setStatus(0);
+            $entityManager->flush();
+        }
+
+        if ($this->isCsrfTokenValid('start' . $event->getId(), $request->request->get('_token'))) {
+            $start = $this->getDoctrine()
+                ->getRepository(Event::class)
+                ->find($event);
+            $start->setStatus(1);
+            if (date("Y-m-d") < strtotime($start->getDateStart()->format('Y-m-d'))) {
+                $start->setDateStart(\DateTime::createFromFormat('Y-m-d', date("Y-m-d")));
+                $start->setDateEnd(\DateTime::createFromFormat('Y-m-d', date('Y-m-d', strtotime("+" . $start->getDuration() . "day", strtotime($start->getDateStart()->format('Y-m-d'))))));
+            }
+
+            $entityManager->flush();
+        }
+
+        if ($this->isCsrfTokenValid('stop' . $event->getId(), $request->request->get('_token'))) {
+            $stop = $this->getDoctrine()
+                ->getRepository(Event::class)
+                ->find($event);
+            $stop->setStatus(2);
+
+            $stop->setDateEnd(\DateTime::createFromFormat('Y-m-d', date("Y-m-d")));
+
             $entityManager->flush();
         }
 

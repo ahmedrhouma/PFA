@@ -6,6 +6,7 @@ use App\Entity\Elector;
 use App\Entity\Event;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -22,6 +23,8 @@ class ElectorType extends AbstractType
             ->add('cin', NumberType::class, [
                 'attr' => [
                     'class' => 'form-control',
+                    'minlength' => '8',
+                    'maxlength' => '8'
                 ]
             ])
             ->add('first_name', TextType::class, [
@@ -41,7 +44,10 @@ class ElectorType extends AbstractType
             ])
             ->add('phone', NumberType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'minlength' => '8',
+                    'maxlength' => '8'
+
                 ]
             ])
             ->add('gender', ChoiceType::class, [
@@ -52,6 +58,11 @@ class ElectorType extends AbstractType
                     'Homme' => '0',
                     'Femme' => '1',
                 ],
+            ])
+            ->add('birth', DateType::class, [
+                'attr' => [
+                    'class' => 'form-control'
+                ]
             ])
             ->add(
                 'photo',

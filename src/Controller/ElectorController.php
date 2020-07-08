@@ -2,6 +2,7 @@
 
 namespace App\Controller;
 
+use App\Entity\Candidats;
 use App\Entity\Elector;
 use App\Entity\Event;
 use App\Form\ElectorType;
@@ -115,7 +116,7 @@ class ElectorController extends Controller
                             ->from('EvotePro@gmail.com')
                             ->to($email)
                             ->subject('Bienvenue a E-Vote!')
-                            ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $lastname . ' ' . $firstname . '</strong></div><div style="margin-bottom:10px">login : ' . $email. '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
+                            ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $lastname . ' ' . $firstname . '</strong></div><div style="margin-bottom:10px">login : ' . $email . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
 
                         $mailer->send($emailSend);
                         $entityManager->persist($elector);
@@ -125,9 +126,7 @@ class ElectorController extends Controller
                 }
                 return $this->redirectToRoute('elector');
             }
-        }
 
-        if ($form->isSubmitted() && $form->isValid()) {
             foreach ($elector->getEvent() as $event) {
                 $elector->addEvent($event);
             }
@@ -140,7 +139,10 @@ class ElectorController extends Controller
                     'form1' => $form1->createView(),
                     'currentRoute' => $currentRoute
                 ]);
+
             }
+
+
             $cin_Exist = $this->getDoctrine()
                 ->getRepository(Elector::class)
                 ->findOneBy(['cin' => $form->get('cin')->getData()]);
@@ -152,6 +154,24 @@ class ElectorController extends Controller
                     'currentRoute' => $currentRoute
                 ]);
             }
+            $candidat = new Candidats();
+            if ($request->get("candidat") != null) {
+
+                $candidat->setCin($form->get('cin')->getData());
+                $candidat->setFirstName($form->get('first_name')->getData());
+                $candidat->setLastName($form->get('last_name')->getData());
+                $candidat->setEmail($form->get('email')->getData());
+                $candidat->setGender($form->get('gender')->getData());
+                $candidat->setDateOfBirth($form->get('date_of_birth')->getData());
+                $candidat->setPhone($form->get('phone')->getData());
+                $candidat->setphoto('profile.jpg');
+                $candidat->setDescription($form->get('first_name')->getData());
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($candidat);
+                $entityManager->flush();
+            }
+
+
             $password = $form->get('first_name')->getData() . uniqid();
             $user = $userManager->createUser();
             $user->setUsername($form->get('first_name')->getData() . $form->get('last_name')->getData());
@@ -161,6 +181,7 @@ class ElectorController extends Controller
             $user->setRoles(['ROLE_ELECTOR']);
             $user->setPlainPassword($password);
             $userManager->updateUser($user);
+
             if (!empty($file)) {
                 $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
                 // Move the file to the directory where images are stored
@@ -175,6 +196,12 @@ class ElectorController extends Controller
                 // updates the 'image' property to store the PDF file name
                 // instead of its contents
                 $elector->setphoto($fileName);
+                if ($form->get('photo')->getData() != null) {
+                    $candidat->setphoto($fileName);
+                    $entityManager = $this->getDoctrine()->getManager();
+                    $entityManager->persist($candidat);
+                    $entityManager->flush();
+                }
             } else {
                 $elector->setphoto('profile.jpg');
             }
@@ -191,7 +218,9 @@ class ElectorController extends Controller
             $mailer->send($email);
 
             return $this->redirectToRoute('elector');
+
         }
+
 
         return $this->render('admins/dashboard/dashboard.html.twig', [
             'elector' => $elector,

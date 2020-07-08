@@ -23,7 +23,10 @@ class CandidatsType extends AbstractType
         $builder
             ->add('cin', NumberType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'minlength' => '8',
+                    'maxlength' => '8'
+
                 ]
             ])
             ->add('first_name', TextType::class, [
@@ -57,7 +60,9 @@ class CandidatsType extends AbstractType
             ])
             ->add('phone', NumberType::class, [
                 'attr' => [
-                    'class' => 'form-control'
+                    'class' => 'form-control',
+                    'minlength' => '8',
+                    'maxlength' => '8'
                 ]
             ])
             ->add('description', TextareaType::class, [
