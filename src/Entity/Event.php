@@ -47,10 +47,11 @@ class Event
     /**
      * @ORM\ManyToMany(targetEntity=Elector::class, mappedBy="event")
      */
+
     private $electors;
 
     /**
-     * @ORM\OneToMany(targetEntity=Candidats::class, mappedBy="event")
+     * @ORM\OneToMany(targetEntity="App\Entity\Candidats", mappedBy="event")
      */
     private $candidats;
 

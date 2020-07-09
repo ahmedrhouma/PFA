@@ -222,6 +222,7 @@ class CandidatsController extends Controller
     public function show(Candidats $candidat,  Request $request): Response
     {
         $currentRoute = $request->attributes->get('_route');
+
         return $this->render('admins/dashboard/dashboard.html.twig', [
             'candidat' => $candidat,
             'currentRoute' => $currentRoute

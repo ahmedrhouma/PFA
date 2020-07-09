@@ -1,14 +1,14 @@
-
 {% extends 'admins/base.html.twig' %}
 {% block title %}E-VOTE{% endblock %}
 {% block body %}
     <div class="app" id="app">
-        <div id="aside" class="app-aside fade nav-dropdown black">
+        <div style="width: 240px;" id="aside" class="app-aside fade nav-dropdown black">
             <div class="navside bg" data-layout="column">
                 <div data-flex class="hide-scroll">
                     <nav class="">
                         <ul class="sidebar-menu in" data-ui-nav>
-                            <img class="img-fluid" src="{{ asset('images/logo/logo-mini.png') }}" alt=""/>
+                            <img style="margin-left: auto;margin-right: auto; width: 93%;" class="img-fluid"
+                                 src="{{ asset('images/logo/logo-mini.png') }}" alt=""/>
                             <li {% if currentRoute == "dashboard" %} class="active" {% endif %}>
                                 <a href="/dashboard" class="waves-effect">
                                     <svg style="font-size: 16px" width="1em" height="1em" viewBox="0 0 16 16"
@@ -19,7 +19,7 @@
                                         <path fill-rule="evenodd"
                                               d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
                                     </svg>
-                                    <span class=""><strong>Tableau du board</strong></span>
+                                    <span class="">Tableau du board</span>
                                 </a>
                             </li>
                             <li {% if (currentRoute == "event" ) or (currentRoute == "event_new" )or (currentRoute == "event_show" )or (currentRoute == "event_edit" ) %} class="active" {% endif %}>
@@ -33,7 +33,7 @@
                                               d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
                                         <rect width="2" height="2" x="11" y="6" rx=".5"/>
                                     </svg>
-                                    <span class=""><strong>Liste des evenements</strong></span>
+                                    <span class="">Liste des evenements</span>
                                 </a>
                             </li>
                             <li {% if (currentRoute == "candidats" ) or (currentRoute == "candidats_new" )or (currentRoute == "candidats_show" )or (currentRoute == "candidats_edit" ) %} class="active" {% endif %}>
@@ -43,7 +43,7 @@
                                         <path fill-rule="evenodd"
                                               d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                                     </svg>
-                                    <span class=""><strong>Liste des candidats</strong></span>
+                                    <span class="">Liste des candidats</span>
                                 </a>
                             </li>
                             <li {% if (currentRoute == "elector")  or (currentRoute == 'elector_new')  or (currentRoute == 'elector_show')  or (currentRoute == 'elector_edit') %} class="active" {% endif %}>
@@ -53,7 +53,7 @@
                                         <path fill-rule="evenodd"
                                               d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
                                     </svg>
-                                    <span class=""><strong>Liste des electeurs</strong></span>
+                                    <span class="">Liste des electeurs</span>
                                 </a>
                             </li>
                         </ul>
@@ -93,34 +93,45 @@
                 </div>
             </div>
         </div>
-        {% if currentRoute == "dashboard" %}
-            {{ include('admins/dashboard/accueil.html.twig') }}
-        {% elseif currentRoute == "elector" %}
-            {{ include('admins/elector/index.html.twig') }}
-        {% elseif currentRoute == "elector_new" %}
-            {{ include('admins/elector/new.html.twig') }}
-        {% elseif currentRoute == "elector_show" %}
-            {{ include('admins/elector/show.html.twig') }}
-        {% elseif currentRoute == "elector_edit" %}
-            {{ include('admins/elector/edit.html.twig') }}
-        {% elseif currentRoute == "candidats" %}
-            {{ include('admins/candidats/index.html.twig') }}
-        {% elseif currentRoute == "candidats_new" %}
-            {{ include('admins/candidats/new.html.twig') }}
-        {% elseif currentRoute == "candidats_show" %}
-            {{ include('admins/candidats/show.html.twig') }}
-        {% elseif currentRoute == "candidats_edit" %}
-            {{ include('admins/candidats/edit.html.twig') }}
-        {% elseif currentRoute == "event" %}
-            {{ include('admins/event/index.html.twig') }}
-        {% elseif currentRoute == "event_new" %}
-            {{ include('admins/event/new.html.twig') }}
-        {% elseif currentRoute == "event_show" %}
-            {{ include('admins/event/show.html.twig') }}
-        {% elseif currentRoute == "event_edit" %}
-            {{ include('admins/event/edit.html.twig') }}
-        {% endif %}
-    </div>
+        <div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
+            <div class="app-header white bg b-b">
+                <div class="navbar" data-pjax>
+                    <a data-toggle="modal" data-target="#aside"
+                       class="navbar-item pull-left hidden-lg-up p-r m-a-0">
+                        <i class="ion-navicon"></i>
+                    </a>
+                    <div class="navbar-item pull-left h5" id="pageTitle">E-VOTE</div>
 
+                </div>
+            </div>
+            {% if currentRoute == "dashboard" %}
+                {{ include('admins/dashboard/accueil.html.twig') }}
+            {% elseif currentRoute == "elector" %}
+                {{ include('admins/elector/index.html.twig') }}
+            {% elseif currentRoute == "elector_new" %}
+                {{ include('admins/elector/new.html.twig') }}
+            {% elseif currentRoute == "elector_show" %}
+                {{ include('admins/elector/show.html.twig') }}
+            {% elseif currentRoute == "elector_edit" %}
+                {{ include('admins/elector/edit.html.twig') }}
+            {% elseif currentRoute == "candidats" %}
+                {{ include('admins/candidats/index.html.twig') }}
+            {% elseif currentRoute == "candidats_new" %}
+                {{ include('admins/candidats/new.html.twig') }}
+            {% elseif currentRoute == "candidats_show" %}
+                {{ include('admins/candidats/show.html.twig') }}
+            {% elseif currentRoute == "candidats_edit" %}
+                {{ include('admins/candidats/edit.html.twig') }}
+            {% elseif currentRoute == "event" %}
+                {{ include('admins/event/index.html.twig') }}
+            {% elseif currentRoute == "event_new" %}
+                {{ include('admins/event/new.html.twig') }}
+            {% elseif currentRoute == "event_show" %}
+                {{ include('admins/event/show.html.twig') }}
+            {% elseif currentRoute == "event_edit" %}
+                {{ include('admins/event/edit.html.twig') }}
+            {% endif %}
+        </div>
+    </div>
 
 {% endblock %}

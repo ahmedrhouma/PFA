@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Event;
 use App\Form\EventType;
+use App\Repository\CandidatsRepository;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -26,7 +27,7 @@ class EventController extends AbstractController
             'error' => 0,
             'events' => $eventRepository->findAll(),
             'currentRoute' => $currentRoute,
-           'text' => "",
+            'text' => "",
             'title' => "",
             'footer' => "",
         ]);
@@ -45,19 +46,25 @@ class EventController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
 
             $file = $form->get('photo')->getData();
-            $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
-            // Move the file to the directory where images are stored
-            try {
-                $file->move(
-                    $this->getParameter('upload_directory'),
-                    $fileName
-                );
-            } catch (FileException $e) {
-                // ... handle exception if something happens during file upload
+            $dateBegin = $form->get('date_start')->getData()->format('Y-m-d');
+
+            if (strtotime(date("Y-m-d")) > strtotime($dateBegin)) {
+                $event->setDateStart(\DateTime::createFromFormat('Y-m-d', date("Y-m-d")));
             }
-            // updates the 'image' property to store the PDF file name
-            // instead of its contents
             if (!empty($file)) {
+                $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
+                // Move the file to the directory where images are stored
+                try {
+                    $file->move(
+                        $this->getParameter('upload_directory'),
+                        $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                // updates the 'image' property to store the PDF file name
+                // instead of its contents
+
                 $event->setphoto($fileName);
             } else {
                 $event->setphoto('event.jpg');
@@ -88,10 +95,12 @@ class EventController extends AbstractController
     /**
      * @Route("/{id}", name="event_show", methods={"GET"})
      */
-    public function show(Event $event, Request $request): Response
+    public function show(Event $event, Request $request , CandidatsRepository $candidatsRepository): Response
     {
         $currentRoute = $request->attributes->get('_route');
+
         return $this->render('admins/dashboard/dashboard.html.twig', [
+            'candidats' => $candidatsRepository->findBy(array('event'=> $request->get('id'))),
             'event' => $event,
             'currentRoute' => $currentRoute
         ]);
@@ -140,7 +149,6 @@ class EventController extends AbstractController
      */
     public function delete(Request $request, Event $event, EventRepository $eventRepository): Response
     {
-
 
 
         $entityManager = $this->getDoctrine()->getManager();

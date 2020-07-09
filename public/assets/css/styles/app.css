@@ -16,9 +16,9 @@ html {
 }
 
 body {
-    color: rgba(0, 0, 0, 0.87);
+    color: white;
     font-size: 0.875rem;
-    background-color: #19263812;
+    background-color: #f3f3f375;
     font-family: ubuntu !important;
 }
 
@@ -346,7 +346,55 @@ Buttons
     height: 1.775rem;
     line-height: 1.775rem;
 }
+.cards {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px auto;
+    max-width: 100%;
+}
+.cards .card {
+    width: 30%;
+    margin: 12px;
+    padding: 1.5rem;
+    color: #fff;
+    border-radius: 5px;
+    box-shadow: 7px 6px 26px -17px black;
+    cursor: pointer;
+    transition: 0.3s all;
+}
+.cards .card h3 {
+    font-size: 40px;
+}
+.cards .card p {
+    font-size: 20px;
+}
+.cards .card:nth-child(1) {
+    background: #1ebccd;
+    background: linear-gradient(45deg, #1ebccd, #3a55b1) !important;
 
+}
+.cards .card:nth-child(2) {
+    background: #f83f37;
+    background: linear-gradient(45deg, #f83f37, #ab26aa) !important;
+
+}
+.cards .card:nth-child(3) {
+    background: #22af47;
+    background: linear-gradient(45deg, #22af47, #d0d962) !important;
+
+}
+.cards .card:hover {
+    transform: translateY(-4px);
+}
+.card-vote{
+    background-color: #f7f7f7;
+    border: 1px #d6d6d6 solid;
+    color: #212121;
+    border-top-left-radius: 15px !important;
+    border-top-right-radius: 15px !important;
+}
 .btn-icon.btn-lg {
     width: 3.167rem;
     height: 3.167rem;
@@ -481,14 +529,19 @@ Card
     padding: 5px 5px 5px 15px;
     display: block;
     border-left: 0px solid transparent;
-    color: #d0d0d0;
+    color: rgba(255, 255, 255, 0.6);
 
-    font-size: 14px;
+    font-size: 16px;
 }
 
 
 .sidebar-menu .active {
     background-color: #2e3840;
+
+}
+
+.sidebar-menu .active  > a {
+    color: #f8fff7 !important;
 
 }
 
@@ -1655,6 +1708,7 @@ Navbar
     padding: 0 1rem;
     flex-shrink: 0;
     min-height: 3.5rem;
+    box-shadow: 0 0 28px rgba(0, 0, 0, 0.07);
 }
 
 .navbar .up {
@@ -1678,6 +1732,7 @@ Navbar
     padding: 0;
     line-height: 3.5rem;
     white-space: nowrap;
+    color: #212121;
 }
 
 .navbar-brand {
@@ -2797,7 +2852,7 @@ body {
     opacity: 1;
     overflow: hidden;
     position: fixed !important;
-    z-index: 1030;
+    /*z-index: 1030;*/
     float: left;
     height: 100%;
 }
@@ -2824,7 +2879,7 @@ body {
 .app-header {
     position: fixed;
     top: 0;
-    left: 0;
+    left: 8px;
     right: 0;
     margin: inherit;
     z-index: 1020;
@@ -2928,7 +2983,7 @@ body {
     }
 
     .app-aside:not(.hide) ~ .app-content {
-        margin-left: 12.5rem;
+        margin-left: 14.5rem;
         left: 12.5rem;
     }
 
@@ -5404,7 +5459,7 @@ Colors
 }
 
 .black .bg {
-    background-color: #0f1a24;
+    background-color: #212121;
 }
 
 .dark {

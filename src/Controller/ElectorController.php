@@ -7,6 +7,7 @@ use App\Entity\Elector;
 use App\Entity\Event;
 use App\Form\ElectorType;
 use App\Repository\ElectorRepository;
+use Doctrine\DBAL\DriverManager;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -182,6 +183,10 @@ class ElectorController extends Controller
             $user->setPlainPassword($password);
             $userManager->updateUser($user);
 
+
+        }
+        if ($form->isSubmitted() && $form->isValid()) {
+            $password = $elector->getFirstName() . uniqid();
             if (!empty($file)) {
                 $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
                 // Move the file to the directory where images are stored
@@ -196,7 +201,9 @@ class ElectorController extends Controller
                 // updates the 'image' property to store the PDF file name
                 // instead of its contents
                 $elector->setphoto($fileName);
-                if ($form->get('photo')->getData() != null) {
+
+                if (($form->get('photo')->getData() != null) && ($request->get("candidat") != null)) {
+
                     $candidat->setphoto($fileName);
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($candidat);
@@ -236,6 +243,7 @@ class ElectorController extends Controller
      */
     public function show(Elector $elector, Request $request): Response
     {
+
         $currentRoute = $request->attributes->get('_route');
         return $this->render('admins/dashboard/dashboard.html.twig', [
             'elector' => $elector,

@@ -1,13 +1,4 @@
-<div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
-    <div class="app-header white bg b-b">
-        <div class="navbar" data-pjax>
-            <a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0">
-                <i class="ion-navicon"></i>
-            </a>
-            <div class="navbar-item pull-left h5" id="pageTitle">Electeurs</div>
 
-        </div>
-    </div>
 
     <div class="app-body">
 
@@ -58,11 +49,11 @@
                                         </tr>
                                         <tr>
                                             <th>Telephone</th>
-                                            <td>{{ elector.phone }}}</td>
+                                            <td>{{ elector.phone }}</td>
                                         </tr>
                                         <tr>
                                             <th>Sexe</th>
-                                            <td>{{ elector.gender }}}</td>
+                                            <td>{% if elector.gender == 0 %} Homme {% else %} Femme {% endif %}</td>
                                         </tr>
                                         </tbody>
                                     </table>
@@ -85,6 +76,6 @@
 
         <!-- ############ PAGE END-->
 
-    </div>
+
 </div>
 <!-- / -->

@@ -38,8 +38,10 @@ class Candidats
     private $date_of_birth;
 
     /**
-     * @ORM\ManyToOne(targetEntity=Event::class, inversedBy="candidats")
+     * @ORM\ManyToOne(targetEntity="Event", inversedBy="candidats")
+     * @ORM\JoinColumn(name="event_id", referencedColumnName="id")
      */
+
     private $event;
 
     /**
@@ -135,12 +137,12 @@ class Candidats
         return $this;
     }
 
-    public function getEvent(): ?event
+    public function getEvent()
     {
         return $this->event;
     }
 
-    public function setEvent(?event $event): self
+    public function setEvent(?event $event)
     {
         $this->event = $event;
 
