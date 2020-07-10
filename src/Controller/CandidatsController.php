@@ -207,7 +207,7 @@ class CandidatsController extends Controller
             return $this->redirectToRoute('candidats');
         }
 
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'candidat' => $candidat,
             'form' => $form->createView(),
             'form1' => $form1->createView(),
@@ -223,7 +223,7 @@ class CandidatsController extends Controller
     {
         $currentRoute = $request->attributes->get('_route');
 
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'candidat' => $candidat,
             'currentRoute' => $currentRoute
         ]);
@@ -259,7 +259,7 @@ class CandidatsController extends Controller
             return $this->redirectToRoute('candidats');
         }
 
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'candidat' => $candidat,
             'form' => $form->createView(),
             'currentRoute' => $currentRoute

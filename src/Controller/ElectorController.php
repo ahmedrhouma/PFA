@@ -245,7 +245,7 @@ class ElectorController extends Controller
     {
 
         $currentRoute = $request->attributes->get('_route');
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'elector' => $elector,
             'currentRoute' => $currentRoute
         ]);
@@ -286,7 +286,7 @@ class ElectorController extends Controller
             return $this->redirectToRoute('elector');
         }
 
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'elector' => $elector,
             'form' => $form->createView(),
             'currentRoute' => $currentRoute

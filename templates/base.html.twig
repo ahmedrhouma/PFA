@@ -1,12 +1,183 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="UTF-8">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        {% block stylesheets %}{% endblock %}
-    </head>
-    <body>
-        {% block body %}{% endblock %}
-        {% block javascripts %}{% endblock %}
-    </body>
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}Welcome!{% endblock %}</title>
+    {% block stylesheets %}
+        <!-- style -->
+        <link href="{{ asset('assets/css/animate.css/animate.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/glyphicons/glyphicons.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/material-design-icons/material-design-icons.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/ionicons/css/ionicons.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/simple-line-icons/css/simple-line-icons.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('bootstrap/css/bootstrap.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/styles/app.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/styles/font.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/styles/style.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/datatables/datatables.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/tailwind.min.css') }}" rel="stylesheet"/>
+
+        <link href='https://fonts.googleapis.com/css?family=Ubuntu:300,300italic,400,400italic,500,500italic,700,700italic&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext'
+              rel='stylesheet' type='text/css'>
+
+
+
+        {#        <link rel="stylesheet" href="/assets/css/animate.css/animate.min.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/glyphicons/glyphicons.css" type="text/css" />#}
+
+        {#        <link rel="stylesheet" href="/assets/css/material-design-icons/material-design-icons.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/ionicons/css/ionicons.min.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/simple-line-icons/css/simple-line-icons.css" type="text/css" />#}
+        {#        <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css">#}
+        {#        <!-- build:css css/styles/app.min.css -->#}
+        {#        <link rel="stylesheet" href="/assets/css/styles/app.css" type="text/css" />#}
+        {#        <link rel="stylesheet" href="/assets/css/styles/style.css" type="text/css" />#}
+        {#        <!-- endbuild -->#}
+        {#        <link rel="stylesheet" href="/assets/css/styles/font.css" type="text/css" />#}
+        {#        <!-- build:js scripts/app.min.js -->#}
+        {#        <!-- jQuery -->#}
+
+    {% endblock %}
+</head>
+<body>
+{% block body %}
+
+
+
+{% endblock %}
+{% block javascripts %}
+
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="http://code.jquery.com/ui/1.11.2/jquery-ui.js"></script>
+    <script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+
+    <script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/datatables.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/buttons.flash.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/buttons.html5.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/buttons.print.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/dataTables.buttons.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/jszip.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/pdfmake.min.js') }}"></script>
+    <script src="{{ asset('assets/css/datatables/buttons/vfs_fonts.js') }}"></script>
+
+    <script>
+
+        $(function () {
+            $('#datetimepicker5').datetimepicker({
+                defaultDate: "11/1/2013",
+                disabledDates: [
+                    moment("12/25/2013"),
+                    new Date(2013, 11 - 1, 21),
+                    "11/22/2013 00:53"
+                ]
+            });
+        });
+        // You can modify the upload files to pdf's, docs etc
+        //Currently it will upload only images
+        $(document).ready(function ($) {
+            $('#example').DataTable({
+                dom: 'Bfrtip',
+                scrollX: true,
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                language: {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
+                }
+            });
+            // Upload btn on change call function
+            $(".uploadlogo").change(function () {
+                var filename = readURL(this);
+                $(this).parent().children('span').html(filename);
+            });
+            // Read File and return value
+            function readURL(input) {
+                var url = input.value;
+                var ext = url.substring(url.lastIndexOf('.') + 1).toLowerCase();
+                if (input.files && input.files[0] && (
+                    ext == "csv"
+                )) {
+                    var path = $(input).val();
+                    var filename = path.replace(/^.*\\/, "");
+                    // $('.fileUpload span').html('Uploaded Proof : ' + filename);
+                    return "Uploaded file : " + filename;
+                } else {
+                    $(input).val("");
+                    return "Seuls les formats de fichier / CSV sont autorisés!";
+                }
+            }
+            // Upload btn end
+        });
+        var TabBlock = {
+            s: {
+                animLen: 200
+            },
+            init: function () {
+                TabBlock.bindUIActions();
+                TabBlock.hideInactive();
+            },
+            bindUIActions: function () {
+                $('.tabBlock-tabs').on('click', '.tabBlock-tab', function () {
+                    TabBlock.switchTab($(this));
+                });
+            },
+            hideInactive: function () {
+                var $tabBlocks = $('.tabBlock');
+                $tabBlocks.each(function (i) {
+                    var
+                        $tabBlock = $($tabBlocks[i]),
+                        $panes = $tabBlock.find('.tabBlock-pane'),
+                        $activeTab = $tabBlock.find('.tabBlock-tab.is-active');
+                    $panes.hide();
+                    $($panes[$activeTab.index()]).show();
+                });
+            },
+            switchTab: function ($tab) {
+                var $context = $tab.closest('.tabBlock');
+                if (!$tab.hasClass('is-active')) {
+                    $tab.siblings().removeClass('is-active');
+                    $tab.addClass('is-active');
+                    TabBlock.showPane($tab.index(), $context);
+                }
+            },
+            showPane: function (i, $context) {
+                var $panes = $context.find('.tabBlock-pane');
+                // Normally I'd frown at using jQuery over CSS animations, but we can't transition between unspecified variable heights, right? If you know a better way, I'd love a read it in the comments or on Twitter @johndjameson
+                $panes.slideUp(TabBlock.s.animLen);
+                $($panes[i]).slideDown(TabBlock.s.animLen);
+            }
+        };
+        $(function () {
+            TabBlock.init();
+        });
+    </script>
+    <!-- Bootstrap -->
+    {#    <script src="/assets/libs/tether/dist/js/tether.min.js"></script>#}
+    {#    <script src="vendor/bootstrap/js/bootstrap.min.js"></script>#}
+    {#    <!-- core -->#}
+    {#    <script src="/assets/libs/jQuery-Storage-API/jquery.storageapi.min.js"></script>#}
+    {#    <script src="/assets/libs/PACE/pace.min.js"></script>#}
+    {#    <script src="/assets/libs/jquery-pjax/jquery.pjax.js"></script>#}
+    {#    <script src="/assets/libs/blockUI/jquery.blockUI.js"></script>#}
+    {#    <script src="/assets/libs/jscroll/jquery.jscroll.min.js"></script>#}
+    {#    <script src="/assets/scripts/config.lazyload.js"></script>#}
+    {#    <script src="/assets/scripts/ui-load.js"></script>#}
+    {#    <script src="/assets/scripts/ui-jp.js"></script>#}
+    {#    <script src="/assets/scripts/ui-include.js"></script>#}
+    {#    <script src="/assets/scripts/ui-device.js"></script>#}
+    {#    <script src="/assets/scripts/ui-form.js"></script>#}
+    {#    <script src="/assets/scripts/ui-modal.js"></script>#}
+    {#    <script src="/assets/scripts/ui-nav.js"></script>#}
+    {#    <script src="/assets/scripts/ui-list.js"></script>#}
+    {#    <script src="/assets/scripts/ui-screenfull.js"></script>#}
+    {#    <script src="/assets/scripts/ui-scroll-to.js"></script>#}
+    {#    <script src="/assets/scripts/ui-toggle-class.js"></script>#}
+    {#    <script src="/assets/scripts/ui-taburl.js"></script>#}
+    {#    <script src="/assets/scripts/app.js"></script>#}
+    {#    <script src="/assets/scripts/ajax.js"></script>#}
+{% endblock %}
+</body>
+
 </html>

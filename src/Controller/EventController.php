@@ -85,7 +85,7 @@ class EventController extends AbstractController
             return $this->redirectToRoute('event');
         }
         $currentRoute = $request->attributes->get('_route');
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'event' => $event,
             'form' => $form->createView(),
             'currentRoute' => $currentRoute,
@@ -99,7 +99,7 @@ class EventController extends AbstractController
     {
         $currentRoute = $request->attributes->get('_route');
 
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'candidats' => $candidatsRepository->findBy(array('event'=> $request->get('id'))),
             'event' => $event,
             'currentRoute' => $currentRoute
@@ -137,7 +137,7 @@ class EventController extends AbstractController
         }
 
 
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'event' => $event,
             'form' => $form->createView(),
             'currentRoute' => $currentRoute
@@ -220,7 +220,7 @@ class EventController extends AbstractController
             $footer = "l'evenement non visible  pour les electeurs";
         }
 
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'error' => 1,
             'events' => $eventRepository->findAll(),
             'currentRoute' => 'event',

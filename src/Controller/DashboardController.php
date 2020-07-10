@@ -12,10 +12,22 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class DashboardController extends AbstractController
 {
+
+
+    /**
+     * @Route("/", name="Accuiel")
+     */
+    public function index( Request $request)
+    {
+        return $this->redirectToRoute('dashboard');
+
+    }
+
+
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function index( Request $request)
+    public function dashboard( Request $request)
     {
 
         // 1. Obtain doctrine manager
@@ -48,7 +60,7 @@ class DashboardController extends AbstractController
 
 
         $currentRoute = $request->attributes->get('_route');
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'currentRoute' => $currentRoute,
             'success' => 0,
             'totalEvent' => $totalEvent,
