@@ -7,8 +7,7 @@ use App\Entity\Elector;
 use App\Entity\Event;
 use App\Form\ElectorType;
 use App\Repository\ElectorRepository;
-use Doctrine\DBAL\DriverManager;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -17,7 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
-
+use Symfony\Component\HttpFoundation\JsonResponse;
 /**
  * @Route("/elector")
  */
@@ -26,14 +25,37 @@ class ElectorController extends Controller
     /**
      * @Route("/", name="elector", methods={"GET"})
      */
-    public function index(ElectorRepository $electorRepository, Request $request): Response
+    public function index(EventRepository $eventRepository,ElectorRepository $electorRepository, Request $request): Response
     {
 
         $currentRoute = $request->attributes->get('_route');
         return $this->render('admins/baseAdmin.html.twig', [
             'electors' => $electorRepository->findAll(),
+            'events' => $eventRepository->findAll(),
             'currentRoute' => $currentRoute
         ]);
+    }
+
+    /**
+     * @Route("/filterByEvent/{id}", name="filterByEvent", methods={"GET","POST"})
+     */
+    public function filterByEvent($id,EventRepository $eventRepository, Request $request)
+    {
+        $event = intval($id);
+        $event = $eventRepository->findOneBy(['id'=>$event]);
+        $electors = array();
+        foreach($event->getElectors() as $elector){
+            $url = $this->generateUrl(
+                'elector_show',
+                ['id' => $elector->getId()]
+            );
+            $url2 = $this->generateUrl(
+                'elector_edit',
+                ['id' => $elector->getId()]
+            );
+            $electors[] = array('<img style="width: 50px" src="/uploads/profile.jpg" alt="">',$elector->getCin(),$elector->getFirstName().' '.$elector->getLastName(),$elector->getEmail(),$elector->getPhone(),"<a class='label danger' href='".$url."'>Montrer</a><a class='label success' href='".$url2."'>Modifier</a>");
+        }
+        return new JsonResponse($electors);
     }
 
     /**

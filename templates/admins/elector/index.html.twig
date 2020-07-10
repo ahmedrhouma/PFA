@@ -1,87 +1,99 @@
-
-    <div class="app-body">
-        <!-- ############ PAGE START-->
-        <div class="row-col">
-            <div class="col-lg b-r">
-                <div class="padding">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="box" style="border-top: #2196f3  solid;">
-                                <div class="box-header">
-                                    <strong>liste des electeurs</strong>
-                                    <a class="label primary pull-right" href="{{ path('elector_new') }}">Ajouter
-                                        nouveau</a>
-                                    <!--modals-->
-                                </div>
-                                <table class="table table-striped table-bordered" id="example" style="width: 100%">
-                                    <thead>
-                                    <tr>
-                                        <th>
-                                            #
-                                        </th>
-                                        <th>
-                                            CIN
-                                        </th>
-                                        <th>
-                                            Nom et Prenom
-                                        </th>
-                                        <th>
-                                            Email
-                                        </th>
-                                        <th>
-                                            Telephone
-                                        </th>
-                                        <th>
-                                            Sexe
-                                        </th>
-                                        <th class="pull-right">
-                                            Actions
-                                        </th>
-                                    </tr>
-                                    </thead>
-                                    <tbody>
-                                    {% for elector in electors %}
-                                        <tr>
-                                            <td>
-                                                <img style="width: 50px" src="/uploads/{{ elector.photo }}" alt="">
-                                            </td>
-                                            <td>
-                                                {{ elector.cin }}
-                                            </td>
-                                            <td>
-                                                {{ elector.firstName }} {{ elector.lastName }}
-                                            </td>
-                                            <td>
-                                                {{ elector.email }}
-                                            </td>
-                                            <td>
-                                                {{ elector.phone }}
-                                            </td>
-                                            <td>
-                                                {% if elector.gender == 0 %} Homme {% else %} Femme {% endif %}
-                                            </td>
-                                            <td class="pull-right">
-                                                <a class="label danger "
-                                                   href="{{ path('elector_show', {'id': elector.id}) }}">Montrer</a>
-                                                <a class="label success "
-                                                   href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
-                                            </td>
-                                        </tr>
-                                    {% else %}
-                                        <tr>
-                                            <td colspan="8">
-                                                no records found
-                                            </td>
-                                        </tr>
-                                    {% endfor %}
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <!-- ############ PAGE END-->
-    </div>
-
+<div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
+	<div class="app-header white bg b-b">
+		<div class="navbar" data-pjax>
+			<a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0">
+				<i class="ion-navicon"></i>
+			</a>
+			<div class="navbar-item pull-left h5" id="pageTitle">
+				Electeurs
+			</div>
+		</div>
+	</div>
+	<div
+		class="app-body">
+		<!-- ############ PAGE START-->
+		<div class="row-col">
+			<div class="col-lg b-r">
+				<div class="padding">
+					<div class="row">
+						<div class="col-sm-12">
+							<div class="box" style="border-top: #2196f3  solid;">
+								<div class="box-header">
+									<strong>liste des electeurs</strong>
+									<a class="label primary pull-right" href="{{ path('elector_new') }}">Ajouter nouveau</a>
+									<!--modals-->
+								</div>
+								<div class="row" style="align-items: center;margin-left: 15px;">
+									<label for="events" style="margin-right:10px">Filtre avec Evénement :</label>
+									<select class="form-control col-4" id="events" name="events">
+										<option value="0"></option>
+										{% for event in events %}
+											<option value='{{ event.id }}'>{{ event.title }}</option>
+										{% endfor %}
+									</select>
+								</div>
+								<table class="table table-striped table-bordered" id="example" style="width: 100%">
+									<thead>
+										<tr>
+											<th>
+												ID
+											</th>
+											<th>
+												CIN
+											</th>
+											<th>
+												Nom et Prenom
+											</th>
+											<th>
+												Email
+											</th>
+											<th>
+												Telephone
+											</th>
+											<th class="pull-right">
+												Actions
+											</th>
+										</tr>
+									</thead>
+									<tbody>
+										{% for elector in electors %}
+											<tr>
+												<td>
+													<img style="width: 50px" src="/uploads/{{ elector.photo }}" alt="">
+												</td>
+												<td>
+													{{ elector.cin }}
+												</td>
+												<td>
+													{{ elector.firstName }}
+													{{ elector.lastName }}
+												</td>
+												<td>
+													{{ elector.email }}
+												</td>
+												<td>
+													{{ elector.phone }}
+												</td>
+												<td class="pull-right">
+													<a class="label danger " href="{{ path('elector_show', {'id': elector.id}) }}">Montrer</a>
+													<a class="label success " href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
+												</td>
+											</tr>
+										{% else %}
+											<tr>
+												<td colspan="8">
+													no records found
+												</td>
+											</tr>
+										{% endfor %}
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- ############ PAGE END-->
+	</div>
+</div>

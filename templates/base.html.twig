@@ -77,7 +77,7 @@
         // You can modify the upload files to pdf's, docs etc
         //Currently it will upload only images
         $(document).ready(function ($) {
-            $('#example').DataTable({
+            var table =$('#example').DataTable({
                 dom: 'Bfrtip',
                 scrollX: true,
                 buttons: [
@@ -87,6 +87,25 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
                 }
             });
+            	$('#events').change(function () {
+let event = $(this).val();
+if(event !=0){
+let url ="{{ path('filterByEvent', {'id': 'event'}) }}";
+url = url.replace("event", event)
+$.ajax({
+url: url,
+type: "POST",
+data: {
+event: event
+},
+dataType: "json",
+success: function (dataResult) {
+    table.clear().draw();
+ table.rows.add(dataResult).draw();
+}
+});
+}
+});
             // Upload btn on change call function
             $(".uploadlogo").change(function () {
                 var filename = readURL(this);
