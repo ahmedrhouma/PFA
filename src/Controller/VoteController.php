@@ -44,4 +44,20 @@ class VoteController extends AbstractController
     }
 
 
+    /**
+     * @Route("/eventUser/{id}", name="eventUser_show" , methods={"GET"})
+     */
+    public function showEv ( Request $request , EventRepository $eventRepository)
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('users/baseUsers.html.twig', [
+
+            'events' => $eventRepository->findAll(),
+            'currentRoute' => $currentRoute,
+
+        ]);
+
+    }
+
 }

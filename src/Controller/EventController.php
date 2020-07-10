@@ -229,4 +229,8 @@ class EventController extends AbstractController
             'footer' => $footer,
         ]);
     }
+
+
+
+
 }
