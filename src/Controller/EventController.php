@@ -100,7 +100,8 @@ class EventController extends AbstractController
         $currentRoute = $request->attributes->get('_route');
 
         return $this->render('admins/baseAdmin.html.twig', [
-            'candidats' => $candidatsRepository->findBy(array('event'=> $request->get('id'))),
+            'candidats' =>  $event->getCandidats() ,
+            'electors' =>  $event->getElectors() ,
             'event' => $event,
             'currentRoute' => $currentRoute
         ]);
