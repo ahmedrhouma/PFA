@@ -89,11 +89,10 @@
             });
             	$('#events').change(function () {
 let event = $(this).val();
-if(event !=0){
-let url ="{{ path('filterByEvent', {'id': 'event'}) }}";
-url = url.replace("event", event)
+let path = url;
+path = path.replace("event", event)
 $.ajax({
-url: url,
+url: path,
 type: "POST",
 data: {
 event: event
@@ -104,7 +103,6 @@ success: function (dataResult) {
  table.rows.add(dataResult).draw();
 }
 });
-}
 });
             // Upload btn on change call function
             $(".uploadlogo").change(function () {

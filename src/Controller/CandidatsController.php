@@ -7,6 +7,7 @@ use App\Entity\Event;
 use App\Entity\Candidats;
 use App\Entity\Elector;
 use App\Form\CandidatsType;
+use App\Repository\EventRepository;
 use App\Repository\CandidatsRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\HttpFoundation\JsonResponse;
 
 /**
  * @Route("/candidats")
@@ -24,16 +26,42 @@ class CandidatsController extends Controller
     /**
      * @Route("/", name="candidats", methods={"GET"})
      */
-    public function index(CandidatsRepository $candidatsRepository, Request $request): Response
+    public function index(CandidatsRepository $candidatsRepository, EventRepository $eventRepository, Request $request): Response
     {
 
         $currentRoute = $request->attributes->get('_route');
         return $this->render('admins/baseAdmin.html.twig', [
             'candidats' => $candidatsRepository->findAll(),
+            'events' => $eventRepository->findAll(),
             'currentRoute' => $currentRoute
         ]);
     }
-
+    /**
+     * @Route("/filterByEvent1/{id}", name="filterByEvent1", methods={"GET","POST"})
+     */
+    public function filterByEvent($id, EventRepository $eventRepository, CandidatsRepository $candidatsRepository, Request $request)
+    {
+        $event = intval($id);
+        if ($event != 0) {
+            $event = $eventRepository->findOneBy(['id' => $event]);
+            $candidats = $event->getCandidats();
+        } else {
+            $candidats = $candidatsRepository->findAll();
+        }
+        $result = array();
+        foreach ($candidats as $candidat) {
+            $url = $this->generateUrl(
+                'candidats_show',
+                ['id' => $candidat->getId()]
+            );
+            $url2 = $this->generateUrl(
+                'candidats_edit',
+                ['id' => $candidat->getId()]
+            );
+            $result[] = array('<img style="width: 50px" src="/uploads/profile.jpg" alt="">', $candidat->getCin(), $candidat->getFirstName() . ' ' . $candidat->getLastName(), $candidat->getDateOfBirth()->format("Y-m-d"), $candidat->getEmail(), $candidat->getPhone(),$candidat->getGender() == 0 ? 'Homme' : 'Femme', "<a class='label danger' href='" . $url . "'>Montrer</a><a class='label success' href='" . $url2 . "'>Modifier</a>");
+        }
+        return new JsonResponse($result);
+    }
     /**
      * @Route("/new", name="candidats_new", methods={"GET","POST"})
      */
@@ -99,7 +127,7 @@ class CandidatsController extends Controller
                         }
                         $password = $firstname . uniqid();
                         $user = $userManager->createUser();
-                        $user->setUsername($firstname .' '. $lastname);
+                        $user->setUsername($firstname . ' ' . $lastname);
                         $user->setEmail($email);
                         $user->setEmailCanonical($email);
                         $user->setEnabled(1);
@@ -179,7 +207,7 @@ class CandidatsController extends Controller
             }
             $password = $form->get('first_name')->getData() . uniqid();
             $user = $userManager->createUser();
-            $user->setUsername($form->get('first_name')->getData() .' '. $form->get('last_name')->getData());
+            $user->setUsername($form->get('first_name')->getData() . ' ' . $form->get('last_name')->getData());
             $user->setEmail($form->get('email')->getData());
             $user->setEmailCanonical($form->get('photo')->getData());
             $user->setEnabled(1);
@@ -194,7 +222,7 @@ class CandidatsController extends Controller
             $Elector->setCin(intval($form->get('cin')->getData()));
             $Elector->setGender($form->get('gender')->getData());
             $Elector->setEmail($form->get('email')->getData());
-            if($form->get('event')->getData() != null) {
+            if ($form->get('event')->getData() != null) {
                 $Elector->AddEvent($form->get('event')->getData());
             }
             $Elector->setBirth($form->get('date_of_birth')->getData());

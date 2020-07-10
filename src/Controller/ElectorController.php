@@ -17,6 +17,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Mailer\MailerInterface;
 use Symfony\Component\Mime\Email;
 use Symfony\Component\HttpFoundation\JsonResponse;
+
 /**
  * @Route("/elector")
  */
@@ -25,7 +26,7 @@ class ElectorController extends Controller
     /**
      * @Route("/", name="elector", methods={"GET"})
      */
-    public function index(EventRepository $eventRepository,ElectorRepository $electorRepository, Request $request): Response
+    public function index(EventRepository $eventRepository, ElectorRepository $electorRepository, Request $request): Response
     {
 
         $currentRoute = $request->attributes->get('_route');
@@ -39,12 +40,17 @@ class ElectorController extends Controller
     /**
      * @Route("/filterByEvent/{id}", name="filterByEvent", methods={"GET","POST"})
      */
-    public function filterByEvent($id,EventRepository $eventRepository, Request $request)
+    public function filterByEvent($id, EventRepository $eventRepository, ElectorRepository $electorRepository, Request $request)
     {
         $event = intval($id);
-        $event = $eventRepository->findOneBy(['id'=>$event]);
-        $electors = array();
-        foreach($event->getElectors() as $elector){
+        if ($event != 0) {
+            $event = $eventRepository->findOneBy(['id' => $event]);
+            $electors = $event->getElectors();
+        } else {
+            $electors = $electorRepository->findAll();
+        }
+        $result = array();
+        foreach ($electors as $elector) {
             $url = $this->generateUrl(
                 'elector_show',
                 ['id' => $elector->getId()]
@@ -53,9 +59,9 @@ class ElectorController extends Controller
                 'elector_edit',
                 ['id' => $elector->getId()]
             );
-            $electors[] = array('<img style="width: 50px" src="/uploads/profile.jpg" alt="">',$elector->getCin(),$elector->getFirstName().' '.$elector->getLastName(),$elector->getEmail(),$elector->getPhone(),"<a class='label danger' href='".$url."'>Montrer</a><a class='label success' href='".$url2."'>Modifier</a>");
+            $result[] = array('<img style="width: 50px" src="/uploads/profile.jpg" alt="">', $elector->getCin(), $elector->getFirstName() . ' ' . $elector->getLastName(), $elector->getEmail(), $elector->getPhone(), $elector->getGender() == 0 ? 'Homme' : 'Femme', "<a class='label danger' href='" . $url . "'>Montrer</a><a class='label success' href='" . $url2 . "'>Modifier</a>");
         }
-        return new JsonResponse($electors);
+        return new JsonResponse($result);
     }
 
     /**
@@ -162,7 +168,6 @@ class ElectorController extends Controller
                     'form1' => $form1->createView(),
                     'currentRoute' => $currentRoute
                 ]);
-
             }
 
 
@@ -204,8 +209,6 @@ class ElectorController extends Controller
             $user->setRoles(['ROLE_ELECTOR']);
             $user->setPlainPassword($password);
             $userManager->updateUser($user);
-
-
         }
         if ($form->isSubmitted() && $form->isValid()) {
             $password = $elector->getFirstName() . uniqid();
@@ -247,7 +250,6 @@ class ElectorController extends Controller
             $mailer->send($email);
 
             return $this->redirectToRoute('elector');
-
         }
 
 

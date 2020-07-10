@@ -50,6 +50,9 @@
 											<th>
 												Telephone
 											</th>
+                                            <th>
+												Sexe
+											</th>
 											<th class="pull-right">
 												Actions
 											</th>
@@ -74,6 +77,14 @@
 												<td>
 													{{ elector.phone }}
 												</td>
+												<td>
+													{% if elector.gender == 0 %}
+														Homme
+													{% else %}
+														Femme
+													{% endif %}
+												</td>
+
 												<td class="pull-right">
 													<a class="label danger " href="{{ path('elector_show', {'id': elector.id}) }}">Montrer</a>
 													<a class="label success " href="{{ path('elector_edit', {'id': elector.id}) }}">Modifier</a>
@@ -97,3 +108,6 @@
 		<!-- ############ PAGE END-->
 	</div>
 </div>
+<script>
+	var url ="{{ path('filterByEvent', {'id': 'event'}) }}";
+</script>
