@@ -23,7 +23,7 @@ class EventController extends AbstractController
     {
 
         $currentRoute = $request->attributes->get('_route');
-        return $this->render('admins/dashboard/dashboard.html.twig', [
+        return $this->render('admins/baseAdmin.html.twig', [
             'error' => 0,
             'events' => $eventRepository->findAll(),
             'currentRoute' => $currentRoute,
