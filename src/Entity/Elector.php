@@ -65,6 +65,11 @@ class Elector
      */
     private $birth;
 
+    /**
+     * @ORM\OneToOne(targetEntity=User::class, inversedBy="elector", cascade={"persist", "remove"})
+     */
+    private $User;
+
 
     public function __construct()
     {
@@ -198,6 +203,18 @@ class Elector
     public function setBirth(?\DateTimeInterface $birth): self
     {
         $this->birth = $birth;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }

@@ -20,9 +20,7 @@
                 <li class="sm:inline-block">
                     <a href="/eventUser" class="p-3 hover:text-white">Liste des Evenements</a>
                 </li>
-                <li class="sm:inline-block">
-                    <a href="/Voter" class="p-3 hover:text-white">Voter</a>
-                </li>
+
                 <li class="sm:inline-block">
                     <a href="/eventResultat" class="p-3 hover:text-white">Resultat</a>
                 </li>
@@ -42,6 +40,8 @@
             {{ include('users/vote/eventUser.html.twig') }}
         {% elseif currentRoute == "eventUser_show" %}
             {{ include('users/vote/eventUser_show.html.twig') }}
+        {% elseif currentRoute == "eventUser_candidat_show" %}
+            {{ include('users/vote/eventUser_candidat_show.html.twig') }}
 
         {% endif %}
 
