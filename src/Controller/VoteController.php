@@ -48,6 +48,24 @@ class VoteController extends AbstractController
 
     }
 
+    /**
+     * @Route("/eventResultat", name="eventResultat")
+     */
+    public function showEventTer( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        $user = $this->getUser();
+        return $this->render('users/baseUsers.html.twig', [
+
+            'events' => $user->getElector()->getEvent(),
+            'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
+            'currentRoute' => $currentRoute,
+
+        ]);
+
+    }
+
 
     /**
      * @Route("/eventUser/{id}", name="eventUser_show" , methods={"GET"})
@@ -98,7 +116,7 @@ class VoteController extends AbstractController
     }
 
     /**
-     * @Route("/eventUser/vote/{id}", name="eventUser_result" , methods={"GET"})
+     * @Route("/eventUser/resultat/{id}", name="eventUser_result" , methods={"GET"})
      */
     public function result (Candidats $candidat,  Request $request)
     {
