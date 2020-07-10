@@ -49,6 +49,60 @@ class VoteController extends AbstractController
     }
 
     /**
+     * @Route("/eventUser/coming", name="eventUser_coming")
+     */
+    public function showEventComing( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        $user = $this->getUser();
+        return $this->render('users/baseUsers.html.twig', [
+
+            'events' => $user->getElector()->getEvent(),
+            'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
+            'currentRoute' => $currentRoute,
+
+        ]);
+
+    }
+
+    /**
+     * @Route("/eventUser/progress", name="eventUser_progress")
+     */
+    public function showEventProgress( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        $user = $this->getUser();
+        return $this->render('users/baseUsers.html.twig', [
+
+            'events' => $user->getElector()->getEvent(),
+            'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
+            'currentRoute' => $currentRoute,
+
+        ]);
+
+    }
+
+    /**
+     * @Route("/eventUser/finished", name="eventUser_finished")
+     */
+    public function showEventFinished( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        $user = $this->getUser();
+        return $this->render('users/baseUsers.html.twig', [
+
+            'events' => $user->getElector()->getEvent(),
+            'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
+            'currentRoute' => $currentRoute,
+
+        ]);
+
+    }
+
+    /**
      * @Route("/eventResultat", name="eventResultat")
      */
     public function showEventTer( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)

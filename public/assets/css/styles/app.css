@@ -484,17 +484,16 @@ Buttons
     text-align: center;
 }
 .btn-vote{
-    color: #fff;
-    background-color: #1490e8;
-    border-color: #1490e8;
+    color: #14213d;
+    background-color:#fca311;
+
     margin-bottom: 5px;
 }
 .btn-vote:hover {
     color: #fff;
     background-color: black;
     border-color: #000000;
-    margin-top: 10px;
-    margin-bottom: 10px;
+
 }
 .title-vote{
     margin-top: 2%;
@@ -506,6 +505,31 @@ Buttons
     box-shadow: 0 65px 65px rgba(0, 0, 0, 0.55), 0 15px 12px rgba(0, 0, 0, 0.5) !important;
 }
 
+
+
+.menuItem:hover{
+    box-shadow: none;
+}
+
+.subMenu{
+    display: none;
+    background: white;
+    border: 1px solid #17304d;
+    color: #17304d;
+    position: absolute;
+    top: 54px;
+    z-index: 1;
+    text-align: center;
+    width: 195px;
+}
+
+.subMenuItem{
+    float:none;
+}
+
+.menuItem:hover .subMenu{
+    display: block;
+}
 .btn-icon.btn-lg {
     width: 3.167rem;
     height: 3.167rem;

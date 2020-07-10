@@ -1,50 +1,77 @@
 {% extends 'base.html.twig' %}
 {% block title %}E-VOTE{% endblock %}
 {% block body %}
-<nav class="bg-purple-700 shadow-sm">
-    <div class=" mx-auto">
-        <div class="sm:flex justify-around">
-            <!-- Site-title  -->
-            <a href="#" class="text-white text-3xl font-bold p-3">WEB ZONE</a>
+    <nav id="mainnav" class="bg-purple-700 shadow-sm" style="height: 55px;line-height: 23px;">
+        <div class=" mx-auto">
+            <div class="sm:flex justify-around">
+                <!-- Site-title  -->
+                <a href="#" class="text-white text-3xl font-bold p-3">WEB ZONE</a>
 
-            <!-- Menus  -->
-            <ul
-                    class="text-gray-400 sm:self-center text-xl border-t-2 sm:border-none"
-            >
-                <li class="sm:inline-block">
-                    <a href="/accueil" class="p-3 hover:text-white">Accueil</a>
-                </li>
-                <li class="sm:inline-block">
-                    <a href="/aide" class="p-3 hover:text-white">Aide</a>
-                </li>
-                <li class="sm:inline-block">
-                    <a href="/eventUser" class="p-3 hover:text-white">Liste des Evenements</a>
-                </li>
+                <!-- Menus  -->
+                <ul
+                        class="text-gray-400 sm:self-center text-xl border-t-2 sm:border-none"
+                style="    font-size: 16px;">
+                    <li class="sm:inline-block">
+                        <a href="/accueil" class="p-3 hover:text-white">Accueil</a>
+                    </li>
+                    <li class="sm:inline-block">
+                        <a href="/aide" class="p-3 hover:text-white">Aide</a>
+                    </li>
 
-                <li class="sm:inline-block">
-                    <a href="/eventResultat" class="p-3 hover:text-white">Resultat</a>
-                </li>
-                <li class="sm:inline-block">
-                    <a href="/logout" class="p-3 hover:text-white">Deconnexion</a>
-                </li>
-            </ul>
+                    <li class="sm:inline-block menuItem"><a href="/eventUser" class="p-3 hover:text-white">Liste des
+                            Evenements</a>
+
+                        <ul class="subMenu">
+                            <li class="subMenuItem menuItem"><a href="/eventUser/coming" class="linkDecoration">Prochainement</a>
+                            </li>
+                            <li class="subMenuItem menuItem"><a href="/eventUser/progress" class="linkDecoration">En
+                                    cours</a></li>
+                            <li class="subMenuItem menuItem"><a href="/eventUser/finished" class="linkDecoration">Terminée</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sm:inline-block">
+                        <a href="/eventResultat" class="p-3 hover:text-white">Resultat</a>
+
+                    </li>
+                    <li class="sm:inline-block">
+                        <a href="/logout" class="p-3 hover:text-white">Deconnexion</a>
+                    </li>
+                </ul>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 
 
 
-        {% if currentRoute == "vote_accueil" %}
-            {{ include('users/vote/accueil.html.twig') }}
-        {% elseif currentRoute == "eventUser" %}
-            {{ include('users/vote/eventUser.html.twig') }}
-        {% elseif currentRoute == "eventUser_show" %}
-            {{ include('users/vote/eventUser_show.html.twig') }}
-        {% elseif currentRoute == "eventUser_candidat_show" %}
-            {{ include('users/vote/eventUser_candidat_show.html.twig') }}
-        {% elseif currentRoute == "eventResultat" %}
-            {{ include('users/vote/eventResultat.html.twig') }}
+    {% if currentRoute == "vote_accueil" %}
+        {{ include('users/vote/accueil.html.twig') }}
+    {% elseif currentRoute == "eventUser" %}
+        {{ include('users/vote/eventUser.html.twig') }}
+    {% elseif currentRoute == "eventUser_show" %}
+        {{ include('users/vote/eventUser_show.html.twig') }}
+    {% elseif currentRoute == "eventUser_candidat_show" %}
+        {{ include('users/vote/eventUser_candidat_show.html.twig') }}
+    {% elseif currentRoute == "eventResultat" %}
+        {{ include('users/vote/eventResultat.html.twig') }}
+    {% elseif currentRoute == "eventUser_coming" %}
+        {{ include('users/vote/eventUser_coming.html.twig') }}
+    {% elseif currentRoute == "eventUser_progress" %}
+        {{ include('users/vote/eventUser_progress.html.twig') }}
+    {% elseif currentRoute == "eventUser_finished" %}
+        {{ include('users/vote/eventUser_finished.html.twig') }}
 
-        {% endif %}
+    {% endif %}
 
+    <!-- Footer -->
+    <footer style="background: #0a4e7e !important;" class="page-footer font-small blue">
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            E-vote | PFA - EPI Sousse
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
 {% endblock %}
