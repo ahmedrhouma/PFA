@@ -269,6 +269,7 @@ class ElectorController extends Controller
         $currentRoute = $request->attributes->get('_route');
         return $this->render('admins/baseAdmin.html.twig', [
             'elector' => $elector,
+            'events' => $elector->getEvent(),
             'currentRoute' => $currentRoute
         ]);
     }

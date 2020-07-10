@@ -1,12 +1,12 @@
 <div class="row">
     <div class="container">
-        <h2 class="title-vote">Liste des Evenements ( {{ eventNumber }} evenements )</h2>
+        <h2 class="title-vote">Liste des Evenements Terminée</h2>
         <div class="row">
             {% for event in events %}
-                <div style="padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"class="card mb-3 col-3">
-                    <div style="position: absolute" class="corner-ribbon top-right sticky {% if event.status == 0 %} blue {% elseif event.status == 1 %}  green {% elseif event.status == 2 %} red {% endif %} shadow">
-                        {% if event.status == 0 %}En attente{% elseif event.status == 1 %} En cours {% elseif event.status == 2 %} Terminé {% endif %}
-                    </div>
+                {% if event.status == 2 %}
+                    <a class="" href="{{ path('eventUser_result', {'id': event.id}) }}">
+                <div  style="padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"class="card-termine card mb-3 col-3">
+
                     <img class="card-img-top" src="/uploads/{{ event.photo }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"style="font-size: 17px; text-transform: uppercase; font-weight: 700;">
@@ -38,7 +38,9 @@
                         {% endif %}
                     </div>
                 </div>
+                    </a>
                 <div class="col-1"></div>
+                {% endif %}
             {% endfor %}
         </div>
     </div>

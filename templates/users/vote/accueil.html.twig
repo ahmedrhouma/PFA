@@ -1,5 +1,5 @@
 <div class="row">
-    <img style="width: 250px; margin-left: auto; margin-right: auto; margin-bottom: -70px; margin-top: 50px;"
+    <img style="width: 10%; margin-left: auto; margin-right: auto; margin-bottom: -70px; margin-top: 50px;"
          class="img-fluid"
          src="{{ asset('images/logo/logo-mini.png') }}" alt=""/>
 </div>
@@ -9,7 +9,8 @@
         <p style="padding-top: 6%;" class="label-vote ">Bienvenue <strong
                     style="   text-transform: uppercase;">{{ app.user.username }}</strong> dans votre espace de vote
         </p>
-        <p class="label-vote ">vous avez </p>
+        <p class="label-vote ">vous avez inscrit dans <a style="color: #1490e8;text-decoration: underline;"
+                                                         href="/eventUser"> {{ eventNumber }} evenements </a></p>
 
         <div style="margin-top: 60px;" class="row">
             <div class="col-6">
@@ -17,7 +18,6 @@
                 <a class="btn btn-vote col-12" href="/aide">Aide</a>
                 <a class="btn btn-vote  col-12" href="/Note">Note d'information</a>
                 <a class="btn btn-vote  col-12" href="/eventUser">Liste des Evenements</a>
-
 
 
             </div>

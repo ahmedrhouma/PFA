@@ -64,6 +64,95 @@
                                         {{ include('admins/elector/_delete_form.html.twig') }}
 
                             </div>
+                            <div class="box" style="border-top: #2196f3 solid;">
+
+                                <div  class="row">
+
+
+                                    <table class="table table-striped table-bordered" id="example" style="width: 100% !important;">
+                                        <thead>
+                                        <tr>
+                                            <th>
+                                                #
+                                            </th>
+                                            <th>
+                                                Nom de l'evenement
+                                            </th>
+                                            <th>
+                                                date du debut
+                                            </th>
+                                            <th>
+                                                date du fin
+                                            </th>
+                                            <th>
+                                                durée (Jours)
+                                            </th>
+                                            <th class="pull-right">
+                                                Actions
+                                            </th>
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        {% for event in events %}
+                                            <tr>
+                                                <td>
+                                                    <img style="width: 50px" src="/uploads/{{ event.photo }}" alt="">
+                                                </td>
+                                                <td>
+                                                    {{ event.title }}
+                                                </td>
+                                                <td>
+                                                    {{ event.dateStart ? event.dateStart|date('Y-m-d') : '' }}
+                                                </td>
+                                                <td>
+                                                    {{ event.dateEnd ? event.dateEnd|date('Y-m-d') : '' }}
+                                                </td>
+                                                <td>
+                                                    {{ event.duration }}
+                                                </td>
+                                                <td class="pull-right">
+                                                    {% if event.status == 0 %}
+
+                                                        {{ include('admins/event/updateInIndex/_start_form.html.twig') }}
+
+                                                        {{ include('admins/event/updateInIndex/_delete_form.html.twig') }}
+
+                                                    {% elseif event.status == 1 %}
+
+                                                        {{ include('admins/event/updateInIndex/_stop_form.html.twig') }}
+
+                                                        {{ include('admins/event/updateInIndex/_pause_form.html.twig') }}
+
+                                                    {% elseif event.status == 2 %}
+
+                                                        {{ include('admins/event/updateInIndex/_delete_form.html.twig') }}
+
+                                                    {% endif %}
+
+                                                    <a class="label danger "
+                                                       href="{{ path('event_show', {'id': event.id}) }}">Montrer</a>
+                                                    {% if event.status == 0 %}
+                                                        <a class="label success "
+                                                           href="{{ path('event_edit', {'id': event.id}) }}">Modifier</a>
+                                                    {% endif %}
+
+                                                </td>
+                                            </tr>
+                                        {% else %}
+                                            <tr>
+                                                <td colspan="8">
+                                                    no records found
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                        </tbody>
+                                    </table>
+
+                                </div>
+
+                                {{ include('admins/elector/_delete_form.html.twig') }}
+
+                            </div>
                         </div>
 
                     </div>
