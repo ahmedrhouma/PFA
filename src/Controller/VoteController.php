@@ -21,10 +21,16 @@ class VoteController extends AbstractController
     public function index( Request $request)
     {
         $currentRoute = $request->attributes->get('_route');
-
+        $eventNumber = 0;
+        if ($this->getUser()->getElector() != null){
+            $eventNumber= $this->getUser()->getElector()->getEvent();
+            $eventNumber = count($eventNumber);
+        }
+        
         return $this->render('users/baseUsers.html.twig', [
             'currentRoute' => $currentRoute,
-            'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
+            'eventNumber' =>  $eventNumber,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
 
@@ -43,6 +49,7 @@ class VoteController extends AbstractController
             'events' => $user->getElector()->getEvent(),
             'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
             'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
 
@@ -61,6 +68,7 @@ class VoteController extends AbstractController
             'events' => $user->getElector()->getEvent(),
             'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
             'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
 
@@ -74,11 +82,17 @@ class VoteController extends AbstractController
 
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
+        $eventNumber = 0 ;
+        if ($this->getUser()->getElector()->getEvent() != null){
+
+            $eventNumber= $this->getUser()->getElector()->getEvent();
+        }
         return $this->render('users/baseUsers.html.twig', [
 
             'events' => $user->getElector()->getEvent(),
-            'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
+            'eventNumber' =>  count($eventNumber),
             'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
 
@@ -97,6 +111,7 @@ class VoteController extends AbstractController
             'events' => $user->getElector()->getEvent(),
             'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
             'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
 
@@ -115,6 +130,7 @@ class VoteController extends AbstractController
             'events' => $user->getElector()->getEvent(),
             'eventNumber' =>  count($this->getUser()->getElector()->getEvent()),
             'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
 
@@ -133,6 +149,7 @@ class VoteController extends AbstractController
             'events' => $eventRepository->findAll(),
             'event' => $event,
             'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
 
@@ -147,7 +164,8 @@ class VoteController extends AbstractController
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'candidat' => $candidat,
-            'currentRoute' => $currentRoute
+            'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
 
@@ -163,7 +181,8 @@ class VoteController extends AbstractController
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'candidat' => $candidat,
-            'currentRoute' => $currentRoute
+            'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
 
@@ -178,7 +197,55 @@ class VoteController extends AbstractController
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'candidat' => $candidat,
-            'currentRoute' => $currentRoute
+            'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
+
+        ]);
+
+    }
+
+
+    /**
+     * @Route("/note", name="eventUser_note" , methods={"GET"})
+     */
+    public function note (  Request $request)
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('users/baseUsers.html.twig', [
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
+            'currentRoute' => $currentRoute,
+
+        ]);
+
+    }
+
+    /**
+     * @Route("/aide", name="eventUser_aide" , methods={"GET"})
+     */
+    public function aide (  Request $request)
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('users/baseUsers.html.twig', [
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
+            'currentRoute' => $currentRoute,
+
+        ]);
+
+    }
+
+
+    /**
+     * @Route("/setting", name="eventUser_setting" , methods={"GET"})
+     */
+    public function setting (  Request $request)
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('users/baseUsers.html.twig', [
+            'userPhoto' => $this->getUser()->getElector()->getPhoto(),
+            'currentRoute' => $currentRoute,
 
         ]);
 
