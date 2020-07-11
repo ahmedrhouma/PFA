@@ -111,7 +111,7 @@ class VoteController extends Controller
 
             'events' => $user->getElector()->getEvent(),
             'eventNumber' =>  $eventNumber,
-            'currentRoute' => $userPhoto,
+            'currentRoute' => $currentRoute,
             'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
@@ -137,7 +137,7 @@ class VoteController extends Controller
 
             'events' => $user->getElector()->getEvent(),
             'eventNumber' => $eventNumber,
-            'currentRoute' => $userPhoto,
+            'currentRoute' => $currentRoute,
             'userPhoto' => $this->getUser()->getElector()->getPhoto(),
 
         ]);
