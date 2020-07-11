@@ -107,7 +107,7 @@
                 var max =  $('#end').val();
                 var date1 = data[3]  || 0; 
                 var date2 =  data[4]  || 0;
-                debugger;
+
                 if (  (min=="" && max=="" )||
                      ( new Date(date2).getTime() <= new Date(max).getTime() && new Date(date1).getTime() >= new Date(min).getTime())||
                      ( max==""  && (new Date(date1).getTime() >= new Date(min).getTime()) )||
