@@ -645,7 +645,7 @@ Buttons
     border-radius: 3px;
 }
 
-.buttons-html5:hover{
+.buttons-html5:hover,     .buttons-print:hover{
     color: white ;
     background-color: #212121;
     border-color: #212121 !important;
@@ -3159,10 +3159,11 @@ body {
 .app-header {
     position: fixed;
     top: 0;
-    left: 8px;
+    left: 11px;
     right: 0;
     margin: inherit;
     z-index: 1020;
+
 }
 
 .app-header:not(.hide) ~ .app-body {
@@ -3263,7 +3264,7 @@ body {
     }
 
     .app-aside:not(.hide) ~ .app-content {
-        margin-left: 14.5rem;
+        margin-left: 12.5rem;
         left: 12.5rem;
     }
 

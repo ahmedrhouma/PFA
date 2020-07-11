@@ -2,12 +2,12 @@
 {% block title %}E-VOTE{% endblock %}
 {% block body %}
     <div class="app" id="app">
-        <div style="width: 240px;" id="aside" class="app-aside fade nav-dropdown black">
+        <div style="width: 210px;" id="aside" class="app-aside fade nav-dropdown black">
             <div class="navside bg" data-layout="column">
-                <div data-flex class="hide-scroll">
+                <div style="width: 210px;" data-flex class="hide-scroll">
                     <nav class="">
                         <ul class="sidebar-menu in" data-ui-nav>
-                            <img style="margin-left: auto;margin-right: auto; width: 50%;" class="img-fluid"
+                            <img style="margin-left: 25%; margin-right: 25%; width: 50%;" class="img-fluid"
                                  src="{{ asset('images/logo/logo-mini.png') }}" alt=""/>
                             <li {% if currentRoute == "dashboard" %} class="active" {% endif %}>
                                 <a href="/dashboard" class="waves-effect">
