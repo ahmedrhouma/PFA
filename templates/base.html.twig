@@ -87,23 +87,57 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
                 }
             });
+            var table1 =$('#example1').DataTable({
+                dom: 'Bfrtip',
+                scrollX: true,
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                language: {
+                    "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
+                },
+                responsive: true,
+                orderCellsTop: true,
+                fixedHeader: true,
+                initComplete: function() {
+                    var api = this.api();
+                    $('.filterhead', api.table().header()).each(function(i) {
+                    var column = api.column(i + 1);
+                    var select = $('<select class="form-control" style="height:35px"><option value=""></option></select>')
+                    .appendTo($(this).empty())
+                    .on('change', function() {
+                        var val = $.fn.dataTable.util.escapeRegex(
+                            $(this).val()
+                        );
+
+                        column
+                            .search(val ? '^' + val + '$' : '', true, false)
+                            .draw();
+                    });
+
+                column.data().unique().sort().each(function(d, j) {
+                    select.append('<option value="' + d + '">' + d + '</option>');
+                });
+            });
+        }
+            });
             	$('#events').change(function () {
-let event = $(this).val();
-let path = url;
-path = path.replace("event", event)
-$.ajax({
-url: path,
-type: "POST",
-data: {
-event: event
-},
-dataType: "json",
-success: function (dataResult) {
-    table.clear().draw();
- table.rows.add(dataResult).draw();
-}
-});
-});
+                let event = $(this).val();
+                let path = url;
+                path = path.replace("event", event)
+                $.ajax({
+                    url: path,
+                    type: "POST",
+                    data: {
+                    event: event
+                    },
+                    dataType: "json",
+                    success: function (dataResult) {
+                        table.clear().draw();
+                        table.rows.add(dataResult).draw();
+                        }
+                    });
+                });
             // Upload btn on change call function
             $(".uploadlogo").change(function () {
                 var filename = readURL(this);
