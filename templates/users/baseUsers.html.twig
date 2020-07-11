@@ -52,6 +52,11 @@
                         </ul>
                     </li>
                     <li class="sm:inline-block">
+                        <a href="/eventUser/vote"
+                           class="p-3 hover:text-white {% if currentRoute == "eventResultat" %} active {% endif %}">Voter</a>
+
+                    </li>
+                    <li class="sm:inline-block">
                         <a href="/eventResultat"
                            class="p-3 hover:text-white {% if currentRoute == "eventResultat" %} active {% endif %}">Resultat</a>
 
@@ -109,6 +114,10 @@
         {{ include('users/vote/eventUser_setting.html.twig') }}
     {% elseif currentRoute == "profileEdit" %}
         {{ include('users/vote/profileEdit.html.twig') }}
+    {% elseif currentRoute == "eventUser_vote" %}
+        {{ include('users/vote/eventUser_vote.html.twig') }}
+    {% elseif currentRoute == "eventUser_voter" %}
+        {{ include('users/vote/eventUser_voter.html.twig') }}
 
     {% endif %}
 

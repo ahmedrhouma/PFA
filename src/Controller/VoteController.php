@@ -275,9 +275,32 @@ class VoteController extends Controller
 
 
     /**
-     * @Route("/eventUser/vote/{id}", name="eventUser_vote" , methods={"GET"})
+     * @Route("/eventUser/vote", name="eventUser_vote" , methods={"GET"})
      */
     public function voter (Candidats $candidat,  Request $request)
+    {
+        $eventNumber = 0;
+        $userPhoto = null;
+        if ($this->getUser()->getElector() != null){
+            $eventNumber= $this->getUser()->getElector()->getEvent();
+            $eventNumber = count($eventNumber);
+            $userPhoto = $this->getUser()->getElector()->getPhoto();
+        }
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('users/baseUsers.html.twig', [
+            'candidat' => $candidat,
+            'eventNumber'=>$eventNumber,
+            'currentRoute' => $currentRoute,
+            'userPhoto' => $userPhoto,
+
+        ]);
+
+    }
+
+    /**
+     * @Route("/eventUser/vote/{id}", name="eventUser_voter" , methods={"GET"})
+     */
+    public function eventVoter (Candidats $candidat,  Request $request)
     {
         $eventNumber = 0;
         $userPhoto = null;
@@ -387,5 +410,7 @@ class VoteController extends Controller
         ]);
 
     }
+
+
 
 }
