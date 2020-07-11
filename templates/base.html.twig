@@ -101,23 +101,7 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
                 }
             });
-            $.fn.dataTable.ext.search.push(
-                function( settings, data, dataIndex ) {
-                var min = $('#begin').val();
-                var max =  $('#end').val();
-                var date1 = data[3]  || 0; 
-                var date2 =  data[4]  || 0;
-                debugger;
-                if (  (min=="" && max=="" )||
-                     ( new Date(date2).getTime() <= new Date(max).getTime() && new Date(date1).getTime() >= new Date(min).getTime())||
-                     ( max==""  && (new Date(date1).getTime() >= new Date(min).getTime()) )||
-                     ( min==""  && (new Date(date2).getTime() <= new Date(max).getTime()) ))
-                {
-                    return true;
-                }
-                return false;
-                }
-            );
+           
             var table1 =$('#example1').DataTable({
                 dom: 'Bfrtip',
                 scrollX: true,

@@ -318,6 +318,7 @@ class ElectorController extends Controller
         ]);
     }
 
+    
     /**
      * @Route("/{id}", name="elector_delete", methods={"DELETE"})
      */
