@@ -16,7 +16,6 @@
         <link href="{{ asset('assets/css/styles/style.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/datatables/datatables.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet"/>
-
         <link href='https://fonts.googleapis.com/css?family=Ubuntu:300,300italic,400,400italic,500,500italic,700,700italic&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext'
               rel='stylesheet' type='text/css'>
 
@@ -72,6 +71,22 @@
                     "11/22/2013 00:53"
                 ]
             });
+            $('#begin').datetimepicker({
+                defaultDate: "11/1/2013",
+                disabledDates: [
+                    moment("12/25/2013"),
+                    new Date(2013, 11 - 1, 21),
+                    "11/22/2013 00:53"
+                ]
+            });
+            $('#end').datetimepicker({
+                defaultDate: "11/1/2013",
+                disabledDates: [
+                    moment("12/25/2013"),
+                    new Date(2013, 11 - 1, 21),
+                    "11/22/2013 00:53"
+                ]
+            });
         });
         // You can modify the upload files to pdf's, docs etc
         //Currently it will upload only images
@@ -86,6 +101,23 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
                 }
             });
+            $.fn.dataTable.ext.search.push(
+                function( settings, data, dataIndex ) {
+                var min = $('#begin').val();
+                var max =  $('#end').val();
+                var date1 = data[3]  || 0; 
+                var date2 =  data[4]  || 0;
+                debugger;
+                if (  (min=="" && max=="" )||
+                     ( new Date(date2).getTime() <= new Date(max).getTime() && new Date(date1).getTime() >= new Date(min).getTime())||
+                     ( max==""  && (new Date(date1).getTime() >= new Date(min).getTime()) )||
+                     ( min==""  && (new Date(date2).getTime() <= new Date(max).getTime()) ))
+                {
+                    return true;
+                }
+                return false;
+                }
+            );
             var table1 =$('#example1').DataTable({
                 dom: 'Bfrtip',
                 scrollX: true,
@@ -102,22 +134,25 @@
                     var api = this.api();
                     $('.filterhead', api.table().header()).each(function(i) {
                     var column = api.column(i + 1);
-                    var select = $('<select class="form-control" style="height:35px"><option value=""></option></select>')
-                    .appendTo($(this).empty())
+                    var select = $('<select class="form-control" id="'+$(this).attr('id')+'" style="height:35px"><option value=""></option></select>')
+                    .appendTo($('.'+$(this).attr('id')))
                     .on('change', function() {
                         var val = $.fn.dataTable.util.escapeRegex(
                             $(this).val()
                         );
-
                         column
                             .search(val ? '^' + val + '$' : '', true, false)
                             .draw();
                     });
 
+
                 column.data().unique().sort().each(function(d, j) {
                     select.append('<option value="' + d + '">' + d + '</option>');
                 });
             });
+                                $('#begin,#end').on( 'change', function () {
+                        table1.draw();
+                    } );
         }
             });
             	$('#events').change(function () {

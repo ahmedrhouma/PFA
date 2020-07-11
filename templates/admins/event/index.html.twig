@@ -10,14 +10,33 @@
 							<div class="box-header">
 								<strong>liste des evenements</strong>
 								<a class="label primary pull-right" href="{{ path('event_new') }}">Ajouter
-									                                        nouveau</a>
+																																																																																	                                        nouveau</a>
 								<!--modals-->
+							</div>
+							<div class="card">
+								<div class="card-body" >
+									<div class="row">
+										<h5 class="card-title col-2" style="width:20%">Filtre</h5>
+										<div class="col-2 Evenement">
+											<h5 for="Evenement">Evenement</h5>
+										</div>
+										<div class="col-2 Status">
+											<h5 for="Status">Status</h5>
+										</div>
+										<div class="col-6">
+											<h5>Periode</h5>
+											<label for="begin">Start :</label>
+											<input type="date" id="begin"/>
+											<label for="end">Fin :</label>
+											<input type="date" id="end"/>
+										</div>
+									</div>
+								</div>
 							</div>
 							<table class="table dt-responsive dataTable no-footer dtr-inline" id="example1" style="width: 100%">
 								<thead>
 									<tr>
-										<th>
-										</th>
+										<th></th>
 										<th>
 											Nom de l'evenement
 										</th>
@@ -39,8 +58,8 @@
 									</tr>
 									<tr>
 										<th></th>
-										<th class="filterhead"></th>
-										<th class="filterhead"></th>
+										<th class="filterhead" id="Evenement"></th>
+										<th class="filterhead" id="Status"></th>
 										<th></th>
 										<th></th>
 										<th></th>
@@ -56,7 +75,7 @@
 											<td>
 												{{ event.title }}
 											</td>
-                                            <td>
+											<td>
 												{% if event.status == 0 %}
 													Attente
 												{% elseif event.status == 1 %}
@@ -76,30 +95,30 @@
 											</td>
 
 											<td>
-                                            <span class="pull-right">
-												{% if event.status == 0 %}
+												<span class="pull-right">
+													{% if event.status == 0 %}
 
-													{{ include('admins/event/updateInIndex/_start_form.html.twig') }}
+														{{ include('admins/event/updateInIndex/_start_form.html.twig') }}
 
-													{{ include('admins/event/updateInIndex/_delete_form.html.twig') }}
+														{{ include('admins/event/updateInIndex/_delete_form.html.twig') }}
 
-												{% elseif event.status == 1 %}
+													{% elseif event.status == 1 %}
 
-													{{ include('admins/event/updateInIndex/_stop_form.html.twig') }}
+														{{ include('admins/event/updateInIndex/_stop_form.html.twig') }}
 
-													{{ include('admins/event/updateInIndex/_pause_form.html.twig') }}
+														{{ include('admins/event/updateInIndex/_pause_form.html.twig') }}
 
-												{% elseif event.status == 2 %}
+													{% elseif event.status == 2 %}
 
-													{{ include('admins/event/updateInIndex/_delete_form.html.twig') }}
+														{{ include('admins/event/updateInIndex/_delete_form.html.twig') }}
 
-												{% endif %}
+													{% endif %}
 
-												<a class="label danger " href="{{ path('event_show', {'id': event.id}) }}">Montrer</a>
-												{% if event.status == 0 %}
-													<a class="label success " href="{{ path('event_edit', {'id': event.id}) }}">Modifier</a>
-												{% endif %}
-                                                </span>
+													<a class="label danger " href="{{ path('event_show', {'id': event.id}) }}">Montrer</a>
+													{% if event.status == 0 %}
+														<a class="label success " href="{{ path('event_edit', {'id': event.id}) }}">Modifier</a>
+													{% endif %}
+												</span>
 											</td>
 										</tr>
 									{% else %}
