@@ -1,0 +1,47 @@
+
+
+    <div class="app-body">
+
+        <!-- ############ PAGE START-->
+        <div class="row-col">
+            <div class="col-lg b-r">
+
+                <div class="padding">
+                    <div class="row">
+                        <div class="col-sm-12">
+                            <div class="box" style="border-top: #2196f3 solid;">
+                                <div class="box-header">
+                                    <strong>Modifier</strong>
+                                    <a class="label primary pull-right" href="{{ path('elector') }}">liste des
+                                        electeurs</a>
+                                </div>
+                                <div>
+
+                                    {{ include('admins/elector/_form.html.twig', {'button_label': 'Enregistrer'}) }}
+
+                                </div>
+                <div class="panel-body">
+                    <form action="{{ path('fos_user_profile_edit') }}" method="POST">
+
+                        {{ form_widget(form1) }}
+
+                        <button type="Submit">{{ 'profile.edit.submit'|trans }}</button>
+
+                    </form>
+                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+
+        <!-- ############ PAGE END-->
+
+    </div>
+
+<!-- / -->

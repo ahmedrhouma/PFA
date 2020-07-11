@@ -4,17 +4,23 @@ namespace App\Controller;
 
 use App\Entity\Candidats;
 use App\Entity\Event;
+use App\Entity\Elector;
 use App\Repository\ElectorRepository;
+use Symfony\Component\HttpFoundation\Response;
+use App\Form\ElectorType;
 use App\Repository\EventRepository;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
+use FOS\UserBundle\Form\Factory\FactoryInterface;
 
-
-class VoteController extends AbstractController
+class VoteController extends Controller
 {
 
-
+    public function __construct(FactoryInterface $formFactory)
+    {
+        $this->formFactory     = $formFactory;
+    }
     /**
      * @Route("/accueil", name="vote_accueil")
      */
@@ -38,6 +44,54 @@ class VoteController extends AbstractController
 
     }
 
+    /**
+     * @Route("/{id}/profileEdit", name="profileEdit", methods={"GET","POST"})
+     */
+    public function profileEdit(Request $request, Elector $elector): Response
+    {
+        $currentRoute = $request->attributes->get('_route');
+        $form = $this->createForm(ElectorType::class, $elector);
+        $form->handleRequest($request);
+        $formFactory = $this->formFactory;        
+
+        $form1 = $formFactory->createForm();
+
+
+        if ($form->isSubmitted() && $form->isValid()) {
+
+            $file = $form->get('photo')->getData();
+
+            if (!empty($file)) {
+                $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
+                // Move the file to the directory where images are stored
+                try {
+                    $file->move(
+                        $this->getParameter('upload_directory'),
+                        $fileName
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                // updates the 'image' property to store the PDF file name
+                // instead of its contents
+                $elector->setphoto($fileName);
+            } else {
+                $elector->setphoto('profile.jpg');
+            }
+            $this->getDoctrine()->getManager()->flush();
+
+            return $this->redirectToRoute('elector');
+        }
+
+        return $this->render('users/baseUsers.html.twig', [
+            'elector' => $elector,
+            'form' => $form->createView(),
+            'form1' => $form1->createView(),
+            'currentRoute' => $currentRoute,
+            'userPhoto' => $this->getUser()->getElector()->getPhoto()
+
+        ]);
+    }
     /**
      * @Route("/eventUser", name="eventUser")
      */

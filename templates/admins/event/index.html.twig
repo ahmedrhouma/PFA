@@ -161,7 +161,22 @@ if (error == 1) {
 Swal.fire({icon: 'success', title: "{{ title }}", text: "{{ text }}", footer: "{{ footer }}"})
 
 }
-
+ $.fn.dataTable.ext.search.push(
+                function( settings, data, dataIndex ) {
+                var min = $('#begin').val();
+                var max =  $('#end').val();
+                var date1 = data[3]  || 0; 
+                var date2 =  data[4]  || 0;
+                if (  (min=="" && max=="" )||
+                     ( new Date(date2).getTime() <= new Date(max).getTime() && new Date(date1).getTime() >= new Date(min).getTime())||
+                     ( max==""  && (new Date(date1).getTime() >= new Date(min).getTime()) )||
+                     ( min==""  && (new Date(date2).getTime() <= new Date(max).getTime()) ))
+                {
+                    return true;
+                }
+                return false;
+                }
+            );
 
 function fire() {
 Swal.fire({title: 'Stop Contributor', showCancelButton: true, html: 'This action will stop the activity of this contributor. Would you like to continue?'}).then((result) => {

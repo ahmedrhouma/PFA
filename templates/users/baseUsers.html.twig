@@ -107,6 +107,8 @@
         {{ include('users/vote/eventUser_aide.html.twig') }}
     {% elseif currentRoute == "eventUser_setting" %}
         {{ include('users/vote/eventUser_setting.html.twig') }}
+    {% elseif currentRoute == "profileEdit" %}
+        {{ include('users/vote/profileEdit.html.twig') }}
 
     {% endif %}
 
