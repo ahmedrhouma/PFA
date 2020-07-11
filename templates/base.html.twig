@@ -16,6 +16,7 @@
         <link href="{{ asset('assets/css/styles/style.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/datatables/datatables.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet"/>
+{#        <link href="{{ asset('assets/css/tailwind.min.css') }}" rel="stylesheet"/>#}
 
         <link href='https://fonts.googleapis.com/css?family=Ubuntu:300,300italic,400,400italic,500,500italic,700,700italic&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext'
               rel='stylesheet' type='text/css'>
@@ -102,7 +103,7 @@
                     var api = this.api();
                     $('.filterhead', api.table().header()).each(function(i) {
                     var column = api.column(i + 1);
-                    var select = $('<select class="form-control" style="height:35px"><option value=""></option></select>')
+                    var select = $('<select class="form-control" style="  height: 17px; margin-bottom: 0px; width: 85%; font-size: 16px; font-weight: 500;"><option value=""></option></select>')
                     .appendTo($(this).empty())
                     .on('change', function() {
                         var val = $.fn.dataTable.util.escapeRegex(
