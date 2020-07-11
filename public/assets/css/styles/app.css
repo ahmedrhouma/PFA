@@ -700,7 +700,7 @@ Buttons
     border-color: #212121 !important;
 }
 #example_filter{
-    margin-top: 15px;
+    margin-top: -8px;
     margin-left: 20px;
     float: left;
 }
@@ -5283,7 +5283,7 @@ Plugins
 }
 
 .box .dataTables_wrapper {
-    padding-top: 10px;
+    /*padding-top: 10px;*/
 }
 
 .box .dataTables_wrapper > .row > div {
