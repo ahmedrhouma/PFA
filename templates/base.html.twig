@@ -16,7 +16,7 @@
         <link href="{{ asset('assets/css/styles/style.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/datatables/datatables.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet"/>
-        <link href="{{ asset('assets/css/tailwind.min.css') }}" rel="stylesheet"/>
+
 
         <link href='https://fonts.googleapis.com/css?family=Ubuntu:300,300italic,400,400italic,500,500italic,700,700italic&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext'
               rel='stylesheet' type='text/css'>
@@ -77,7 +77,7 @@
         // You can modify the upload files to pdf's, docs etc
         //Currently it will upload only images
         $(document).ready(function ($) {
-            var table =$('#example').DataTable({
+            var table = $('#example').DataTable({
                 dom: 'Bfrtip',
                 scrollX: true,
                 buttons: [
@@ -87,28 +87,29 @@
                     "url": "//cdn.datatables.net/plug-ins/1.10.21/i18n/French.json"
                 }
             });
-            	$('#events').change(function () {
-let event = $(this).val();
-let path = url;
-path = path.replace("event", event)
-$.ajax({
-url: path,
-type: "POST",
-data: {
-event: event
-},
-dataType: "json",
-success: function (dataResult) {
-    table.clear().draw();
- table.rows.add(dataResult).draw();
-}
-});
-});
+            $('#events').change(function () {
+                let event = $(this).val();
+                let path = url;
+                path = path.replace("event", event)
+                $.ajax({
+                    url: path,
+                    type: "POST",
+                    data: {
+                        event: event
+                    },
+                    dataType: "json",
+                    success: function (dataResult) {
+                        table.clear().draw();
+                        table.rows.add(dataResult).draw();
+                    }
+                });
+            });
             // Upload btn on change call function
             $(".uploadlogo").change(function () {
                 var filename = readURL(this);
                 $(this).parent().children('span').html(filename);
             });
+
             // Read File and return value
             function readURL(input) {
                 var url = input.value;
@@ -125,6 +126,7 @@ success: function (dataResult) {
                     return "Seuls les formats de fichier / CSV sont autorisés!";
                 }
             }
+
             // Upload btn end
         });
         var TabBlock = {

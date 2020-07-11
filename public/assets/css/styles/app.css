@@ -6,10 +6,10 @@
 4. Material Design style
 -------------------------------------------------------------------*/
 /*---------------------------
-1. Bootstrap Extension 
+1. Bootstrap Extension
 ---------------------------*/
 /*
-Base 
+Base
 */
 html {
     background: transparent;
@@ -66,6 +66,7 @@ sup {
     top: -1em;
     font-size: 75%;
 }
+
 @import url(https://fonts.googleapis.com/css?family=Ubuntu:300,300italic,400,400italic,500,500italic,700,700italic&subset=cyrillic,cyrillic-ext,greek,greek-ext,latin,latin-ext);
 
 .pull-center {
@@ -346,6 +347,7 @@ Buttons
     height: 1.775rem;
     line-height: 1.775rem;
 }
+
 .cards {
     display: flex;
     justify-content: center;
@@ -354,6 +356,7 @@ Buttons
     margin: 10px auto;
     max-width: 100%;
 }
+
 .cards .card {
     width: 30%;
     margin: 12px;
@@ -364,45 +367,53 @@ Buttons
     cursor: pointer;
     transition: 0.3s all;
 }
+
 .cards .card h3 {
     font-size: 40px;
 }
+
 .cards .card p {
     font-size: 20px;
 }
+
 .cards .card:nth-child(1) {
     background: #1ebccd;
     background: linear-gradient(45deg, #1ebccd, #3a55b1) !important;
 
 }
+
 .cards .card:nth-child(2) {
     background: #f83f37;
     background: linear-gradient(45deg, #f83f37, #ab26aa) !important;
 
 }
+
 .cards .card:nth-child(3) {
     background: #22af47;
     background: linear-gradient(45deg, #22af47, #d0d962) !important;
 
 }
+
 .cards .card:hover {
     transform: translateY(-4px);
 }
-.card-vote{
+
+.card-vote {
     background-color: #f7f7f7;
     border: 1px #d6d6d6 solid;
     color: #212121;
     border-top-left-radius: 15px !important;
     border-top-right-radius: 15px !important;
 }
+
 .card-3 {
-    box-shadow: 0 10px 20px rgba(0,0,0,0.19), 0 6px 6px rgba(0,0,0,0.23);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
 }
 
 
 /* The ribbons */
 
-.corner-ribbon{
+.corner-ribbon {
 
     background: #e43;
 
@@ -421,24 +432,24 @@ Buttons
 
 /* Custom styles */
 
-.corner-ribbon.sticky{
+.corner-ribbon.sticky {
     position: fixed;
 }
 
-.corner-ribbon.shadow{
-    box-shadow: 0 0 3px rgba(0,0,0,.3);
+.corner-ribbon.shadow {
+    box-shadow: 0 0 3px rgba(0, 0, 0, .3);
 }
 
 /* Different positions */
 
-.corner-ribbon.top-left{
+.corner-ribbon.top-left {
     top: 25px;
     left: -50px;
     transform: rotate(-45deg);
     -webkit-transform: rotate(-45deg);
 }
 
-.corner-ribbon.top-right{
+.corner-ribbon.top-right {
     top: 25px;
     right: -50px;
     left: auto;
@@ -446,7 +457,7 @@ Buttons
     -webkit-transform: rotate(45deg);
 }
 
-.corner-ribbon.bottom-left{
+.corner-ribbon.bottom-left {
     top: auto;
     bottom: 25px;
     left: -50px;
@@ -454,7 +465,7 @@ Buttons
     -webkit-transform: rotate(45deg);
 }
 
-.corner-ribbon.bottom-right{
+.corner-ribbon.bottom-right {
     top: auto;
     right: -50px;
     bottom: 25px;
@@ -466,52 +477,85 @@ Buttons
 
 /* Colors */
 
-.corner-ribbon.white{background: #f0f0f0; color: #555;}
-.corner-ribbon.black{background: #333;}
-.corner-ribbon.grey{background: #999;}
-.corner-ribbon.blue{background: #39d;}
-.corner-ribbon.green{background: #2c7;}
-.corner-ribbon.turquoise{background: #1b9;}
-.corner-ribbon.purple{background: #95b;}
-.corner-ribbon.red{background: #e43;}
-.corner-ribbon.orange{background: #e82;}
-.corner-ribbon.yellow{background: #ec0;}
+.corner-ribbon.white {
+    background: #f0f0f0;
+    color: #555;
+}
 
-.label-vote{
+.corner-ribbon.black {
+    background: #333;
+}
+
+.corner-ribbon.grey {
+    background: #999;
+}
+
+.corner-ribbon.blue {
+    background: #39d;
+}
+
+.corner-ribbon.green {
+    background: #2c7;
+}
+
+.corner-ribbon.turquoise {
+    background: #1b9;
+}
+
+.corner-ribbon.purple {
+    background: #95b;
+}
+
+.corner-ribbon.red {
+    background: #e43;
+}
+
+.corner-ribbon.orange {
+    background: #e82;
+}
+
+.corner-ribbon.yellow {
+    background: #ec0;
+}
+
+.label-vote {
     color: black;
     font-size: 27px;
     font-weight: 500;
     text-align: center;
 }
-.btn-vote{
+
+.btn-vote {
     color: #14213d;
-    background-color:#fca311;
+    background-color: #fca311;
 
     margin-bottom: 5px;
 }
+
 .btn-vote:hover {
     color: #fff;
     background-color: black;
     border-color: #000000;
 
 }
-.title-vote{
+
+.title-vote {
     margin-top: 2%;
     margin-bottom: 2%;
     font-size: 25px;
     font-weight: 500;
 }
-.card-termine:hover{
+
+.card-termine:hover {
     box-shadow: 0 65px 65px rgba(0, 0, 0, 0.55), 0 15px 12px rgba(0, 0, 0, 0.5) !important;
 }
 
 
-
-.menuItem:hover{
+.menuItem:hover {
     box-shadow: none;
 }
 
-.subMenu{
+.subMenu {
     display: none;
     background: white;
     border: 1px solid #17304d;
@@ -523,13 +567,107 @@ Buttons
     width: 195px;
 }
 
-.subMenuItem{
-    float:none;
+.subMenuItem {
+    float: none;
 }
 
-.menuItem:hover .subMenu{
+
+.menuItem:hover .subMenu {
     display: block;
 }
+
+.shadow-sm {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, .05);
+}
+
+.bg-purple-700 {
+    --bg-opacity: 1;
+    background-color: #14213d !important;
+}
+
+.justify-around {
+    justify-content: space-around;
+}
+
+.font-bold {
+    font-weight: 700;
+}
+
+.text-white {
+    color: white !important;
+}
+
+@media (min-width: 640px) {
+    .sm\:flex {
+        display: flex;
+    }
+}
+
+@media (min-width: 640px) {
+    .sm\:self-center {
+        align-self: center;
+    }
+}
+
+@media (min-width: 640px) {
+    .sm\:border-none {
+        border-style: none;
+    }
+
+    .text-gray-400 {
+        --text-opacity: 1;
+        color: #e5e5e5;
+        color: #e5e5e5;
+    }
+
+    .text-xl {
+        font-size: 1.25rem;
+    }
+
+    .border-t-2 {
+        border-top-width: 2px;
+    }
+}
+
+@media (min-width: 640px){
+    .sm\:inline-block {
+        display: inline-block;
+    }
+}
+.buttons-html5, .buttons-print{
+    color: #212121;
+    background-color: #fbb03b;
+    border-color: #a9782c !important;
+    /* border: none; */
+    font-size: 13px;
+    font-weight: 500;
+    border: 1px solid;
+    border-radius: 3px;
+}
+
+.buttons-html5:hover{
+    color: white ;
+    background-color: #212121;
+    border-color: #212121 !important;
+}
+#example_filter{
+    margin-top: 15px;
+    margin-left: 20px;
+    float: left;
+}
+.dt-buttons{
+    float: right;
+}
+.dataTables_filter > label{
+    display: flex;
+    font-size: 15px;
+}
+.dataTables_filter  .form-control{
+    height: 25px;
+    font-size: 15px;
+    width: 71%;
+}
+
 .btn-icon.btn-lg {
     width: 3.167rem;
     height: 3.167rem;
@@ -675,7 +813,7 @@ Card
 
 }
 
-.sidebar-menu .active  > a {
+.sidebar-menu .active > a {
     color: #f8fff7 !important;
 
 }
@@ -704,10 +842,12 @@ Card
     -ms-transition: all 0.3s ease-out;
     transition: all 0.3s ease-out;
 }
-.dt-buttons{
+
+.dt-buttons {
     display: inline;
-    padding: 20px;
+    padding: 15px;
 }
+
 /*Chrome fix*/
 input::-webkit-file-upload-button {
     cursor: pointer !important;
