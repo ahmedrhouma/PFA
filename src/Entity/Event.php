@@ -246,4 +246,11 @@ class Event
 
         return $this;
     }
+
+    public function getStatElector(): int
+    {
+
+        return count($this->electors);
+    }
+
 }

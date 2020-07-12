@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Candidats;
 use App\Entity\Elector;
 use App\Entity\Event;
+use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,9 +18,11 @@ class DashboardController extends AbstractController
     /**
      * @Route("/", name="Accuiel")
      */
-    public function index( Request $request)
+    public function index(Request $request)
     {
+
         return $this->redirectToRoute('dashboard');
+
 
     }
 
@@ -27,8 +30,22 @@ class DashboardController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard( Request $request)
+    public function dashboard(Request $request, EventRepository $eventRepository)
     {
+
+
+        $events = $eventRepository->findAll();
+
+        $i = 0;
+        foreach ($events as $event) {
+            $j = 0;
+            $data[$i][$j] = $event->getTitle();
+            $j++;
+            $name[$i][$j] = $event->getStatElector();
+            $i++;
+        }
+
+
 
         // 1. Obtain doctrine manager
         $em = $this->getDoctrine()->getManager();
@@ -66,6 +83,7 @@ class DashboardController extends AbstractController
             'totalEvent' => $totalEvent,
             'totalElector' => $totalElector,
             'totalCandidats' => $totalCandidats,
+            'data' => $data,
 
         ]);
     }
