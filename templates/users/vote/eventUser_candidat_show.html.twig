@@ -1,25 +1,21 @@
+
 <div class="row">
 
     <div class="container">
-
-        <div class="app-body">
-
-            <div class="avatar-upload" style="z-index: 1000;">
-
-                <div class="avatar-preview"
-                     style="    border-color: #2196f3 !important; margin-top: -45px;margin-bottom: -125px;">
-                    <div id="imagePreview">
-                        <img style="width: 192px;height: 186px;position: relative;border-radius: 100%;"
-                             id="output"
-                             class="img-fluid" src="/uploads/{{ candidat.photo }}" alt="">
-                    </div>
-                </div>
+        <h2 class="title-vote">{{ candidat.firstName }} {{ candidat.lastName }}</h2>
+        <div class="row">
+            <div style="box-shadow: 0 0 17px rgba(120,130,140, 0.35); padding: 0px;" class=" col-3">
+                <img style="position: relative;border-radius: 0%;height: 399px;"
+                     id="output"
+                     class="img-fluid" src="/uploads/{{ candidat.photo }}" alt="">
 
             </div>
-            <div class="box" style="border-top: #2196f3 solid;">
-                <div style="    margin-top: 50px;" class="row">
 
-                    <table class="col-2 table" style="    margin-left: 41.66666667%;">
+            <div class="box col-8" style="box-shadow: 0 0 17px rgba(120,130,140, 0.35);    margin-left: 1%;">
+
+                <div style="    margin-top: 37px;" class="row">
+                    <table class="col-12 table">
+
                         <tbody>
                         <tr>
                             <th>Nom et prenom</th>
@@ -56,13 +52,17 @@
 
                         </tbody>
                     </table>
+
+
                 </div>
 
 
             </div>
-
-
         </div>
+
+
+
     </div>
-    </div>
+</div>
+
 
