@@ -23,7 +23,8 @@
 
                     <li class="sm:inline-block">
                         <a href="/note"
-                           class="p-3 hover:text-white {% if currentRoute == "eventUser_note" %} active {% endif %}">Note d'information</a>
+                           class="p-3 hover:text-white {% if currentRoute == "eventUser_note" %} active {% endif %}">Note
+                            d'information</a>
                     </li>
 
 
@@ -63,8 +64,10 @@
                     </li>
 
                     <li class="sm:inline-block menuItem"><a href="/profile"
-                                                            class="p-3 hover:text-white {% if currentRoute == "eventUser" or   currentRoute == "eventUser_coming" or   currentRoute == "eventUser_progress" or   currentRoute == "eventUser_finished" %} active {% endif %}">   <img  class="img-user"  src="/uploads/{{ userPhoto }}"></a>
-                        <svg style="margin-left: auto; margin-right: auto; font-size: 20px; color: #14213d;" width="1em" height="1em"
+                                                            class="p-3 hover:text-white {% if currentRoute == "eventUser" or   currentRoute == "eventUser_coming" or   currentRoute == "eventUser_progress" or   currentRoute == "eventUser_finished" %} active {% endif %}">
+                            <img class="img-user" src="/uploads/{{ userPhoto }}"></a>
+                        <svg style="margin-left: auto; margin-right: auto; font-size: 20px; color: #14213d;" width="1em"
+                             height="1em"
                              viewBox="0 0 16 16" class="bi bi-arrow-down-short" fill="currentColor"
                              xmlns="http://www.w3.org/2000/svg">
                             <path fill-rule="evenodd"
@@ -74,7 +77,9 @@
 
                         <ul style="right: 4%" class="subMenu">
                             <li class="subMenuItem menuItem ">
-                                <a href="/profile/edit" class="linkDecoration ">Parametere</a>
+
+                                <a class="linkDecoration "
+                                   href="{{ path('eventUser_setting', {'id': userId}) }}">Parametere</a>
                             </li>
 
                             <li class="subMenuItem menuItem  ">
@@ -89,38 +94,38 @@
     </nav>
 
 
+    <div class="vote-height">
+        {% if currentRoute == "vote_accueil" %}
+            {{ include('users/vote/accueil.html.twig') }}
+        {% elseif currentRoute == "eventUser" %}
+            {{ include('users/vote/eventUser.html.twig') }}
+        {% elseif currentRoute == "eventUser_show" %}
+            {{ include('users/vote/eventUser_show.html.twig') }}
+        {% elseif currentRoute == "eventUser_candidat_show" %}
+            {{ include('users/vote/eventUser_candidat_show.html.twig') }}
+        {% elseif currentRoute == "eventResultat" %}
+            {{ include('users/vote/eventResultat.html.twig') }}
+        {% elseif currentRoute == "eventUser_coming" %}
+            {{ include('users/vote/eventUser_coming.html.twig') }}
+        {% elseif currentRoute == "eventUser_progress" %}
+            {{ include('users/vote/eventUser_progress.html.twig') }}
+        {% elseif currentRoute == "eventUser_finished" %}
+            {{ include('users/vote/eventUser_finished.html.twig') }}
+        {% elseif currentRoute == "eventUser_note" %}
+            {{ include('users/vote/eventUser_note.html.twig') }}
+        {% elseif currentRoute == "eventUser_aide" %}
+            {{ include('users/vote/eventUser_aide.html.twig') }}
+        {% elseif currentRoute == "eventUser_setting" %}
+            {{ include('users/vote/eventUser_setting.html.twig') }}
+        {% elseif currentRoute == "eventUser_setting" %}
+            {{ include('users/vote/eventUser_setting.html.twig') }}
+        {% elseif currentRoute == "eventUser_vote" %}
+            {{ include('users/vote/eventUser_vote.html.twig') }}
+        {% elseif currentRoute == "eventUser_voter" %}
+            {{ include('users/vote/eventUser_voter.html.twig') }}
 
-    {% if currentRoute == "vote_accueil" %}
-        {{ include('users/vote/accueil.html.twig') }}
-    {% elseif currentRoute == "eventUser" %}
-        {{ include('users/vote/eventUser.html.twig') }}
-    {% elseif currentRoute == "eventUser_show" %}
-        {{ include('users/vote/eventUser_show.html.twig') }}
-    {% elseif currentRoute == "eventUser_candidat_show" %}
-        {{ include('users/vote/eventUser_candidat_show.html.twig') }}
-    {% elseif currentRoute == "eventResultat" %}
-        {{ include('users/vote/eventResultat.html.twig') }}
-    {% elseif currentRoute == "eventUser_coming" %}
-        {{ include('users/vote/eventUser_coming.html.twig') }}
-    {% elseif currentRoute == "eventUser_progress" %}
-        {{ include('users/vote/eventUser_progress.html.twig') }}
-    {% elseif currentRoute == "eventUser_finished" %}
-        {{ include('users/vote/eventUser_finished.html.twig') }}
-    {% elseif currentRoute == "eventUser_note" %}
-        {{ include('users/vote/eventUser_note.html.twig') }}
-    {% elseif currentRoute == "eventUser_aide" %}
-        {{ include('users/vote/eventUser_aide.html.twig') }}
-    {% elseif currentRoute == "eventUser_setting" %}
-        {{ include('users/vote/eventUser_setting.html.twig') }}
-    {% elseif currentRoute == "profileEdit" %}
-        {{ include('users/vote/profileEdit.html.twig') }}
-    {% elseif currentRoute == "eventUser_vote" %}
-        {{ include('users/vote/eventUser_vote.html.twig') }}
-    {% elseif currentRoute == "eventUser_voter" %}
-        {{ include('users/vote/eventUser_voter.html.twig') }}
-
-    {% endif %}
-
+        {% endif %}
+    </div>
     <!-- Footer -->
     <footer style="background: #0a4e7e !important;" class="page-footer font-small blue">
 

@@ -643,6 +643,9 @@ Buttons
 .text-white {
     color: white !important;
 }
+.vote-height{
+    min-height : 78.7vH
+}
 
 @media (min-width: 640px) {
     .sm\:flex {
