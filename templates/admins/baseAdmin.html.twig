@@ -1,137 +1,127 @@
 {% extends 'base.html.twig' %}
-{% block title %}E-VOTE{% endblock %}
+{% block title %}E-VOTE
+{% endblock %}
 {% block body %}
-    <div class="app" id="app">
-        <div style="width: 210px;" id="aside" class="app-aside fade nav-dropdown black">
-            <div class="navside bg" data-layout="column">
-                <div style="width: 210px;" data-flex class="hide-scroll">
-                    <nav class="">
-                        <ul class="sidebar-menu in" data-ui-nav>
-                            <img style="margin-left: 25%; margin-right: 25%; width: 50%;" class="img-fluid"
-                                 src="{{ asset('images/logo/logo-mini.png') }}" alt=""/>
-                            <li {% if currentRoute == "dashboard" %} class="active" {% endif %}>
-                                <a href="/dashboard" class="waves-effect">
-                                    <svg style="font-size: 16px; display: inline;    vertical-align: middle;width: 25px; " width="1em" height="1em" viewBox="0 0 16 16"
-                                         class="bi bi-house-door" fill="currentColor"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z"/>
-                                        <path fill-rule="evenodd"
-                                              d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
-                                    </svg>
-                                    <span class="">Tableau du board</span>
-                                </a>
-                            </li>
-                            <li {% if (currentRoute == "event" ) or (currentRoute == "event_new" )or (currentRoute == "event_show" )or (currentRoute == "event_edit" ) %} class="active" {% endif %}>
-                                <a href="/event" class="waves-effect">
-                                    <svg style="font-size: 16px; display: inline;    vertical-align: middle;width: 25px;" width="1em" height="1em" viewBox="0 0 16 16"
-                                         class="bi bi-calendar-event" fill="currentColor"
-                                         xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
-                                        <path fill-rule="evenodd"
-                                              d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
-                                        <rect width="2" height="2" x="11" y="6" rx=".5"/>
-                                    </svg>
-                                    <span class="">Evenements</span>
-                                </a>
-                            </li>
-                            <li {% if (currentRoute == "candidats" ) or (currentRoute == "candidats_new" )or (currentRoute == "candidats_show" )or (currentRoute == "candidats_edit" ) %} class="active" {% endif %}>
-                                <a href="/candidats" class="waves-effect">
-                                    <svg style="font-size: 16px; display: inline;    vertical-align: middle;width: 25px; " width="1em" height="1em" viewBox="0 0 16 16"
-                                         class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                    </svg>
-                                    <span class="">Candidats</span>
-                                </a>
-                            </li>
-                            <li {% if (currentRoute == "elector")  or (currentRoute == 'elector_new')  or (currentRoute == 'elector_show')  or (currentRoute == 'elector_edit') %} class="active" {% endif %}>
-                                <a href="/elector" class="waves-effect">
-                                    <svg style="font-size: 16px; display: inline-block;vertical-align: middle;width: 25px;" width="1em" height="1em" viewBox="0 0 16 16"
-                                         class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                        <path fill-rule="evenodd"
-                                              d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
-                                    </svg>
-                                    <span class="">Electeurs</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </nav>
-                </div>
-                <div data-flex-no-shrink>
-                    <div class="nav-fold dropup">
-                        <a data-toggle="dropdown">
-                            <div class="pull-left">
-                                <div class="inline">
-								<span style="font-size: 21px;    width: 1rem; " class="avatar w-40 grey">
-									<svg width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-file-person"
-                                         fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-										<path fill-rule="evenodd"
-                                              d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z"/>
-										<path d="M13.784 14c-.497-1.27-1.988-3-5.784-3s-5.287 1.73-5.784 3h11.568z"/>
-										<path fill-rule="evenodd" d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+	<div class="app" id="app">
+		<div style="width: 210px;" id="aside" class="app-aside fade nav-dropdown black">
+			<div class="navside bg" data-layout="column">
+				<div style="width: 210px;" data-flex class="hide-scroll">
+					<nav class="">
+						<ul class="sidebar-menu in" data-ui-nav>
+							<img style="margin-left: 25%; margin-right: 25%; width: 50%;" class="img-fluid" src="{{ asset('images/logo/logo-mini.png') }}" alt=""/>
+							<li {% if currentRoute == "dashboard" %} class="active" {% endif %}>
+								<a href="/dashboard" class="waves-effect">
+									<svg style="font-size: 16px; display: inline;    vertical-align: middle;width: 25px; " width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-house-door" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M7.646 1.146a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1 .146.354v7a.5.5 0 0 1-.5.5H9.5a.5.5 0 0 1-.5-.5v-4H7v4a.5.5 0 0 1-.5.5H2a.5.5 0 0 1-.5-.5v-7a.5.5 0 0 1 .146-.354l6-6zM2.5 7.707V14H6v-4a.5.5 0 0 1 .5-.5h3a.5.5 0 0 1 .5.5v4h3.5V7.707L8 2.207l-5.5 5.5z"/>
+										<path fill-rule="evenodd" d="M13 2.5V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"/>
 									</svg>
-								</span>
-                                </div>
-                            </div>
-                            <div style="margin-top: 10px;" class="clear hidden-folded p-x">
-                                {#
-                                <span class="block _500 text-muted">{{ app.user.username }}</span>
-                                #}
-                                <div class="progress-xxs m-y-sm lt progress">
-                                    <div class="progress-bar info" style="  width: 15%;"></div>
-                                </div>
-                            </div>
-                        </a>
-                        <div style="margin-top: -86px;" class="dropdown-menu w dropdown-menu-scale ">
-                            <span style="display: block; width: 100%; padding: .25rem 1.5rem; clear: both; font-weight: 600; color: #212529; text-align: inherit; white-space: nowrap; background: 0 0; border: 0; text-transform: uppercase;">   {{ app.user.username }} | Admin</span>
-                            <a class="dropdown-item" href="/profile/edit">Modifier le profil</a>
-                            <a class="dropdown-item" href="/logout">Deconnexion</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
-            <div class="app-header white bg b-b">
-                <div class="navbar" data-pjax>
-                    <a data-toggle="modal" data-target="#aside"
-                       class="navbar-item pull-left hidden-lg-up p-r m-a-0">
-                        <i class="ion-navicon"></i>
-                    </a>
-                    <div class="navbar-item pull-left h5" id="pageTitle">E-VOTE</div>
+									<span class="">Tableau du board</span>
+								</a>
+							</li>
+							<li {% if (currentRoute == "event" ) or (currentRoute == "event_new" )or (currentRoute == "event_show" )or (currentRoute == "event_edit" ) %} class="active" {% endif %}>
+								<a href="/event" class="waves-effect">
+									<svg style="font-size: 16px; display: inline;    vertical-align: middle;width: 25px;" width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-calendar-event" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1zm1-3a2 2 0 0 0-2 2v11a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2H2z"/>
+										<path fill-rule="evenodd" d="M3.5 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5zm9 0a.5.5 0 0 1 .5.5V1a.5.5 0 0 1-1 0V.5a.5.5 0 0 1 .5-.5z"/>
+										<rect width="2" height="2" x="11" y="6" rx=".5"/>
+									</svg>
+									<span class="">Evenements</span>
+								</a>
+							</li>
+							<li {% if (currentRoute == "candidats" ) or (currentRoute == "candidats_new" )or (currentRoute == "candidats_show" )or (currentRoute == "candidats_edit" ) %} class="active" {% endif %}>
+								<a href="/candidats" class="waves-effect">
+									<svg style="font-size: 16px; display: inline;    vertical-align: middle;width: 25px; " width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+									</svg>
+									<span class="">Candidats</span>
+								</a>
+							</li>
+							<li {% if (currentRoute == "elector") or (currentRoute == 'elector_new') or (currentRoute == 'elector_show') or (currentRoute == 'elector_edit') %} class="active" {% endif %}>
+								<a href="/elector" class="waves-effect">
+									<svg style="font-size: 16px; display: inline-block;vertical-align: middle;width: 25px;" width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+										<path fill-rule="evenodd" d="M13 14s1 0 1-1-1-4-6-4-6 3-6 4 1 1 1 1h10zm-9.995-.944v-.002.002zM3.022 13h9.956a.274.274 0 0 0 .014-.002l.008-.002c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664a1.05 1.05 0 0 0 .022.004zm9.974.056v-.002.002zM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm3-2a3 3 0 1 1-6 0 3 3 0 0 1 6 0z"/>
+									</svg>
+									<span class="">Electeurs</span>
+								</a>
+							</li>
+						</ul>
+					</nav>
+				</div>
+				<div data-flex-no-shrink>
+					<div class="nav-fold dropup">
+						<a data-toggle="dropdown">
+							<div class="pull-left">
+								<div class="inline">
+									<span style="font-size: 21px;    width: 1rem; " class="avatar w-40 grey">
+										<svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-file-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z"/>
+											<path d="M13.784 14c-.497-1.27-1.988-3-5.784-3s-5.287 1.73-5.784 3h11.568z"/>
+											<path fill-rule="evenodd" d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+										</svg>
+									</span>
+								</div>
+							</div>
+							<div
+								style="margin-top: 10px;" class="clear hidden-folded p-x">
+								{#
+								                                <span class="block _500 text-muted">{{ app.user.username }}</span>
+								                                #}
+								<div class="progress-xxs m-y-sm lt progress">
+									<div class="progress-bar info" style="  width: 15%;"></div>
+								</div>
+							</div>
+						</a>
+						<div style="margin-top: -86px;" class="dropdown-menu w dropdown-menu-scale ">
+							<span style="display: block; width: 100%; padding: .25rem 1.5rem; clear: both; font-weight: 600; color: #212529; text-align: inherit; white-space: nowrap; background: 0 0; border: 0; text-transform: uppercase;">
+								{{ app.user.username }}
+								| Admin</span>
+							<a class="dropdown-item" href="/profile/edit">Modifier le profil</a>
+							<a class="dropdown-item" href="/logout">Deconnexion</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
+			<div class="app-header white bg b-b">
+				<div class="navbar" data-pjax>
+					<a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0">
+						<i class="ion-navicon"></i>
+					</a>
+					<div class="navbar-item pull-left h5" id="pageTitle">E-VOTE</div>
 
-                </div>
-            </div>
-            {% if currentRoute == "dashboard" %}
-                {{ include('admins/dashboard/accueil.html.twig') }}
-            {% elseif currentRoute == "elector" %}
-                {{ include('admins/elector/index.html.twig') }}
-            {% elseif currentRoute == "elector_new" %}
-                {{ include('admins/elector/new.html.twig') }}
-            {% elseif currentRoute == "elector_show" %}
-                {{ include('admins/elector/show.html.twig') }}
-            {% elseif currentRoute == "elector_edit" %}
-                {{ include('admins/elector/edit.html.twig') }}
-            {% elseif currentRoute == "candidats" %}
-                {{ include('admins/candidats/index.html.twig') }}
-            {% elseif currentRoute == "candidats_new" %}
-                {{ include('admins/candidats/new.html.twig') }}
-            {% elseif currentRoute == "candidats_show" %}
-                {{ include('admins/candidats/show.html.twig') }}
-            {% elseif currentRoute == "candidats_edit" %}
-                {{ include('admins/candidats/edit.html.twig') }}
-            {% elseif currentRoute == "event" %}
-                {{ include('admins/event/index.html.twig') }}
-            {% elseif currentRoute == "event_new" %}
-                {{ include('admins/event/new.html.twig') }}
-            {% elseif currentRoute == "event_show" %}
-                {{ include('admins/event/show.html.twig') }}
-            {% elseif currentRoute == "event_edit" %}
-                {{ include('admins/event/edit.html.twig') }}
-            {% endif %}
-        </div>
-    </div>
+				</div>
+			</div>
+			<script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>
+			<script src="{{ asset('assets/css/datatables/datatables.js') }}"></script>
+			{% if currentRoute == "dashboard" %}
+				{{ include('admins/dashboard/accueil.html.twig') }}
+			{% elseif currentRoute == "elector" %}
+				{{ include('admins/elector/index.html.twig') }}
+			{% elseif currentRoute == "elector_new" %}
+				{{ include('admins/elector/new.html.twig') }}
+			{% elseif currentRoute == "elector_show" %}
+				{{ include('admins/elector/show.html.twig') }}
+			{% elseif currentRoute == "elector_edit" %}
+				{{ include('admins/elector/edit.html.twig') }}
+			{% elseif currentRoute == "candidats" %}
+				{{ include('admins/candidats/index.html.twig') }}
+			{% elseif currentRoute == "candidats_new" %}
+				{{ include('admins/candidats/new.html.twig') }}
+			{% elseif currentRoute == "candidats_show" %}
+				{{ include('admins/candidats/show.html.twig') }}
+			{% elseif currentRoute == "candidats_edit" %}
+				{{ include('admins/candidats/edit.html.twig') }}
+			{% elseif currentRoute == "event" %}
+				{{ include('admins/event/index.html.twig') }}
+			{% elseif currentRoute == "event_new" %}
+				{{ include('admins/event/new.html.twig') }}
+			{% elseif currentRoute == "event_show" %}
+				{{ include('admins/event/show.html.twig') }}
+			{% elseif currentRoute == "event_edit" %}
+				{{ include('admins/event/edit.html.twig') }}
+			{% endif %}
+		</div>
+	</div>
 
 {% endblock %}
