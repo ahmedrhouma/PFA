@@ -5,10 +5,13 @@ namespace App\Controller;
 use App\Entity\Candidats;
 use App\Entity\Event;
 use App\Entity\Elector;
+use App\Entity\EncryptedVote;
+use App\Form\EncryptedVoteType;
 use App\Repository\ElectorRepository;
 use Symfony\Component\HttpFoundation\Response;
 use App\Form\ElectorType;
 use App\Repository\EventRepository;
+use App\Repository\EncryptedVoteRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -24,12 +27,11 @@ class VoteController extends Controller
     /**
      * @Route("/accueil", name="vote_accueil")
      */
-    public function index( Request $request)
+    public function index(Request $request)
     {
         $currentRoute = $request->attributes->get('_route');
         $eventNumber = 0;
         $userPhoto = null;
-
         if ($this->getUser()->getElector() != null){
             $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
@@ -44,8 +46,8 @@ class VoteController extends Controller
             'userId' => $userId,
 
         ]);
-
     }
+
 
 //    /**
 //     * @Route("/{id}/profileEdit", name="profileEdit", methods={"GET","POST"})
@@ -98,15 +100,15 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser", name="eventUser")
      */
-    public function showEvent( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)
+    public function showEvent(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
     {
 
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
@@ -120,21 +122,20 @@ class VoteController extends Controller
             'userId' => $userId,
 
         ]);
-
     }
 
     /**
      * @Route("/eventUser/coming", name="eventUser_coming")
      */
-    public function showEventComing( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)
+    public function showEventComing(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
     {
 
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
@@ -147,21 +148,20 @@ class VoteController extends Controller
             'userPhoto' => $userPhoto,
             'userId' => $userId,
         ]);
-
     }
 
     /**
      * @Route("/eventUser/progress", name="eventUser_progress")
      */
-    public function showEventProgress( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)
+    public function showEventProgress(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
     {
 
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
@@ -174,21 +174,20 @@ class VoteController extends Controller
             'userPhoto' => $userPhoto,
             'userId' => $userId,
         ]);
-
     }
 
     /**
      * @Route("/eventUser/finished", name="eventUser_finished")
      */
-    public function showEventFinished( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)
+    public function showEventFinished(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
     {
 
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
@@ -201,21 +200,20 @@ class VoteController extends Controller
             'userPhoto' => $userPhoto,
             'userId' => $userId,
         ]);
-
     }
 
     /**
      * @Route("/eventResultat", name="eventResultat")
      */
-    public function showEventTer( Request $request , EventRepository $eventRepository,ElectorRepository $electorRepository)
+    public function showEventTer(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
     {
 
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
@@ -228,47 +226,45 @@ class VoteController extends Controller
             'userPhoto' => $userPhoto,
             'userId' => $userId,
         ]);
-
     }
 
 
     /**
      * @Route("/eventUser/{id}", name="eventUser_show" , methods={"GET"})
      */
-    public function showEv (Event $event, Request $request , EventRepository $eventRepository)
+    public function showEv(Event $event, Request $request, EventRepository $eventRepository)
     {
 
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
         }
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
-            'candidats' =>  $event->getCandidats() ,
+            'candidats' =>  $event->getCandidats(),
             'events' => $eventRepository->findAll(),
             'event' => $event,
-            'eventNumber'=>$eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
         ]);
-
     }
 
     /**
      * @Route("/eventUser/candidat/{id}", name="eventUser_candidat_show" , methods={"GET"})
      */
-    public function showCandidat (Candidats $candidat,  Request $request)
+    public function showCandidat(Candidats $candidat,  Request $request)
     {
 
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
@@ -276,49 +272,65 @@ class VoteController extends Controller
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'candidat' => $candidat,
-            'eventNumber'=>$eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
 
         ]);
-
     }
 
 
     /**
-     * @Route("/eventUser/vote", name="eventUser_vote" , methods={"GET"})
+     * @Route("/eventUser/vote/{id}", name="eventUser_vote" , methods={"GET"})
      */
-    public function voter (Candidats $candidat,  Request $request)
+    public function voter(Event $event,  Request $request)
     {
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
         }
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
-            'candidat' => $candidat,
-            'eventNumber'=>$eventNumber,
+            'candidats' => $event->getCandidats(),
+            'eventNumber' => $eventNumber,
+            'title' => $event->getTitle(),
+            'event' => $event->getId(),
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
         ]);
-
     }
 
+    /**
+     * @Route("/voter/{id}", name="voter" , methods={"GET","POST"})
+     */
+    public function vote($id, Request $request, EventRepository $EventRepository)
+    {
+        $idUser = $this->getUser()->getId();
+        $choice = $_POST['choice'];
+        $vote = new EncryptedVote();
+        $VoteEntityManager = $this->getDoctrine()->getManager();
+        $vote->setEvent($EventRepository->find($id));
+        $vote->setVote(password_hash($choice, PASSWORD_DEFAULT));
+        $vote->setDate(new \DateTime(date("Y-m-d H:i:s")));
+        $VoteEntityManager->persist($vote);
+        $VoteEntityManager->flush();
+        return $this->redirectToRoute('eventUser');
+    }
     /**
      * @Route("/eventUser/vote/{id}", name="eventUser_voter" , methods={"GET"})
      */
-    public function eventVoter (Candidats $candidat,  Request $request)
+    public function eventVoter(Candidats $candidat,  Request $request)
     {
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
@@ -326,24 +338,23 @@ class VoteController extends Controller
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'candidat' => $candidat,
-            'eventNumber'=>$eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
 
         ]);
-
     }
 
     /**
      * @Route("/eventUser/resultat/{id}", name="eventUser_result" , methods={"GET"})
      */
-    public function result (Candidats $candidat,  Request $request)
+    public function result(Candidats $candidat,  Request $request)
     {
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
@@ -351,62 +362,59 @@ class VoteController extends Controller
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'candidat' => $candidat,
-            'eventNumber'=>$eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
 
         ]);
-
     }
 
 
     /**
      * @Route("/note", name="eventUser_note" , methods={"GET"})
      */
-    public function note (  Request $request)
+    public function note(Request $request)
     {
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
         }
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
-            'eventNumber'=>$eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
 
         ]);
-
     }
 
     /**
      * @Route("/aide", name="eventUser_aide" , methods={"GET"})
      */
-    public function aide (  Request $request)
+    public function aide(Request $request)
     {
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
-            $eventNumber= $this->getUser()->getElector()->getEvent();
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
         }
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
-            'eventNumber'=>$eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
 
         ]);
-
     }
 
 
@@ -450,6 +458,7 @@ class VoteController extends Controller
         }
 
         return $this->render('users/baseUsers.html.twig', [
+            'eventNumber' => $eventNumber,
             'elector' => $elector,
             'form' => $form->createView(),
             'form1' => $form1->createView(),
@@ -459,9 +468,5 @@ class VoteController extends Controller
 
 
         ]);
-
     }
-
-
-
 }
