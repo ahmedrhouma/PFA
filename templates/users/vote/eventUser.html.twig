@@ -1,10 +1,12 @@
+<div style="padding-left: 30px ; padding-right: 30px " class="row">
 
-<div class="row">
-    <div class="container">
-        <h2 class="title-vote">Liste des Evenements ( {{ eventNumber }} evenements )</h2>
+    <h2 class="title-vote">Liste des Evenements ( {{ eventNumber }} evenements ) </h2>
+
+
         <div class="row">
             {% for event in events %}
-                <div style="padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"class="card mb-3 col-2">
+
+                <div style="margin-left:1%; padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"class="card mb-3 col-2">
                     <div style="position: absolute" class="corner-ribbon top-right sticky {% if event.status == 0 %} blue {% elseif event.status == 1 %}  green {% elseif event.status == 2 %} red {% endif %} shadow">
                         {% if event.status == 0 %}En attente{% elseif event.status == 1 %} En cours {% elseif event.status == 2 %} Terminé {% endif %}
                     </div>
@@ -14,9 +16,9 @@
                             {{ event.title }}
                         </h5>
 
-                            <p class="card-text">
-                                 {{ event.dateStart ? event.dateStart|date('d/m/Y') : '' }} - {{ event.dateEnd ? event.dateEnd|date('d/m/Y') : '' }}
-                            </p>
+                        <p class="card-text">
+                            {{ event.dateStart ? event.dateStart|date('d/m/Y') : '' }} - {{ event.dateEnd ? event.dateEnd|date('d/m/Y') : '' }}
+                        </p>
 
                         <a class="  pull-left label success  "href="{{ path('eventUser_show', {'id': event.id}) }}">Voir plus</a>
                         {% if event.status == 1 %}
@@ -26,9 +28,13 @@
                         {% endif %}
                     </div>
                 </div>
-                <div class="col-1"></div>
+
             {% endfor %}
         </div>
-    </div>
+
+
+    <script>
+
+    </script>
 </div>
 

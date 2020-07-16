@@ -47,49 +47,39 @@
 						</ul>
 					</nav>
 				</div>
-				<div data-flex-no-shrink>
-					<div class="nav-fold dropup">
-						<a data-toggle="dropdown">
-							<div class="pull-left">
-								<div class="inline">
-									<span style="font-size: 21px;    width: 1rem; " class="avatar w-40 grey">
-										<svg width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-file-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-											<path fill-rule="evenodd" d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z"/>
-											<path d="M13.784 14c-.497-1.27-1.988-3-5.784-3s-5.287 1.73-5.784 3h11.568z"/>
-											<path fill-rule="evenodd" d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
-										</svg>
-									</span>
-								</div>
-							</div>
-							<div
-								style="margin-top: 10px;" class="clear hidden-folded p-x">
-								{#
-								                                <span class="block _500 text-muted">{{ app.user.username }}</span>
-								                                #}
-								<div class="progress-xxs m-y-sm lt progress">
-									<div class="progress-bar info" style="  width: 15%;"></div>
-								</div>
-							</div>
-						</a>
-						<div style="margin-top: -86px;" class="dropdown-menu w dropdown-menu-scale ">
-							<span style="display: block; width: 100%; padding: .25rem 1.5rem; clear: both; font-weight: 600; color: #212529; text-align: inherit; white-space: nowrap; background: 0 0; border: 0; text-transform: uppercase;">
-								{{ app.user.username }}
-								| Admin</span>
-							<a class="dropdown-item" href="/profile/edit">Modifier le profil</a>
-							<a class="dropdown-item" href="/logout">Deconnexion</a>
-						</div>
-					</div>
-				</div>
+
 			</div>
 		</div>
 		<div id="content" class="app-content box-shadow-z2 bg pjax-container" role="main">
 			<div class="app-header white bg b-b">
 				<div class="navbar" data-pjax>
-					<a data-toggle="modal" data-target="#aside" class="navbar-item pull-left hidden-lg-up p-r m-a-0">
-						<i class="ion-navicon"></i>
-					</a>
-					<div class="navbar-item pull-left h5" id="pageTitle">E-VOTE</div>
 
+					<div class="navbar-item pull-right h5" id="pageTitle">E-VOTE</div>
+					<div data-flex-no-shrink>
+						<div class="nav-fold dropup">
+							<a data-toggle="dropdown">
+								<div class="pull-left">
+									<div class="inline">
+									<span style="font-size: 21px;      background: #212121; " class="avatar w-40 grey">
+										<svg style="color: white; margin-top: 11px;" width="1em" height="1em" viewbox="0 0 16 16" class="bi bi-file-person" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+											<path fill-rule="evenodd" d="M4 1h8a2 2 0 0 1 2 2v10a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 1a1 1 0 0 0-1 1v10a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V3a1 1 0 0 0-1-1H4z"/>
+											<path d="M13.784 14c-.497-1.27-1.988-3-5.784-3s-5.287 1.73-5.784 3h11.568z"/>
+											<path fill-rule="evenodd" d="M8 10a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+										</svg>
+									</span>
+									</div>
+								</div>
+
+							</a>
+							<div style="box-shadow: -10px 3px 27px #21212138; margin-top: 0px;margin-left: -158px;" class="dropdown-menu w dropdown-menu-scale ">
+							<span style="display: block; width: 100%; padding: .25rem 1.5rem; clear: both; font-weight: 600; color: #212529; text-align: inherit; white-space: nowrap; background: 0 0; border: 0; text-transform: uppercase;">
+								{{ app.user.username }}
+								| Admin</span>
+								<a class="dropdown-item" href="/profile/edit">Modifier le profil</a>
+								<a class="dropdown-item" href="/logout">Deconnexion</a>
+							</div>
+						</div>
+					</div>
 				</div>
 			</div>
 			<script src="{{ asset('jquery/jquery-3.2.1.min.js') }}"></script>

@@ -35,16 +35,20 @@ class DashboardController extends AbstractController
 
 
         $events = $eventRepository->findAll();
-
+        $json_array = array();
         $i = 0;
         foreach ($events as $event) {
-            $j = 0;
-            $data[$i][$j] = $event->getTitle();
-            $j++;
-            $name[$i][$j] = $event->getStatElector();
+
+            $title[$i] = $event->getTitle();
+            $statElector[$i] = $event->getStatElector();
+            $data = array("name" => $title[$i], "y" => $statElector[$i]);
+            array_push($json_array, $data);
+
             $i++;
         }
 
+
+        $json_array = str_replace(';', ':', preg_replace('/"([a-zA-Z]+[a-zA-Z0-9_]*)":/', '$1;', json_encode($json_array)));
 
 
         // 1. Obtain doctrine manager
@@ -83,7 +87,7 @@ class DashboardController extends AbstractController
             'totalEvent' => $totalEvent,
             'totalElector' => $totalElector,
             'totalCandidats' => $totalCandidats,
-            'data' => $data,
+            'data' => $json_array,
 
         ]);
     }

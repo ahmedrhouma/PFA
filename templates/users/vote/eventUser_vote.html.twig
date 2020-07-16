@@ -1,24 +1,38 @@
-<div class="text-center">
-    <h5 style="font-size:45px">{{title}}</h5>
-    <small>Veillez cocher le candidat volus</small>
+<div style="padding-left: 30px ; padding-right: 30px " class="row">
+
+    <h2 class="title-vote">choisir votre candidat </h2>
+
+
+    <form action="{{ path('voter',{'id':event}) }}" method="POST" style="width: 100%">
+        <div class="row">
+            {% for candidat in candidats %}
+                <div class="col-3 col-md-2">
+
+                    <label>
+                        <input class="card-input-element" type="radio" name="choice" id="{{ candidat.id }}" value="{{ candidat.id }}"/>
+
+                        <div class="panel panel-default card-input">
+                            <div class="panel-heading"> <img id="" src="/uploads/{{ candidat.photo }}" class="card-img-top" alt="..."></div>
+                            <div class="panel-body">
+                                {{ candidat.firstname }}
+                                {{ candidat.lastname }}
+                            </div>
+                        </div>
+
+                    </label>
+
+                </div>
+            {% endfor %}
+        </div>
+        <div class="row">
+            <div class="col-5"></div>
+        <div class="col-2">
+            <button type="submit" class=" col-12 btn btn-primary">Voter</button>
+        </div>
+        </div>
+    </form>
+<script>
+
+</script>
 </div>
-<form action="{{ path('voter',{'id':event}) }}" method="POST">
-<div style="display:flex">
-	{% for candidat in candidats %}
-		<div class="card" style="width: 18rem;">
-			<img src="/uploads/{{ candidat.photo }}" class="card-img-top" alt="...">
-			<div class="card-body">
-				<h5 class="card-title">{{ candidat.firstname }}
-					{{candidat.lastname}}</h5>
-				<p class="card-text">{{ candidat.description }}</p>
-                <label for="{{ candidat.id }}">Voter</label>
-				<input type="radio" name="choice" id="{{ candidat.id }}" value="{{ candidat.id }}"/>
-			</div>
-		</div>
-	{% endfor %}
-</div>
-<div>
-    <button type="submit" class="btn btn-primary">Voter</button>
-</div>
-<form>
 

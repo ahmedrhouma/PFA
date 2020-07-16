@@ -150,6 +150,33 @@ class VoteController extends Controller
         ]);
     }
 
+
+    /**
+     * @Route("/eventUser/voter", name="eventUser_vo")
+     */
+    public function eventVo(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        $user = $this->getUser();
+        $eventNumber = 0;
+        $userPhoto = null;
+        if ($this->getUser()->getElector() != null) {
+            $eventNumber = $this->getUser()->getElector()->getEvent();
+            $eventNumber = count($eventNumber);
+            $userPhoto = $this->getUser()->getElector()->getPhoto();
+            $userId = $this->getUser()->getElector()->getId();
+        }
+        return $this->render('users/baseUsers.html.twig', [
+
+            'events' => $user->getElector()->getEvent(),
+            'eventNumber' =>  $eventNumber,
+            'currentRoute' => $currentRoute,
+            'userPhoto' => $userPhoto,
+            'userId' => $userId,
+        ]);
+    }
+
     /**
      * @Route("/eventUser/progress", name="eventUser_progress")
      */
@@ -322,6 +349,7 @@ class VoteController extends Controller
         $VoteEntityManager->flush();
         return $this->redirectToRoute('eventUser');
     }
+
     /**
      * @Route("/eventUser/vote/{id}", name="eventUser_voter" , methods={"GET"})
      */
@@ -345,6 +373,8 @@ class VoteController extends Controller
 
         ]);
     }
+
+
 
     /**
      * @Route("/eventUser/resultat/{id}", name="eventUser_result" , methods={"GET"})
@@ -456,6 +486,8 @@ class VoteController extends Controller
 
             return $this->redirectToRoute('elector');
         }
+        $eventNumber = $this->getUser()->getElector()->getEvent();
+        $eventNumber = count($eventNumber);
 
         return $this->render('users/baseUsers.html.twig', [
             'eventNumber' => $eventNumber,
