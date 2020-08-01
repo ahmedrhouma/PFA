@@ -3,35 +3,57 @@
     <h2 class="title-vote">Liste des Evenements ( {{ eventNumber }} evenements ) </h2>
 
 
-        <div class="row">
-            {% for event in events %}
+    <div class="row">
+        {% for event in events %}
 
-                <div style="margin-left:1%; padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"class="card mb-3 col-2">
-                    <div style="position: absolute" class="corner-ribbon top-right sticky {% if event.status == 0 %} blue {% elseif event.status == 1 %}  green {% elseif event.status == 2 %} red {% endif %} shadow">
-                        {% if event.status == 0 %}En attente{% elseif event.status == 1 %} En cours {% elseif event.status == 2 %} Terminé {% endif %}
-                    </div>
-                    <img class="card-img-top card-votes" src="/uploads/{{ event.photo }}" alt="Card image cap">
-                    <div class="card-body">
-                        <h5 class="card-title"style="   margin-bottom: 0.35rem; font-size: 17px; text-transform: uppercase; font-weight: 700;">
-                            {{ event.title }}
-                        </h5>
-
-                        <p class="card-text">
-                            {{ event.dateStart ? event.dateStart|date('d/m/Y') : '' }} - {{ event.dateEnd ? event.dateEnd|date('d/m/Y') : '' }}
-                        </p>
-                        <div style="margin-top: 20px">
-                        <a  style="width: 80px;" class="  pull-left label success  "href="{{ path('eventUser_show', {'id': event.id}) }}">Voir plus</a>
-                        {% if event.status == 1 %}
-                            <a   style="width: 80px;" class=" pull-right label danger "href="{{ path('eventUser_vote', {'id': event.id}) }}">Voter</a>
-                        {% elseif  event.status == 2 %}
-                            <a  style="width: 80px;" class=" pull-right label primary "href="{{ path('eventUser_result', {'id': event.id}) }}">Resultat</a>
-                        {% endif %}
+            <div style="margin-left:1%; padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"
+                 class="card mb-3 col-2">
+                {% if event.status == 1 %}
+                    {% if event.voted == 1 %}
+                        <div style="position: absolute" class="corner-ribbon corner-voted shadow">
+                            deja voté
                         </div>
+                    {% endif %}
+                {% endif %}
+                <div style="position: absolute"
+                     class="corner-ribbon top-right sticky {% if event.status == 0 %} blue {% elseif event.status == 1 %}  green {% elseif event.status == 2 %} red {% endif %} shadow">
+                    {% if event.status == 0 %}En attente{% elseif event.status == 1 %} En cours {% elseif event.status == 2 %} Terminé {% endif %}
+                </div>
+                <img class="card-img-top card-votes" src="/uploads/{{ event.photo }}" alt="Card image cap">
+
+                <div class="card-body">
+
+                    <h5 class="card-title"
+                        style="   margin-bottom: 0.35rem; font-size: 17px; text-transform: uppercase; font-weight: 700;">
+                        {{ event.title }}
+                    </h5>
+
+                    <p class="card-text">
+
+                        {{ event.dateStart ? event.dateStart|date('d/m/Y') : '' }}
+                        - {{ event.dateEnd ? event.dateEnd|date('d/m/Y') : '' }}
+                    </p>
+                    <div style="margin-top: 20px">
+                        <a style="width: 80px;" class="  pull-left label success  "
+                           href="{{ path('eventUser_show', {'id': event.id}) }}">Voir plus</a>
+                        {% if event.status == 1 %}
+                            {% if event.voted == 0 %}
+                                <a style="width: 80px;" class=" pull-right label danger "
+                                   href="{{ path('eventUser_vote', {'id': event.id}) }}">Voter</a>
+                            {% elseif  event.voted == 1 %}
+                                <a style="width: 80px;" class=" pull-right label danger "
+                                   href="{{ path('eventUser_vote', {'id': event.id}) }}">Consulter</a>
+                            {% endif %}
+                        {% elseif  event.status == 2 %}
+                            <a style="width: 80px;" class=" pull-right label primary "
+                               href="{{ path('eventUser_result', {'id': event.id}) }}">Resultat</a>
+                        {% endif %}
                     </div>
                 </div>
+            </div>
 
-            {% endfor %}
-        </div>
+        {% endfor %}
+    </div>
 
 
     <script>

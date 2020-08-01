@@ -1,11 +1,12 @@
 <div style="padding-left: 30px ; padding-right: 30px " class="row">
+    {% if eventVoted == 0 %}
+    <h2 class="title-vote">{{title }} : choisir votre candidat </h2>
 
-    <h2 class="title-vote">choisir votre candidat </h2>
 
-
-    <form action="{{ path('voter',{'id':event}) }}" method="POST" style="width: 100%">
+    <form action="{{ path('voter',{'id':eventId}) }}" method="POST" style="width: 100%">
         <div class="row">
             {% for candidat in candidats %}
+
                 <div class="col-3 col-md-2">
 
                     <label>
@@ -31,6 +32,31 @@
         </div>
         </div>
     </form>
+
+    {% elseif eventVoted == 1 %}
+
+        <h2 class="title-vote">{{event.title }} </h2>
+
+    <div class="col-12">
+    <div class="row d-flex justify-content-center">
+
+           <p style="    font-size: 50px;color: red; font-weight: 500;">Vous avez deja voté  </p>
+
+    </div>
+
+    </div>
+
+        <div class="col-12">
+    <div class="row d-flex justify-content-center">
+
+
+        <p style="font-size: 15px; font-weight: 500;">le resultat sera affiché le    {{ event.dateEnd ? event.dateEnd|date('d-m-Y') : '' }}</p>
+
+
+    </div>
+
+    </div>
+    {% endif %}
 <script>
 
 </script>

@@ -1,0 +1,118 @@
+{% extends 'base.html.twig' %}
+{% block title %}E-VOTE{% endblock %}
+{% block body %}
+    <link href="{{ asset('assets/css/tailwind.min.css') }}" rel="stylesheet"/>
+    <nav id="mainnav" class="bg-purple-700 shadow-sm" style="line-height: 23px;">
+        <div class=" mx-auto">
+            <div class="sm:flex justify-around">
+                <!-- Site-title  -->
+                <a href="#" class="text-white text-3xl font-bold p-3">E-VOTE</a>
+
+                <!-- Menus  -->
+                <ul class="text-gray-400 sm:self-center text-xl border-t-2 sm:border-none"
+                    style="font-size: 16px;">
+                    <li class="sm:inline-block">
+                        <a href="/accueil"
+                           class="p-3 hover:text-white  ">Accueil</a>
+                    </li>
+                    <li class="sm:inline-block">
+                        <a href="/aide"
+                           class="p-3 hover:text-white ">Aide</a>
+                    </li>
+
+                    <li class="sm:inline-block">
+                        <a href="/note"
+                           class="p-3 hover:text-white ">Note
+                            d'information</a>
+                    </li>
+
+
+                    <li class="sm:inline-block menuItem"><a href="/eventUser"
+                                                            class="p-3 hover:text-white">Liste
+                            des
+                            Evenements</a>
+                        <svg style="margin-left: auto; margin-right: auto; font-size: 20px;" width="1em" height="1em"
+                             viewBox="0 0 16 16" class="bi bi-arrow-down-short" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M4.646 7.646a.5.5 0 0 1 .708 0L8 10.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M8 4.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5z"/>
+                        </svg>
+
+                        <ul class="subMenu">
+                            <li class="subMenuItem menuItem ">
+                                <a href="/eventUser/coming" class="linkDecoration ">Prochainement</a>
+                            </li>
+                            <li class="subMenuItem menuItem ">
+                                <a href="/eventUser/progress" class="linkDecoration">En
+                                    cours</a></li>
+                            <li class="subMenuItem menuItem ">
+                                <a href="/eventUser/finished" class="linkDecoration ">Terminée</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="sm:inline-block">
+                        <a href="/eventUser/voter"
+                           class="p-3 hover:text-white ">Voter</a>
+
+                    </li>
+                    <li class="sm:inline-block">
+                        <a href="/eventResultat"
+                           class="p-3 hover:text-white ">Resultat</a>
+
+                    </li>
+
+                    <li class="sm:inline-block menuItem"><a href="/profile"
+                                                            class="p-3 hover:text-white ">
+                            <img style="width: 48px;height: 48px" class="img-user" src="/uploads/{{ userPhoto }}"></a>
+                        <svg style="margin-left: auto; margin-right: auto; font-size: 20px; color: #14213d;" width="1em"
+                             height="1em"
+                             viewBox="0 0 16 16" class="bi bi-arrow-down-short" fill="currentColor"
+                             xmlns="http://www.w3.org/2000/svg">
+                            <path fill-rule="evenodd"
+                                  d="M4.646 7.646a.5.5 0 0 1 .708 0L8 10.293l2.646-2.647a.5.5 0 0 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
+                            <path fill-rule="evenodd" d="M8 4.5a.5.5 0 0 1 .5.5v5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5z"/>
+                        </svg>
+
+                        <ul style="right: 8%" class="subMenu">
+                            <li class="subMenuItem menuItem ">
+
+                                <a class="linkDecoration "
+                                   href="{{ path('eventUser_setting', {'id': userId}) }}">Parametere</a>
+                            </li>
+
+                            <li class="subMenuItem menuItem  ">
+                                <a href="/logout" class="linkDecoration ">Deconnexion</a>
+                            </li>
+                        </ul>
+                    </li>
+
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+
+    <div class="vote-height">
+        <div style="padding-left: 30px ; padding-right: 30px " class="row">
+            <div class="col-12">
+                <div class="row d-flex justify-content-center">
+
+                    <p style="    font-size: 50px;color: #14213d; font-weight: 500;">404 NOT FOUND</p>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <footer style="background: #0a4e7e !important;" class="page-footer font-small blue">
+
+        <!-- Copyright -->
+        <div class="footer-copyright text-center py-3">© 2020 Copyright:
+            E-vote | PFA - EPI Sousse
+        </div>
+        <!-- Copyright -->
+
+    </footer>
+    <!-- Footer -->
+{% endblock %}

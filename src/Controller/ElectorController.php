@@ -29,12 +29,21 @@ class ElectorController extends Controller
     public function index(EventRepository $eventRepository, ElectorRepository $electorRepository, Request $request): Response
     {
 
-        $currentRoute = $request->attributes->get('_route');
-        return $this->render('admins/baseAdmin.html.twig', [
-            'electors' => $electorRepository->findAll(),
-            'events' => $eventRepository->findAll(),
-            'currentRoute' => $currentRoute
-        ]);
+        if ($this->getUser() && $this->getUser()->hasRole('ROLE_ADMIN')) {
+            $currentRoute = $request->attributes->get('_route');
+            return $this->render('admins/baseAdmin.html.twig', [
+                'electors' => $electorRepository->findAll(),
+                'events' => $eventRepository->findAll(),
+                'currentRoute' => $currentRoute
+            ]);
+        } elseif ($this->getUser() && $this->getUser()->hasRole('ROLE_ELECTOR')) {
+            return $this->render('users/vote/404.html.twig', [
+                'userPhoto' => $this->getUser()->getElector()->getPhoto(),
+                'userId' => $this->getUser()->getElector()->getId(),
+            ]);
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
     }
 
     /**
@@ -42,6 +51,7 @@ class ElectorController extends Controller
      */
     public function filterByEvent($id, EventRepository $eventRepository, ElectorRepository $electorRepository, Request $request)
     {
+
         $event = intval($id);
         if ($event != 0) {
             $event = $eventRepository->findOneBy(['id' => $event]);
@@ -69,207 +79,208 @@ class ElectorController extends Controller
      */
     public function new(Request $request, MailerInterface $mailer): Response
     {
-        $elector = new Elector();
-        $form = $this->createForm(ElectorType::class, $elector);
-        $form->handleRequest($request);
-        $currentRoute = $request->attributes->get('_route');
-        $userManager = $this->get('fos_user.user_manager');
-        $entityManager = $this->getDoctrine()->getManager();
-        $row = 0;
-        $form1 = $this->createFormBuilder()
-            ->add('input', FileType::class, ['required' => true, 'attr' => [
-                'accept' => '.csv',
-                'name' => "file1",
-                'id' => "input-file-now",
-                'name' => "file1",
-                'class' => "dropify uploadlogo"
-            ]])
-            ->add('event', EntityType::class, ['required' => true, 'class' => Event::class, 'attr' => [
-                'class' => 'form-control'
-            ]])
-            ->getForm();
-        $form1->handleRequest($request);
-        if ($form1->isSubmitted() && $form1->isValid()) {
-            if ($form1->get('input')->getData()) {
-                $csvFile = fopen($form1->get('input')->getData(), 'r');
-                $event = $form1->get('event')->getData();
-                while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
-                    if ($row != 0) {
-                        $cin = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
-                        $firstname = (isset($line[1]) && $line[1] != '') ? $line[1] : NULL;
-                        $lastname = (isset($line[2]) && $line[2] != '') ? $line[2] : NULL;
-                        $phone = (isset($line[3]) && $line[3] != '') ? $line[3] : NULL;
-                        $birth = (isset($line[4]) && $line[4] != '') ? $line[4] : NULL;
-                        $gender = (isset($line[5]) && $line[5] != '') ? $line[5] : NULL;
-                        $email = (isset($line[6]) && $line[6] != '') ? $line[6] : NULL;
-                        $email_exist = $userManager->findUserByEmail($email);
-                        if ($email_exist) {
-                            return $this->render('admins/baseAdmin.html.twig', [
-                                'error' => 1,
-                                'form' => $form->createView(),
-                                'form1' => $form1->createView(),
-                                'currentRoute' => $currentRoute
-                            ]);
-                        }
-                        $cin_Exist = $this->getDoctrine()
-                            ->getRepository(Elector::class)
-                            ->findOneBy(['cin' => $cin]);
-                        if ($cin_Exist) {
-                            return $this->render('admins/baseAdmin.html.twig', [
-                                'error' => 1,
-                                'form' => $form->createView(),
-                                'form1' => $form1->createView(),
-                                'currentRoute' => $currentRoute
-                            ]);
-                        }
-                        $password = $firstname . uniqid();
-                        $elector = new Elector();
-                        $elector->setPhone(intval($phone));
-                        $elector->setFirstName($firstname);
-                        $elector->setLastName($lastname);
-                        $elector->setCin(intval($cin));
-                        $elector->setGender($gender);
-                        $elector->setEmail($email);
-                        $elector->addEvent($event);
-                        $elector->setBirth(new \DateTime($birth));
-                        $entityManager->persist($elector);
-                        $entityManager->flush();
-                        $elector->setPhoto('profile.jpg');
-                        $user = $userManager->createUser();
-                        $user->setUsername($firstname . $lastname);
-                        $user->setEmail($email);
-                        $user->setEmailCanonical($email);
-                        $user->setEnabled(1);
-                        $user->setRoles(['ROLE_ELECTOR']);
-                        $user->setPlainPassword($password);
-                        $user->setElector($elector);
-                        $userManager->updateUser($user);
-                        $emailSend = (new Email())
-                            ->from('EvotePro@gmail.com')
-                            ->to($email)
-                            ->subject('Bienvenue a E-Vote!')
-                            ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $lastname . ' ' . $firstname . '</strong></div><div style="margin-bottom:10px">login : ' . $email . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
+        if ($this->getUser() && $this->getUser()->hasRole('ROLE_ADMIN')) {
+            $elector = new Elector();
+            $form = $this->createForm(ElectorType::class, $elector);
+            $form->handleRequest($request);
+            $currentRoute = $request->attributes->get('_route');
+            $userManager = $this->get('fos_user.user_manager');
+            $entityManager = $this->getDoctrine()->getManager();
+            $row = 0;
+            $form1 = $this->createFormBuilder()
+                ->add('input', FileType::class, ['required' => true, 'attr' => [
+                    'accept' => '.csv',
+                    'name' => "file1",
+                    'id' => "input-file-now",
+                    'name' => "file1",
+                    'class' => "dropify uploadlogo"
+                ]])
+                ->add('event', EntityType::class, ['required' => true, 'class' => Event::class, 'attr' => [
+                    'class' => 'form-control'
+                ]])
+                ->getForm();
+            $form1->handleRequest($request);
+            if ($form1->isSubmitted() && $form1->isValid()) {
+                if ($form1->get('input')->getData()) {
+                    $csvFile = fopen($form1->get('input')->getData(), 'r');
+                    $event = $form1->get('event')->getData();
+                    while (($line = fgetcsv($csvFile, 1000, ";")) !== FALSE) {
+                        if ($row != 0) {
+                            $cin = (isset($line[0]) && $line[0] != '') ? $line[0] : NULL;
+                            $firstname = (isset($line[1]) && $line[1] != '') ? $line[1] : NULL;
+                            $lastname = (isset($line[2]) && $line[2] != '') ? $line[2] : NULL;
+                            $phone = (isset($line[3]) && $line[3] != '') ? $line[3] : NULL;
+                            $birth = (isset($line[4]) && $line[4] != '') ? $line[4] : NULL;
+                            $gender = (isset($line[5]) && $line[5] != '') ? $line[5] : NULL;
+                            $email = (isset($line[6]) && $line[6] != '') ? $line[6] : NULL;
+                            $email_exist = $userManager->findUserByEmail($email);
+                            if ($email_exist) {
+                                return $this->render('admins/baseAdmin.html.twig', [
+                                    'error' => 1,
+                                    'form' => $form->createView(),
+                                    'form1' => $form1->createView(),
+                                    'currentRoute' => $currentRoute
+                                ]);
+                            }
+                            $cin_Exist = $this->getDoctrine()
+                                ->getRepository(Elector::class)
+                                ->findOneBy(['cin' => $cin]);
+                            if ($cin_Exist) {
+                                return $this->render('admins/baseAdmin.html.twig', [
+                                    'error' => 1,
+                                    'form' => $form->createView(),
+                                    'form1' => $form1->createView(),
+                                    'currentRoute' => $currentRoute
+                                ]);
+                            }
+                            $password = $firstname . uniqid();
+                            $user = $userManager->createUser();
+                            $user->setUsername($firstname . $lastname);
+                            $user->setEmail($email);
+                            $user->setEmailCanonical($email);
+                            $user->setEnabled(1);
+                            $user->setRoles(['ROLE_ELECTOR']);
+                            $user->setPlainPassword($password);
+                            $userManager->updateUser($user);
+                            $elector = new Elector();
+                            $elector->setPhone(intval($phone));
+                            $elector->setFirstName($firstname);
+                            $elector->setLastName($lastname);
+                            $elector->setCin(intval($cin));
+                            $elector->setGender($gender);
+                            $elector->setEmail($email);
+                            $elector->addEvent($event);
+                            $elector->setBirth(new \DateTime($birth));
+                            $elector->setPhoto('profile.jpg');
+                            $emailSend = (new Email())
+                                ->from('EvotePro@gmail.com')
+                                ->to($email)
+                                ->subject('Bienvenue a E-Vote!')
+                                ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $lastname . ' ' . $firstname . '</strong></div><div style="margin-bottom:10px">login : ' . $email . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
 
-                        $mailer->send($emailSend);
+                            $mailer->send($emailSend);
+                            $entityManager->persist($elector);
+                            $entityManager->flush();
+                        }
+                        $row++;
                     }
-                    $row++;
+                    return $this->redirectToRoute('elector');
                 }
-                return $this->redirectToRoute('elector');
-            }
 
-            foreach ($elector->getEvent() as $event) {
-                $elector->addEvent($event);
-            }
-            $file = $form->get('photo')->getData();
-            $email_exist = $userManager->findUserByEmail($form->get('email')->getData());
-            if ($email_exist) {
-                return $this->render('admins/baseAdmin.html.twig', [
-                    'error' => 1,
-                    'form' => $form->createView(),
-                    'form1' => $form1->createView(),
-                    'currentRoute' => $currentRoute
-                ]);
-            }
-
-
-            $cin_Exist = $this->getDoctrine()
-                ->getRepository(Elector::class)
-                ->findOneBy(['cin' => $form->get('cin')->getData()]);
-            if ($cin_Exist) {
-                return $this->render('admins/baseAdmin.html.twig', [
-                    'error' => 1,
-                    'form' => $form->createView(),
-                    'form1' => $form1->createView(),
-                    'currentRoute' => $currentRoute
-                ]);
-            }
-            $candidat = new Candidats();
-            if ($request->get("candidat") != null) {
-
-                $candidat->setCin($form->get('cin')->getData());
-                $candidat->setFirstName($form->get('first_name')->getData());
-                $candidat->setLastName($form->get('last_name')->getData());
-                $candidat->setEmail($form->get('email')->getData());
-                $candidat->setGender($form->get('gender')->getData());
-                $candidat->setDateOfBirth($form->get('date_of_birth')->getData());
-                $candidat->setPhone($form->get('phone')->getData());
-                $candidat->setphoto('profile.jpg');
-                $candidat->setDescription($form->get('first_name')->getData());
-                $entityManager = $this->getDoctrine()->getManager();
-                $entityManager->persist($candidat);
-                $entityManager->flush();
-            }
-
-
-            $password = $form->get('first_name')->getData() . uniqid();
-            $user = $userManager->createUser();
-            $user->setUsername($form->get('first_name')->getData() . $form->get('last_name')->getData());
-            $user->setEmail($form->get('email')->getData());
-            $user->setEmailCanonical($form->get('email')->getData());
-            $user->setEnabled(1);
-            $user->setRoles(['ROLE_ELECTOR']);
-            $user->setPlainPassword($password);
-            $userManager->updateUser($user);
-        }
-        if ($form->isSubmitted() && $form->isValid()) {
-            $password = $elector->getFirstName() . uniqid();
-            if (!empty($file)) {
-                $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
-                // Move the file to the directory where images are stored
-                try {
-                    $file->move(
-                        $this->getParameter('upload_directory'),
-                        $fileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                foreach ($elector->getEvent() as $event) {
+                    $elector->addEvent($event);
                 }
-                // updates the 'image' property to store the PDF file name
-                // instead of its contents
-                $elector->setphoto($fileName);
+                $file = $form->get('photo')->getData();
+                $email_exist = $userManager->findUserByEmail($form->get('email')->getData());
+                if ($email_exist) {
+                    return $this->render('admins/baseAdmin.html.twig', [
+                        'error' => 1,
+                        'form' => $form->createView(),
+                        'form1' => $form1->createView(),
+                        'currentRoute' => $currentRoute
+                    ]);
+                }
 
-                if (($form->get('photo')->getData() != null) && ($request->get("candidat") != null)) {
 
-                    $candidat->setphoto($fileName);
+                $cin_Exist = $this->getDoctrine()
+                    ->getRepository(Elector::class)
+                    ->findOneBy(['cin' => $form->get('cin')->getData()]);
+                if ($cin_Exist) {
+                    return $this->render('admins/baseAdmin.html.twig', [
+                        'error' => 1,
+                        'form' => $form->createView(),
+                        'form1' => $form1->createView(),
+                        'currentRoute' => $currentRoute
+                    ]);
+                }
+                $candidat = new Candidats();
+                if ($request->get("candidat") != null) {
+
+                    $candidat->setCin($form->get('cin')->getData());
+                    $candidat->setFirstName($form->get('first_name')->getData());
+                    $candidat->setLastName($form->get('last_name')->getData());
+                    $candidat->setEmail($form->get('email')->getData());
+                    $candidat->setGender($form->get('gender')->getData());
+                    $candidat->setDateOfBirth($form->get('date_of_birth')->getData());
+                    $candidat->setPhone($form->get('phone')->getData());
+                    $candidat->setphoto('profile.jpg');
+                    $candidat->setDescription($form->get('first_name')->getData());
                     $entityManager = $this->getDoctrine()->getManager();
                     $entityManager->persist($candidat);
                     $entityManager->flush();
                 }
-            } else {
-                $elector->setphoto('profile.jpg');
+
+
+                $password = $form->get('first_name')->getData() . uniqid();
+                $user = $userManager->createUser();
+                $user->setUsername($form->get('first_name')->getData() . $form->get('last_name')->getData());
+                $user->setEmail($form->get('email')->getData());
+                $user->setEmailCanonical($form->get('email')->getData());
+                $user->setEnabled(1);
+                $user->setRoles(['ROLE_ELECTOR']);
+                $user->setPlainPassword($password);
+                $userManager->updateUser($user);
             }
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($elector);
-            $entityManager->flush();
-            $password = $elector->getFirstName() . uniqid();
-            $user = $userManager->createUser();
-            $user->setUsername($elector->getFirstName() . $elector->getLastName());
-            $user->setEmail($elector->getEmail());
-            $user->setEmailCanonical($elector->getEmail());
-            $user->setEnabled(1);
-            $user->setRoles(['ROLE_ELECTOR']);
-            $user->setPlainPassword($password);
-            $user->setElector($elector);
-            $userManager->updateUser($user);
-            $email = (new Email())
-                ->from('EvotePro@gmail.com')
-                ->to($form->get('email')->getData())
-                ->subject('Bienvenue a E-Vote!')
-                ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $form->get('last_name')->getData() . ' ' . $form->get('first_name')->getData() . '</strong></div><div style="margin-bottom:10px">login : ' . $form->get('email')->getData() . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
+            if ($form->isSubmitted() && $form->isValid()) {
+                $password = $elector->getFirstName() . uniqid();
+                if (!empty($file)) {
+                    $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
+                    // Move the file to the directory where images are stored
+                    try {
+                        $file->move(
+                            $this->getParameter('upload_directory'),
+                            $fileName
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    // updates the 'image' property to store the PDF file name
+                    // instead of its contents
+                    $elector->setphoto($fileName);
 
-            $mailer->send($email);
+                    if (($form->get('photo')->getData() != null) && ($request->get("candidat") != null)) {
 
-            return $this->redirectToRoute('elector');
+                        $candidat->setphoto($fileName);
+                        $entityManager = $this->getDoctrine()->getManager();
+                        $entityManager->persist($candidat);
+                        $entityManager->flush();
+                    }
+                } else {
+                    $elector->setphoto('profile.jpg');
+                }
+
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->persist($elector);
+                $entityManager->flush();
+                $email = (new Email())
+                    ->from('EvotePro@gmail.com')
+                    ->to($form->get('email')->getData())
+                    ->subject('Bienvenue a E-Vote!')
+                    ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $form->get('last_name')->getData() . ' ' . $form->get('first_name')->getData() . '</strong></div><div style="margin-bottom:10px">login : ' . $form->get('email')->getData() . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
+
+                $mailer->send($email);
+
+                return $this->redirectToRoute('elector');
+            }
+
+
+            return $this->render('admins/baseAdmin.html.twig', [
+                'elector' => $elector,
+                'form' => $form->createView(),
+                'form1' => $form1->createView(),
+                'currentRoute' => $currentRoute,
+                'error' => 0
+            ]);
+
+        } elseif ($this->getUser() && $this->getUser()->hasRole('ROLE_ELECTOR')) {
+            return $this->render('users/vote/404.html.twig', [
+                'userPhoto' => $this->getUser()->getElector()->getPhoto(),
+                'userId' => $this->getUser()->getElector()->getId(),
+            ]);
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
         }
 
-
-        return $this->render('admins/baseAdmin.html.twig', [
-            'elector' => $elector,
-            'form' => $form->createView(),
-            'form1' => $form1->createView(),
-            'currentRoute' => $currentRoute,
-            'error' => 0
-        ]);
     }
 
     /**
@@ -278,12 +289,21 @@ class ElectorController extends Controller
     public function show(Elector $elector, Request $request): Response
     {
 
-        $currentRoute = $request->attributes->get('_route');
-        return $this->render('admins/baseAdmin.html.twig', [
-            'elector' => $elector,
-            'events' => $elector->getEvent(),
-            'currentRoute' => $currentRoute
-        ]);
+        if ($this->getUser() && $this->getUser()->hasRole('ROLE_ADMIN')) {
+            $currentRoute = $request->attributes->get('_route');
+            return $this->render('admins/baseAdmin.html.twig', [
+                'elector' => $elector,
+                'events' => $elector->getEvent(),
+                'currentRoute' => $currentRoute
+            ]);
+        } elseif ($this->getUser() && $this->getUser()->hasRole('ROLE_ELECTOR')) {
+            return $this->render('users/vote/404.html.twig', [
+                'userPhoto' => $this->getUser()->getElector()->getPhoto(),
+                'userId' => $this->getUser()->getElector()->getId(),
+            ]);
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
     }
 
     /**
@@ -291,41 +311,51 @@ class ElectorController extends Controller
      */
     public function edit(Request $request, Elector $elector): Response
     {
-        $currentRoute = $request->attributes->get('_route');
-        $form = $this->createForm(ElectorType::class, $elector);
-        $form->handleRequest($request);
+        if ($this->getUser() && $this->getUser()->hasRole('ROLE_ADMIN')) {
+            $currentRoute = $request->attributes->get('_route');
+            $form = $this->createForm(ElectorType::class, $elector);
+            $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()) {
+            if ($form->isSubmitted() && $form->isValid()) {
 
-            $file = $form->get('photo')->getData();
+                $file = $form->get('photo')->getData();
 
-            if (!empty($file)) {
-                $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
-                // Move the file to the directory where images are stored
-                try {
-                    $file->move(
-                        $this->getParameter('upload_directory'),
-                        $fileName
-                    );
-                } catch (FileException $e) {
-                    // ... handle exception if something happens during file upload
+                if (!empty($file)) {
+                    $fileName = '' . md5(uniqid()) . '.' . $file->guessExtension();
+                    // Move the file to the directory where images are stored
+                    try {
+                        $file->move(
+                            $this->getParameter('upload_directory'),
+                            $fileName
+                        );
+                    } catch (FileException $e) {
+                        // ... handle exception if something happens during file upload
+                    }
+                    // updates the 'image' property to store the PDF file name
+                    // instead of its contents
+                    $elector->setphoto($fileName);
+                } else {
+                    $elector->setphoto('profile.jpg');
                 }
-                // updates the 'image' property to store the PDF file name
-                // instead of its contents
-                $elector->setphoto($fileName);
-            } else {
-                $elector->setphoto('profile.jpg');
+                $this->getDoctrine()->getManager()->flush();
+
+                return $this->redirectToRoute('elector');
             }
-            $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('elector');
+            return $this->render('admins/baseAdmin.html.twig', [
+                'elector' => $elector,
+                'form' => $form->createView(),
+                'currentRoute' => $currentRoute
+            ]);
+
+        } elseif ($this->getUser() && $this->getUser()->hasRole('ROLE_ELECTOR')) {
+            return $this->render('users/vote/404.html.twig', [
+                'userPhoto' => $this->getUser()->getElector()->getPhoto(),
+                'userId' => $this->getUser()->getElector()->getId(),
+            ]);
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
         }
-
-        return $this->render('admins/baseAdmin.html.twig', [
-            'elector' => $elector,
-            'form' => $form->createView(),
-            'currentRoute' => $currentRoute
-        ]);
     }
 
 
@@ -334,12 +364,22 @@ class ElectorController extends Controller
      */
     public function delete(Request $request, Elector $elector): Response
     {
-        if ($this->isCsrfTokenValid('delete' . $elector->getId(), $request->request->get('_token'))) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->remove($elector);
-            $entityManager->flush();
-        }
+        if ($this->getUser() && $this->getUser()->hasRole('ROLE_ADMIN')) {
+            if ($this->isCsrfTokenValid('delete' . $elector->getId(), $request->request->get('_token'))) {
+                $entityManager = $this->getDoctrine()->getManager();
+                $entityManager->remove($elector);
+                $entityManager->flush();
+            }
 
-        return $this->redirectToRoute('elector');
+            return $this->redirectToRoute('elector');
+
+        } elseif ($this->getUser() && $this->getUser()->hasRole('ROLE_ELECTOR')) {
+            return $this->render('users/vote/404.html.twig', [
+                'userPhoto' => $this->getUser()->getElector()->getPhoto(),
+                'userId' => $this->getUser()->getElector()->getId(),
+            ]);
+        } else {
+            return $this->redirectToRoute('fos_user_security_login');
+        }
     }
 }
