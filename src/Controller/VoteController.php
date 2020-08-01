@@ -22,8 +22,9 @@ class VoteController extends Controller
 
     public function __construct(FactoryInterface $formFactory)
     {
-        $this->formFactory     = $formFactory;
+        $this->formFactory = $formFactory;
     }
+
     /**
      * @Route("/accueil", name="vote_accueil")
      */
@@ -32,7 +33,7 @@ class VoteController extends Controller
         $currentRoute = $request->attributes->get('_route');
         $eventNumber = 0;
         $userPhoto = null;
-        if ($this->getUser()->getElector() != null){
+        if ($this->getUser()->getElector() != null) {
             $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
             $userPhoto = $this->getUser()->getElector()->getPhoto();
@@ -41,7 +42,7 @@ class VoteController extends Controller
 
         return $this->render('users/baseUsers.html.twig', [
             'currentRoute' => $currentRoute,
-            'eventNumber' =>  $eventNumber,
+            'eventNumber' => $eventNumber,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
 
@@ -67,7 +68,7 @@ class VoteController extends Controller
         return $this->render('users/baseUsers.html.twig', [
 
             'events' => $user->getElector()->getEvent(),
-            'eventNumber' =>  $eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
@@ -121,7 +122,7 @@ class VoteController extends Controller
         return $this->render('users/baseUsers.html.twig', [
 
             'events' => $user->getElector()->getEvent(),
-            'eventNumber' =>  $eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
@@ -147,7 +148,7 @@ class VoteController extends Controller
         return $this->render('users/baseUsers.html.twig', [
 
             'events' => $user->getElector()->getEvent(),
-            'eventNumber' =>  $eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
@@ -173,7 +174,7 @@ class VoteController extends Controller
         return $this->render('users/baseUsers.html.twig', [
 
             'events' => $user->getElector()->getEvent(),
-            'eventNumber' =>  $eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
@@ -199,7 +200,7 @@ class VoteController extends Controller
         return $this->render('users/baseUsers.html.twig', [
 
             'events' => $user->getElector()->getEvent(),
-            'eventNumber' =>  $eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
@@ -223,7 +224,7 @@ class VoteController extends Controller
         }
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
-            'candidats' =>  $event->getCandidats(),
+            'candidats' => $event->getCandidats(),
             'events' => $eventRepository->findAll(),
             'event' => $event,
             'eventNumber' => $eventNumber,
@@ -236,7 +237,7 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser/candidat/{id}", name="eventUser_candidat_show" , methods={"GET"})
      */
-    public function showCandidat(Candidats $candidat,  Request $request)
+    public function showCandidat(Candidats $candidat, Request $request)
     {
 
         $eventNumber = 0;
@@ -262,7 +263,7 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser/vote/{id}", name="eventUser_vote" , methods={"GET"})
      */
-    public function voter(Event $event,  Request $request)
+    public function voter(Event $event, Request $request)
     {
         $eventNumber = 0;
         $userPhoto = null;
@@ -305,7 +306,7 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser/vote/{id}", name="eventUser_voter" , methods={"GET"})
      */
-    public function eventVoter(Candidats $candidat,  Request $request)
+    public function eventVoter(Candidats $candidat, Request $request)
     {
         $eventNumber = 0;
         $userPhoto = null;
@@ -317,7 +318,7 @@ class VoteController extends Controller
         }
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
-            'candidat' => $candidat,
+
             'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
@@ -327,14 +328,14 @@ class VoteController extends Controller
     }
 
 
-
     /**
      * @Route("/eventUser/resultat/{id}", name="eventUser_result" , methods={"GET"})
      */
-    public function result(Candidats $candidat,  Request $request)
+    public function result($id,Event $event, Candidats $candidat, Request $request, EventRepository $EventRepository)
     {
         $eventNumber = 0;
         $userPhoto = null;
+
         if ($this->getUser()->getElector() != null) {
             $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
@@ -343,7 +344,9 @@ class VoteController extends Controller
         }
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
+            'event' => $EventRepository->find($id),
             'candidat' => $candidat,
+            'candidats' => $event->getCandidats(),
             'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
@@ -403,7 +406,7 @@ class VoteController extends Controller
     /**
      * @Route("/{id}/setting", name="eventUser_setting" , methods={"GET"})
      */
-    public function setting (  Request $request, Elector $elector)
+    public function setting(Request $request, Elector $elector)
     {
         $currentRoute = $request->attributes->get('_route');
         $form = $this->createForm(ElectorType::class, $elector);

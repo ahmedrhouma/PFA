@@ -10,7 +10,7 @@
             {% if event.status == 1 %}
                 <div style="margin-left:1%;padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"class="card mb-3 col-2">
 
-                    <img class="card-img-top" src="/uploads/{{ event.photo }}" alt="Card image cap">
+                    <img class="card-img-top card-votes" src="/uploads/{{ event.photo }}" alt="Card image cap">
                     <div class="card-body">
                         <h5 class="card-title"style="font-size: 17px; text-transform: uppercase; font-weight: 700;   margin-bottom: 0.35rem;">
                             {{ event.title }}
@@ -21,11 +21,11 @@
                         </p>
 
 
-
-                        <a class="  pull-left label success  " href="{{ path('eventUser_show', {'id': event.id}) }}">Voir
+                        <div style="margin-top: 20px">
+                        <a style="width: 80px;" class="  pull-left label success  " href="{{ path('eventUser_show', {'id': event.id}) }}">Voir
                             plus</a>
-                        <a class=" pull-right label danger " href="{{ path('eventUser_vote', {'id': event.id}) }}">Voter</a>
-
+                        <a style="width: 80px;" class=" pull-right label danger " href="{{ path('eventUser_vote', {'id': event.id}) }}">Voter</a>
+                        </div>
                     </div>
                 </div>
 

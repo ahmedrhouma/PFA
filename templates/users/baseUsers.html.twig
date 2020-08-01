@@ -124,6 +124,8 @@
             {{ include('users/vote/eventUser_voter.html.twig') }}
         {% elseif currentRoute == "eventUser_vo" %}
             {{ include('users/vote/eventUser_vo.html.twig') }}
+        {% elseif currentRoute == "eventUser_result" %}
+            {{ include('users/vote/eventUser_result.html.twig') }}
 
         {% endif %}
     </div>

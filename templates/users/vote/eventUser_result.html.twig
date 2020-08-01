@@ -1,0 +1,53 @@
+<div style="padding-left: 30px ; padding-right: 30px " class="row">
+
+    <h2 class="title-vote">Resultat : {{ event.title }}</h2>
+
+    <div class="col-12">
+        <div style="margin-left: 41.666667%; padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"
+             class="card mb-3 col-2">
+            <div style="position: absolute" class="corner-ribbon top-right sticky green shadow">
+              Vainquer 55%
+            </div>
+            <img class="card-img-top card-votes" src="/uploads/" alt="Card image cap">
+            <div class="card-body">
+                <h5 class="card-title"
+                    style="font-size: 17px; text-transform: uppercase; font-weight: 700;   margin-bottom: 0.35rem;">
+                    55
+                </h5>
+
+                <p class="card-text">
+                    55
+                </p>
+            </div>
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="row d-flex justify-content-center">
+        {% for candidat in  candidats %}
+
+
+            <div style="margin-left:1%; padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"
+                 class="card mb-3 col-2">
+                <div style="position: absolute" class="corner-ribbon top-right sticky red shadow">
+                    10%
+                </div>
+                <img class="card-img-top card-votes" src="/uploads/{{ candidat.photo }}" alt="Card image cap">
+                <div class="card-body">
+                    <h5 class="card-title"
+                        style="font-size: 17px; text-transform: uppercase; font-weight: 700;   margin-bottom: 0.35rem;">
+                        {{ candidat.firstname }}
+                        {{ candidat.lastname }}
+                    </h5>
+
+                    <p class="card-text">
+                      85 votes
+                    </p>
+                    <div style="margin-top: 20px">
+                        <a  style="width: 80px;" class="  pull-left label success  "  href="{{ path('eventUser_candidat_show', {'id': candidat.id}) }}">Voir plus</a>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+</div>
