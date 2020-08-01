@@ -36,13 +36,12 @@ class EncryptedVote
     private $event;
 
     /**
-     * @ORM\ManyToMany(targetEntity=Elector::class, inversedBy="encryptedVotes")
+     * @ORM\Column(type="integer")
      */
     private $elector;
 
     public function __construct()
     {
-        $this->elector = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -86,20 +85,15 @@ class EncryptedVote
         return $this;
     }
 
-    /**
-     * @return Collection|Elector[]
-     */
-    public function getElector(): Collection
+
+    public function getElector(): ?int
     {
         return $this->elector;
     }
 
-    public function addElector(Elector $elector): self
+    public function setElector(int $elector): self
     {
-        if (!$this->elector->contains($elector)) {
-            $this->elector[] = $elector;
-        }
-
+            $this->elector = $elector;
         return $this;
     }
 
