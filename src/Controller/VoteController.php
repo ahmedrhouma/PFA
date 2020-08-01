@@ -16,7 +16,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\UserBundle\Form\Factory\FactoryInterface;
-
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 class VoteController extends Controller
 {
 
@@ -73,13 +73,8 @@ class VoteController extends Controller
         }
         return $this->render('users/baseUsers.html.twig', [
 
-<<<<<<< HEAD
-            'events' => $user->getElector()->getEvent(),
-            'eventNumber' => $eventNumber,
-=======
             'events' => $events,
             'eventNumber' =>  $eventNumber,
->>>>>>> origin/master
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
@@ -195,9 +190,9 @@ class VoteController extends Controller
     /**
      * @Route("/eventResultat", name="eventResultat")
      */
-    public function showEventTer(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
+    public function showEventTer(UserPasswordEncoderInterface $encoder,Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
     {
-
+        
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
         $eventNumber = 0;
@@ -345,7 +340,7 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser/resultat/{id}", name="eventUser_result" , methods={"GET"})
      */
-    public function result($id,Event $event, Candidats $candidat, Request $request, EventRepository $EventRepository)
+    public function result($id,Event $event, Candidats $candidat, Request $request, EventRepository $EventRepository, EncryptedVoteRepository $EncryptedVoteRepository)
     {
         $eventNumber = 0;
         $userPhoto = null;
@@ -356,6 +351,19 @@ class VoteController extends Controller
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
         }
+        $event = $EventRepository->find($id);
+        $votes = $EncryptedVoteRepository->findBy(['event'=>$event]);
+        $candidats = $event->getCandidats();
+        foreach ($candidats as  $candidat) {
+            $id =password_hash($candidat->getId(),PASSWORD_DEFAULT);
+            foreach($votes as $vote){
+                if(password_verify($vote->getVote(),$id)){
+                    $candidat->addVotes();
+                }
+            }
+            var_dump($candidat->getVotes());
+        }
+        die;
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'event' => $EventRepository->find($id),

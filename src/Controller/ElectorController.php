@@ -123,14 +123,6 @@ class ElectorController extends Controller
                             ]);
                         }
                         $password = $firstname . uniqid();
-                        $user = $userManager->createUser();
-                        $user->setUsername($firstname . $lastname);
-                        $user->setEmail($email);
-                        $user->setEmailCanonical($email);
-                        $user->setEnabled(1);
-                        $user->setRoles(['ROLE_ELECTOR']);
-                        $user->setPlainPassword($password);
-                        $userManager->updateUser($user);
                         $elector = new Elector();
                         $elector->setPhone(intval($phone));
                         $elector->setFirstName($firstname);
@@ -140,7 +132,18 @@ class ElectorController extends Controller
                         $elector->setEmail($email);
                         $elector->addEvent($event);
                         $elector->setBirth(new \DateTime($birth));
+                        $entityManager->persist($elector);
+                        $entityManager->flush();
                         $elector->setPhoto('profile.jpg');
+                        $user = $userManager->createUser();
+                        $user->setUsername($firstname . $lastname);
+                        $user->setEmail($email);
+                        $user->setEmailCanonical($email);
+                        $user->setEnabled(1);
+                        $user->setRoles(['ROLE_ELECTOR']);
+                        $user->setPlainPassword($password);
+                        $user->setElector($elector);
+                        $userManager->updateUser($user);
                         $emailSend = (new Email())
                             ->from('EvotePro@gmail.com')
                             ->to($email)
@@ -148,8 +151,6 @@ class ElectorController extends Controller
                             ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $lastname . ' ' . $firstname . '</strong></div><div style="margin-bottom:10px">login : ' . $email . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
 
                         $mailer->send($emailSend);
-                        $entityManager->persist($elector);
-                        $entityManager->flush();
                     }
                     $row++;
                 }
@@ -237,10 +238,19 @@ class ElectorController extends Controller
             } else {
                 $elector->setphoto('profile.jpg');
             }
-
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($elector);
             $entityManager->flush();
+            $password = $elector->getFirstName() . uniqid();
+            $user = $userManager->createUser();
+            $user->setUsername($elector->getFirstName() . $elector->getLastName());
+            $user->setEmail($elector->getEmail());
+            $user->setEmailCanonical($elector->getEmail());
+            $user->setEnabled(1);
+            $user->setRoles(['ROLE_ELECTOR']);
+            $user->setPlainPassword($password);
+            $user->setElector($elector);
+            $userManager->updateUser($user);
             $email = (new Email())
                 ->from('EvotePro@gmail.com')
                 ->to($form->get('email')->getData())
@@ -318,7 +328,7 @@ class ElectorController extends Controller
         ]);
     }
 
-    
+
     /**
      * @Route("/{id}", name="elector_delete", methods={"DELETE"})
      */

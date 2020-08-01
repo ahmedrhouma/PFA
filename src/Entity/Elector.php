@@ -65,10 +65,7 @@ class Elector
      */
     private $birth;
 
-    /**
-     * @ORM\OneToOne(targetEntity=User::class, inversedBy="elector", cascade={"persist", "remove"})
-     */
-    private $User;
+
 
     /**
      * @ORM\ManyToMany(targetEntity=EncryptedVote::class, mappedBy="elector")
@@ -213,17 +210,6 @@ class Elector
         return $this;
     }
 
-    public function getUser(): ?User
-    {
-        return $this->User;
-    }
-
-    public function setUser(?User $User): self
-    {
-        $this->User = $User;
-
-        return $this;
-    }
 
     /**
      * @return Collection|EncryptedVote[]

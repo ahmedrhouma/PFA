@@ -20,9 +20,11 @@ class User extends BaseUser
     protected $id;
 
     /**
-     * @ORM\OneToOne(targetEntity=Elector::class, mappedBy="User", cascade={"persist", "remove"})
+     * @ORM\OneToOne(targetEntity=Elector::class, cascade={"persist", "remove"})
+     * @ORM\JoinColumn(nullable=false)
      */
-    private $elector;
+    private $Elector;
+
 
     public function __construct()
     {
@@ -32,19 +34,14 @@ class User extends BaseUser
 
     public function getElector(): ?Elector
     {
-        return $this->elector;
+        return $this->Elector;
     }
 
-    public function setElector(?Elector $elector): self
+    public function setElector(Elector $Elector): self
     {
-        $this->elector = $elector;
-
-        // set (or unset) the owning side of the relation if necessary
-        $newUser = null === $elector ? null : $this;
-        if ($elector->getUser() !== $newUser) {
-            $elector->setUser($newUser);
-        }
+        $this->Elector = $Elector;
 
         return $this;
     }
+
 }

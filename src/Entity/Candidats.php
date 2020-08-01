@@ -71,7 +71,8 @@ class Candidats
      * @ORM\Column(type="integer")
      */
     private $cin;
-
+    private $votes =0;
+    
     public function getId(): ?int
     {
         return $this->id;
@@ -89,6 +90,14 @@ class Candidats
         return $this;
     }
 
+    public function addVotes()
+    {
+        $this->votes += 1;
+    }
+    public function agetVotes(): ?int
+    {
+       return $this->votes;
+    }
     public function getLastName(): ?string
     {
         return $this->last_name;
