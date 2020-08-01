@@ -72,6 +72,7 @@ class Candidats
      */
     private $cin;
     private $votes =0;
+    private $percentage =0;
     
     public function getId(): ?int
     {
@@ -90,11 +91,20 @@ class Candidats
         return $this;
     }
 
+    public function getPercentage(): ?float
+    {
+        return round($this->percentage,2);
+    }
+
+    public function setPercentage(float $per)
+    {
+        $this->percentage = $per;
+    }
     public function addVotes()
     {
         $this->votes += 1;
     }
-    public function agetVotes(): ?int
+    public function getVotes(): ?int
     {
        return $this->votes;
     }
