@@ -183,7 +183,9 @@ class CandidatsController extends Controller
 
             $candidat->setphoto($fileName);
             $email_exist = $userManager->findUserByEmail($form->get('email')->getData());
+
             if ($email_exist) {
+
                 return $this->render('admins/baseAdmin.html.twig', [
                     'error' => 1,
                     'form' => $form->createView(),
@@ -197,6 +199,7 @@ class CandidatsController extends Controller
                 ->findOneBy(['cin' => $form->get('cin')->getData()]);
 
             if ($cin_Exist) {
+
                 return $this->render('admins/baseAdmin.html.twig', [
                     'error' => 1,
                     'form' => $form->createView(),

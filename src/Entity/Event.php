@@ -254,4 +254,10 @@ class Event
         return count($this->electors);
     }
 
+    public function getStatCandidat(): int
+    {
+
+        return count($this->candidats);
+    }
+
 }
