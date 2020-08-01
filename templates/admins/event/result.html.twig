@@ -9,23 +9,43 @@
                 <div class="row">
                     <div class="col-sm-12">
                         <div class="box" style="  border-top: #2196f3 solid;">
-                            <div class="row" style="padding:20px ;margin-left: 15px;">
-                                <label for="events" style="margin-right:10px"><h6 style="line-height: 31px">Evénement :</h6></label>
-                                <select class="form-control col-4" id="events" name="events">
-                                    <option value="0"></option>
-                                    {% for event in events %}
-                                        <option value='{{ event.id }}'>{{ event.title }}</option>
-                                    {% endfor %}
-                                </select>
+                            <div class="box-header">
+
+                                <strong>Vainquer</strong>
+<div>
+    {% for candidat in  candidats|sort((a, b) => a.percentage <= b.percentage) %}
+
+        {% if loop.first %}
+            <div style="position: absolute" class="corner-ribbon top-right sticky green shadow">
+                Vainquer {{ candidat.percentage }}%
+            </div>
+
+
+    <img class="card-img-top card-votes" src="/uploads/{{ candidat.photo }}" alt="Card image cap">
+    <div class="card-body">
+        <h5 class="card-title" style="font-size: 17px; text-transform: uppercase; font-weight: 700;   margin-bottom: 0.35rem;">
+            {{ candidat.firstname }}
+            {{ candidat.lastname }}
+        </h5>
+
+        <p class="card-text">
+            {{ candidat.votes }}
+            votes
+        </p>
+        <div style="margin-top: 20px">
+            <a style="width: 80px;" class="  pull-left label success  " href="{{ path('eventUser_candidat_show', {'id': candidat.id}) }}">Voir plus</a>
+        </div>
+    </div>
+        {% endif %}
+    {% endfor %}
+</div>
                             </div>
+
                         </div>
                         <div class="box" style="  border-top: #2196f3 solid;">
                             <div class="box-header">
 
-                                <strong>Liste des candidats</strong> <a class="label primary pull-right"
-                                                                        href="{{ path('candidats_new') }}">Ajouter nouveau</a>
-                                <!--modals-->
-
+                                <strong>Liste des candidats</strong>
                             </div>
 
                             <table style="  width: 100% !important;" class="table  table-striped table-bordered" id="example" >
@@ -47,49 +67,27 @@
                                             <path fill-rule="evenodd" d="M5 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
                                         </svg>
                                     </th>
-                                    <th>Date du naissance
+                                    <th>pourcentage
                                         <svg style="font-size: 15px;" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M11 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
                                             <path fill-rule="evenodd" d="M10.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L11 3.707 8.354 6.354a.5.5 0 1 1-.708-.708l3-3zm-9 7a.5.5 0 0 1 .708 0L5 12.293l2.646-2.647a.5.5 0 1 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
                                             <path fill-rule="evenodd" d="M5 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
                                         </svg>
                                     </th>
-                                    <th>Evenement
+                                    <th>Nombre des votes
                                         <svg style="font-size: 15px;" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
                                             <path fill-rule="evenodd" d="M11 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
                                             <path fill-rule="evenodd" d="M10.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L11 3.707 8.354 6.354a.5.5 0 1 1-.708-.708l3-3zm-9 7a.5.5 0 0 1 .708 0L5 12.293l2.646-2.647a.5.5 0 1 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
                                             <path fill-rule="evenodd" d="M5 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
                                         </svg>
                                     </th>
-                                    <th>Email
-                                        <svg style="font-size: 15px;" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M11 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                            <path fill-rule="evenodd" d="M10.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L11 3.707 8.354 6.354a.5.5 0 1 1-.708-.708l3-3zm-9 7a.5.5 0 0 1 .708 0L5 12.293l2.646-2.647a.5.5 0 1 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                            <path fill-rule="evenodd" d="M5 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
-                                        </svg>
-                                    </th>
-                                    <th>phone
-                                        <svg style="font-size: 15px;" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M11 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                            <path fill-rule="evenodd" d="M10.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L11 3.707 8.354 6.354a.5.5 0 1 1-.708-.708l3-3zm-9 7a.5.5 0 0 1 .708 0L5 12.293l2.646-2.647a.5.5 0 1 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                            <path fill-rule="evenodd" d="M5 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
-                                        </svg>
-                                    </th>
-                                    <th>Sexe
-                                        <svg style="font-size: 15px;" width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-arrow-down-up" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                            <path fill-rule="evenodd" d="M11 3.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5z"/>
-                                            <path fill-rule="evenodd" d="M10.646 2.646a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L11 3.707 8.354 6.354a.5.5 0 1 1-.708-.708l3-3zm-9 7a.5.5 0 0 1 .708 0L5 12.293l2.646-2.647a.5.5 0 1 1 .708.708l-3 3a.5.5 0 0 1-.708 0l-3-3a.5.5 0 0 1 0-.708z"/>
-                                            <path fill-rule="evenodd" d="M5 2.5a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-1 0V3a.5.5 0 0 1 .5-.5z"/>
-                                        </svg>
-                                    </th>
-
 
                                     <th class="pull-right">Actions</th>
                                 </tr>
                                 </thead>
                                 <tbody>
                                 {%  set i =1 %}
-                                {% for candidat in candidats %}
+                                {% for candidat in  candidats|sort((a, b) => a.percentage <= b.percentage) %}
                                     <tr>
                                         <td>
                                             {{i}}
@@ -98,22 +96,15 @@
 
                                         <td>{{ candidat.cin }} </td>
                                         <td>{{ candidat.firstName }} {{ candidat.lastName }}</td>
-                                        <td>{{ candidat.dateOfBirth ? candidat.dateOfBirth|date('Y-m-d') : '' }}</td>
-                                        <td>{{ candidat.event }}</td>
-                                        <td>{{ candidat.email }} </td>
-                                        <td>{{ candidat.phone }} </td>
-                                        <td>{% if candidat.gender == 0 %} Homme {% else %} Femme {% endif %} </td>
+
+                                        <td>{{ candidat.percentage }}%</td>
+                                        <td>{{ candidat.votes }}</td>
+
 
 
                                         <td class="pull-right">
 
 
-                                            <a class=" label success " href="{{ path('candidats_edit', {'id': candidat.id}) }}">
-                                                <svg style="font-size: 10px;"  width="1em" height="1em" viewBox="0 0 16 16" class="bi bi-pencil-square" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
-                                                    <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456l-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/>
-                                                    <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/>
-                                                </svg>
-                                            </a>
 
                                             <a class="label warning " href="{{ path('candidats_show', {'id': candidat.id}) }}">...</a>
                                         </td>
