@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Event;
 use App\Form\EventType;
 use App\Repository\CandidatsRepository;
+use App\Repository\EncryptedVoteRepository;
 use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -92,6 +93,53 @@ class EventController extends AbstractController
         ]);
     }
 
+    /**
+     * @Route("/results", name="events_results", methods={"GET"})
+     */
+    public function results(EventRepository $eventRepository, Request $request): Response
+    {
+
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('admins/baseAdmin.html.twig', [
+            'error' => 0,
+            'events' => $eventRepository->findAll(),
+            'currentRoute' => $currentRoute,
+            'text' => "",
+            'title' => "",
+            'footer' => "",
+
+        ]);
+    }
+
+    /**
+     * @Route("/result/{id}", name="event_result", methods={"GET"})
+     */
+    public function result($id,Request $request,EventRepository $eventRepository, EncryptedVoteRepository $encryptedVoteRepository): Response
+    {
+        $event = $eventRepository->find($id);
+        $votes = $encryptedVoteRepository->findBy(['event'=>$event]);
+        $candidats = $event->getCandidats();
+        foreach ($candidats as  $candidat) {
+            foreach($votes as $vote){
+                if(password_verify($candidat->getId(),$vote->getVote())){
+                    $candidat->addVotes();
+                }
+            }
+            $candidat->setPercentage(($candidat->getVotes()/count($votes))*100);
+        }
+
+        $currentRoute = $request->attributes->get('_route');
+        return $this->render('admins/baseAdmin.html.twig', [
+            'error' => 0,
+            'events' => $eventRepository->findAll(),
+            'currentRoute' => $currentRoute,
+            'text' => "",
+            'title' => "",
+            'footer' => "",
+            'event' => $eventRepository->find($id),
+            'candidats' => $candidats,
+        ]);
+    }
     /**
      * @Route("/{id}", name="event_show", methods={"GET"})
      */
@@ -230,6 +278,7 @@ class EventController extends AbstractController
             'footer' => $footer,
         ]);
     }
+
 
 
 
