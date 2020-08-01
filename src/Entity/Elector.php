@@ -67,11 +67,6 @@ class Elector
 
 
 
-    /**
-     * @ORM\ManyToMany(targetEntity=EncryptedVote::class, mappedBy="elector")
-     */
-    private $encryptedVotes;
-
 
     public function __construct()
     {
@@ -209,35 +204,4 @@ class Elector
 
         return $this;
     }
-
-
-    /**
-     * @return Collection|EncryptedVote[]
-     */
-    public function getEncryptedVotes(): Collection
-    {
-        return $this->encryptedVotes;
-    }
-
-    public function addEncryptedVote(EncryptedVote $encryptedVote): self
-    {
-        if (!$this->encryptedVotes->contains($encryptedVote)) {
-            $this->encryptedVotes[] = $encryptedVote;
-            $encryptedVote->addElector($this);
-        }
-
-        return $this;
-    }
-
-    public function removeEncryptedVote(EncryptedVote $encryptedVote): self
-    {
-        if ($this->encryptedVotes->contains($encryptedVote)) {
-            $this->encryptedVotes->removeElement($encryptedVote);
-            $encryptedVote->removeElector($this);
-        }
-
-        return $this;
-    }
-
-
 }

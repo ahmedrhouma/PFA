@@ -97,12 +97,4 @@ class EncryptedVote
         return $this;
     }
 
-    public function removeElector(Elector $elector): self
-    {
-        if ($this->elector->contains($elector)) {
-            $this->elector->removeElement($elector);
-        }
-
-        return $this;
-    }
 }
