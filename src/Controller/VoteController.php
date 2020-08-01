@@ -345,6 +345,7 @@ class VoteController extends Controller
         $vote->setEvent($EventRepository->find($id));
         $vote->setVote(password_hash($choice, PASSWORD_DEFAULT));
         $vote->setDate(new \DateTime(date("Y-m-d H:i:s")));
+        $vote->addElector($this->getUser()->getElector());
         $VoteEntityManager->persist($vote);
         $VoteEntityManager->flush();
         return $this->redirectToRoute('eventUser');

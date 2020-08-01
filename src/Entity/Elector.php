@@ -70,10 +70,16 @@ class Elector
      */
     private $User;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=EncryptedVote::class, mappedBy="elector")
+     */
+    private $encryptedVotes;
+
 
     public function __construct()
     {
         $this->event = new ArrayCollection();
+        $this->encryptedVotes = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -215,6 +221,34 @@ class Elector
     public function setUser(?User $User): self
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|EncryptedVote[]
+     */
+    public function getEncryptedVotes(): Collection
+    {
+        return $this->encryptedVotes;
+    }
+
+    public function addEncryptedVote(EncryptedVote $encryptedVote): self
+    {
+        if (!$this->encryptedVotes->contains($encryptedVote)) {
+            $this->encryptedVotes[] = $encryptedVote;
+            $encryptedVote->addElector($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEncryptedVote(EncryptedVote $encryptedVote): self
+    {
+        if ($this->encryptedVotes->contains($encryptedVote)) {
+            $this->encryptedVotes->removeElement($encryptedVote);
+            $encryptedVote->removeElector($this);
+        }
 
         return $this;
     }

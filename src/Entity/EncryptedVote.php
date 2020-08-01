@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\EncryptedVoteRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -32,6 +34,16 @@ class EncryptedVote
      * @ORM\JoinColumn(nullable=false)
      */
     private $event;
+
+    /**
+     * @ORM\ManyToMany(targetEntity=Elector::class, inversedBy="encryptedVotes")
+     */
+    private $elector;
+
+    public function __construct()
+    {
+        $this->elector = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -70,6 +82,32 @@ class EncryptedVote
     public function setEvent(?Event $event): self
     {
         $this->event = $event;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Elector[]
+     */
+    public function getElector(): Collection
+    {
+        return $this->elector;
+    }
+
+    public function addElector(Elector $elector): self
+    {
+        if (!$this->elector->contains($elector)) {
+            $this->elector[] = $elector;
+        }
+
+        return $this;
+    }
+
+    public function removeElector(Elector $elector): self
+    {
+        if ($this->elector->contains($elector)) {
+            $this->elector->removeElement($elector);
+        }
 
         return $this;
     }
