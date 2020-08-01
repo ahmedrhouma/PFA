@@ -24,7 +24,6 @@ class EventResult
 
     /**
      * @ORM\OneToOne(targetEntity=Event::class, inversedBy="eventResult", cascade={"persist", "remove"})
-     * @ORM\JoinColumn(nullable=false)
      */
     private $event;
 

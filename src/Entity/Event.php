@@ -161,6 +161,7 @@ class Event
         return $this;
     }
 
+
     public function removeElector(Elector $elector): self
     {
         if ($this->electors->contains($elector)) {

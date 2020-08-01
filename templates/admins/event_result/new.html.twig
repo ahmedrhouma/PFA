@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New EventResult{% endblock %}
+
+{% block body %}
+    <h1>Create new EventResult</h1>
+
+    {{ include('event_result/_form.html.twig') }}
+
+    <a href="{{ path('event_result_index') }}">back to list</a>
+{% endblock %}
