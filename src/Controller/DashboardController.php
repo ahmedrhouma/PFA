@@ -20,8 +20,11 @@ class DashboardController extends AbstractController
      */
     public function index(Request $request)
     {
-
-        return $this->redirectToRoute('dashboard');
+        if ($this->getUser()->hasRole('ROLE_ADMIN')) {
+            return $this->redirectToRoute('dashboard');
+        } else {
+            return $this->redirectToRoute('vote_accueil');
+        }
 
 
     }
@@ -35,20 +38,23 @@ class DashboardController extends AbstractController
 
 
         $events = $eventRepository->findAll();
-        $json_array = array();
+        $json_array_elector = array();
+        $json_array_candidat = array();
         $i = 0;
         foreach ($events as $event) {
 
             $title[$i] = $event->getTitle();
             $statElector[$i] = $event->getStatElector();
-            $data = array("name" => $title[$i], "y" => $statElector[$i]);
-            array_push($json_array, $data);
-
+            $statCandidat[$i] = $event->getStatCandidat();
+            $data_elector = array("name" => $title[$i], "y" => $statElector[$i]);
+            $data_candidat = array("name" => $title[$i], "y" => $statCandidat[$i]);
+            array_push($json_array_elector, $data_elector);
+            array_push($json_array_candidat, $data_candidat);
             $i++;
         }
 
-
-        $json_array = str_replace(';', ':', preg_replace('/"([a-zA-Z]+[a-zA-Z0-9_]*)":/', '$1;', json_encode($json_array)));
+        $json_array_elector = str_replace(';', ':', preg_replace('/"([a-zA-Z]+[a-zA-Z0-9_]*)":/', '$1;', json_encode($json_array_elector)));
+        $json_array_candidat = str_replace(';', ':', preg_replace('/"([a-zA-Z]+[a-zA-Z0-9_]*)":/', '$1;', json_encode($json_array_candidat)));
 
 
         // 1. Obtain doctrine manager
@@ -87,7 +93,8 @@ class DashboardController extends AbstractController
             'totalEvent' => $totalEvent,
             'totalElector' => $totalElector,
             'totalCandidats' => $totalCandidats,
-            'data' => $json_array,
+            'data_elector' => $json_array_elector,
+            'data_candidat' => $json_array_candidat,
 
         ]);
     }

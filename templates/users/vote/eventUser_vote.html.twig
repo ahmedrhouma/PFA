@@ -12,7 +12,7 @@
                         <input class="card-input-element" type="radio" name="choice" id="{{ candidat.id }}" value="{{ candidat.id }}"/>
 
                         <div class="panel panel-default card-input">
-                            <div class="panel-heading"> <img id="" src="/uploads/{{ candidat.photo }}" class="card-img-top" alt="..."></div>
+                            <div class="panel-heading"> <img style="height: 200px" id="" src="/uploads/{{ candidat.photo }}" class="card-img-top" alt="..."></div>
                             <div class="panel-body">
                                 {{ candidat.firstname }}
                                 {{ candidat.lastname }}
@@ -27,7 +27,7 @@
         <div class="row">
             <div class="col-5"></div>
         <div class="col-2">
-            <button type="submit" class=" col-12 btn btn-primary">Voter</button>
+            <button type="submit" class=" col-12 btn btn-primary btn-votes">Voter</button>
         </div>
         </div>
     </form>

@@ -572,10 +572,14 @@ Buttons
     box-shadow: 0 0 14px 1px #2ecc71;
 }
 
+.btn-votes:hover{
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
 .panel-body{
     padding: 20px;
     font-weight: 600;
-    font-size: 18px;
+    font-size: 14px;
     text-align: center;
 }
 
