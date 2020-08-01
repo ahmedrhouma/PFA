@@ -433,7 +433,13 @@ Buttons
 }
 
 /* Custom styles */
-
+.corner-voted{
+    position: absolute;
+    left: -26px !important;
+    top: 20px !important;
+    transform: rotate(-46deg) !important;
+    background: red;
+}
 .corner-ribbon.sticky {
     position: fixed;
 }

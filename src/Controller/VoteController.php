@@ -52,7 +52,7 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser", name="eventUser")
      */
-    public function showEvent(Request $request, EventRepository $EventRepository, EncryptedVoteRepository $encryptedVoteRepository)
+    public function showEvent(Request $request, EventRepository $eventRepository, EncryptedVoteRepository $encryptedVoteRepository)
     {
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
@@ -66,21 +66,17 @@ class VoteController extends Controller
         }
         $events = $user->getElector()->getEvent();
         foreach($events as $event){
-            $already = $encryptedVoteRepository->findBy(['event' => $EventRepository->find($event->getId()), 'elector' => $this->getUser()->getElector()->getId()]);
+            $already = $encryptedVoteRepository->findBy(['event' => $eventRepository->find($event->getId()), 'elector' => $this->getUser()->getElector()->getId()]);
             if($already){
                 $event->setVoted(1);
             }else $event->setVoted(0);
         }
         return $this->render('users/baseUsers.html.twig', [
 
-<<<<<<< HEAD
-            'events' => $user->getElector()->getEvent(),
-            'eventNumber' => $eventNumber,
-=======
+
             'events' => $events,
             'eventNumber' =>  $eventNumber,
->>>>>>> origin/master
-            'currentRoute' => $currentRoute,
+           'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
 
@@ -117,7 +113,7 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser/voter", name="eventUser_vo")
      */
-    public function eventVo(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
+    public function eventVo(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository, EncryptedVoteRepository $encryptedVoteRepository)
     {
 
         $currentRoute = $request->attributes->get('_route');
@@ -130,6 +126,15 @@ class VoteController extends Controller
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
         }
+
+        $events = $user->getElector()->getEvent();
+        foreach($events as $event){
+            $already = $encryptedVoteRepository->findBy(['event' => $eventRepository->find($event->getId()), 'elector' => $this->getUser()->getElector()->getId()]);
+            if($already){
+                $event->setVoted(1);
+            }else $event->setVoted(0);
+        }
+
         return $this->render('users/baseUsers.html.twig', [
 
             'events' => $user->getElector()->getEvent(),
@@ -274,7 +279,7 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser/vote/{id}", name="eventUser_vote" , methods={"GET"})
      */
-    public function voter(Event $event, Request $request)
+    public function voter(Event $event, Request $request ,EncryptedVoteRepository $encryptedVoteRepository )
     {
         $eventNumber = 0;
         $userPhoto = null;
@@ -284,15 +289,36 @@ class VoteController extends Controller
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
         }
+
+            $already = $encryptedVoteRepository->findBy(['event' =>$event->getId(), 'elector' => $this->getUser()->getElector()->getId()]);
+            if($already){
+                $event->setVoted(1);
+            }else $event->setVoted(0);
+//            $vote = $encryptedVoteRepository->findOneBy(['event'=>$event,'elector'=>$userId]);
+//            foreach ($event->getCandidats() as $candidat){
+//                $id = password_hash('hahaha',PASSWORD_DEFAULT);
+//                $id1 = password_hash('hahaha',PASSWORD_DEFAULT);
+//                var_dump($id);
+//                var_dump($vote->getVote());
+//                var_dump(password_verify($id,$id1));
+//die();
+//                if (password_verify($id,$vote->getVote())){
+//                    $name = $candidat->getFirstName();
+//                }
+//            }
+//        die();
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'candidats' => $event->getCandidats(),
             'eventNumber' => $eventNumber,
             'title' => $event->getTitle(),
-            'event' => $event->getId(),
+            'eventId' => $event->getId(),
+            'event' => $event,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
+            'eventVoted' => $event->getVoted(),
+//            'nn'=> $name
         ]);
     }
 
