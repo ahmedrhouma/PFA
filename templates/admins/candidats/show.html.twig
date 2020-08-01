@@ -1,95 +1,97 @@
+<div class="app-body">
 
+    <div class="avatar-upload" style="z-index: 1000;">
 
-    <div class="app-body">
-
-        <div class="avatar-upload" style="z-index: 1000;">
-
-            <div class="avatar-preview" style="    border-color: #2196f3 !important; margin-top: -45px;margin-bottom: -125px;">
-                <div id="imagePreview">
-                    <img style="width: 192px;height: 186px;position: relative;border-radius: 100%;"
-                         id="output"
-                         class="img-fluid" src="/uploads/{{ candidat.photo }}" alt="">
-                </div>
+        <div class="avatar-preview"
+             style="    border-color: #2196f3 !important; margin-top: -45px;margin-bottom: -125px;">
+            <div id="imagePreview">
+                <img style="width: 192px;height: 186px;position: relative;border-radius: 100%;"
+                     id="output"
+                     class="img-fluid" src="/uploads/{{ candidat.photo }}" alt="">
             </div>
-
         </div>
 
-        <!-- ############ PAGE START-->
-        <div class="row-col">
-            <div class="col-lg b-r">
+    </div>
 
-                <div class="padding">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <div class="box" style="border-top: #2196f3 solid;">
-                                <div class="box-header">
+    <!-- ############ PAGE START-->
+    <div class="row-col">
+        <div class="col-lg b-r">
 
-                                    <a
-                                            class="label primary pull-right" href="{{ path('candidats_new') }}">Ajouter
-                                        nouveau</a>
+            <div class="padding">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="box" style="border-top: #2196f3 solid;">
+                            <div class="box-header">
 
-                                    <a style="    margin-right: 10px;" class="label success pull-right "
-                                       href="{{ path('candidats_edit', {'id': candidat.id}) }}">Modifier</a>
-                                    <a class="label primary pull-left" href="{{ path('candidats') }}">Liste des
-                                        candidats</a>
-                                </div>
-                                <div style="    margin-top: 50px;" class="row">
+                                <a class="label primary pull-right" href="{{ path('candidats_new') }}">Ajouter
+                                    nouveau</a>
 
-                                    <table class="col-2 table" style="    margin-left: 41.66666667%;">
-                                    <tbody>
-                                    <tr>
-                                        <th>Nom et prenom</th>
-                                        <td>{{ candidat.firstName }} {{ candidat.lastName }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Date du naissance</th>
-                                        <td>{{ candidat.dateOfBirth ? candidat.dateOfBirth|date('Y-m-d') : '' }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>email</th>
-                                        <td>{{ candidat.email }}</td>
-                                    </tr>
-                                    <tr>
-                                        <th>Telephone</th>
-                                        <td>{{ candidat.phone }}</td>
-
-                                    </tr>
-
-                                    <tr>
-                                        <th>Sexe</th>
-                                        <td>{% if candidat.gender == 0 %} Homme {% else %} Femme {% endif %}</td>
-                                    </tr>
-
-                                    <tr>
-                                        <th>Evenement</th>
-                                        <td>{{ candidat.event }} </td>
-                                    </tr>
-                                    <tr>
-                                        <th>Description</th>
-                                        <td>{{ candidat.description }}</td>
-                                    </tr>
-
-
-
-                                    </tbody>
-                                </table>
-                                </div>
-
-
-                                {{ include('admins/candidats/_delete_form.html.twig') }}
+                                <a style="    margin-right: 10px;" class="label success pull-right "
+                                   href="{{ path('candidats_edit', {'id': candidat.id}) }}">Modifier</a>
+                                <a class="label primary pull-left" href="{{ path('candidats') }}">Liste des
+                                    candidats</a>
                             </div>
-                        </div>
+                            <div style="    margin-top: 50px;" class="row">
+                                <div class="col-md-2"></div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="label-form">Nom et prenom :</label>
+                                    <p style="display: inline;">{{ candidat.firstName }} {{ candidat.lastName }}</p>
 
+                                </div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="label-form">Date du naissance :</label>
+                                    <p style="display: inline;">{{ candidat.dateOfBirth ? candidat.dateOfBirth|date('Y-m-d') : '' }}</p>
+
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="label-form">Email :</label>
+                                    <p style="display: inline;">{{ candidat.email }}</p>
+
+                                </div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-3 mb-3">
+                                    <label class="label-form">Telephone :</label>
+                                    <p style="display: inline;">{{ candidat.phone }}</p>
+
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="label-form">Sexe :</label>
+                                    <p style="display: inline;">{% if candidat.gender == 0 %} Homme {% else %} Femme {% endif %}</p>
+
+                                </div>
+
+                                <div class="col-md-3 mb-3">
+                                    <label class="label-form">Evenement :</label>
+                                    <p style="display: inline;">{{ candidat.event }}</p>
+
+                                </div>
+                                <div class="col-md-2"></div>
+                                <div class="col-md-9">
+                                    <label class="label-form">Description :</label>
+                                    <p style="display: inline;">{{ candidat.description }}</p>
+
+                                </div>
+
+
+                            </div>
+
+
+                            {{ include('admins/candidats/_delete_form.html.twig') }}
+                        </div>
                     </div>
 
                 </div>
-            </div>
 
+            </div>
         </div>
 
-
-        <!-- ############ PAGE END-->
-
     </div>
+
+
+    <!-- ############ PAGE END-->
+
+</div>
 
 <!-- / -->

@@ -16,6 +16,7 @@
         <link href="{{ asset('assets/css/styles/style.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/datatables/datatables.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/font-awesome.min.css') }}" rel="stylesheet"/>
+        <link href="{{ asset('assets/css/highcharts.css') }}" rel="stylesheet"/>
         <link href="{{ asset('assets/css/ubuntu.css') }}" rel="stylesheet" rel='stylesheet' type='text/css'/>
 
 
@@ -41,6 +42,7 @@
 
 
 
+
 {% endblock %}
 {% block javascripts %}
 
@@ -57,10 +59,94 @@
     <script src="{{ asset('assets/css/datatables/buttons/jszip.min.js') }}"></script>
     <script src="{{ asset('assets/css/datatables/buttons/pdfmake.min.js') }}"></script>
     <script src="{{ asset('assets/css/datatables/buttons/vfs_fonts.js') }}"></script>
+    <script src="{{ asset('assets/js/highcharts/highcharts.js') }}"></script>
+    <script src="{{ asset('assets/js/highcharts/export-data.js') }}"></script>
+    <script src="{{ asset('assets/js/highcharts/exporting.js') }}"></script>
+    <script src="{{ asset('assets/js/highcharts/accessibility.js') }}"></script>
 
     <script>
 
+        {#Highcharts.chart('elecEvent', {#}
+        {#    chart: {#}
+        {#        plotBackgroundColor: null,#}
+        {#        plotBorderWidth: null,#}
+        {#        plotShadow: false,#}
+        {#        type: 'pie'#}
+        {#    },#}
+        {#    title: {#}
+        {#        text: 'Nombre des electeurs dans les evenements'#}
+        {#    },#}
+        {#    tooltip: {#}
+        {#        pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'#}
+        {#    },#}
+
+        {#    plotOptions: {#}
+        {#        pie: {#}
+        {#            allowPointSelect: true,#}
+        {#            cursor: 'pointer',#}
+        {#            dataLabels: {#}
+        {#                enabled: true,#}
+        {#                format: '<b>{point.name}</b>: {point.percentage:.1f} '#}
+        {#            }#}
+        {#        }#}
+        {#    },#}
+        {#    series: [{#}
+        {#        name: 'Brands',#}
+        {#        colorByPoint: true,#}
+        {#        data: {{ data }}#}
+        {#    }]#}
+        {#});#}
+
+        {#Highcharts.chart('candEvent', {#}
+        {#    chart: {#}
+        {#        plotBackgroundColor: null,#}
+        {#        plotBorderWidth: null,#}
+        {#        plotShadow: false,#}
+        {#        type: 'pie'#}
+        {#    },#}
+        {#    title: {#}
+        {#        text: 'Nombre des electeurs dans les evenements'#}
+        {#    },#}
+        {#    tooltip: {#}
+        {#        pointFormat: '{series.name}: <b>{point.percentage:.1f}</b>'#}
+        {#    },#}
+
+        {#    plotOptions: {#}
+        {#        pie: {#}
+        {#            allowPointSelect: true,#}
+        {#            cursor: 'pointer',#}
+        {#            dataLabels: {#}
+        {#                enabled: true,#}
+        {#                format: '<b>{point.name}</b>: {point.percentage:.1f} '#}
+        {#            }#}
+        {#        }#}
+        {#    },#}
+        {#    series: [{#}
+        {#        name: 'Brands',#}
+        {#        colorByPoint: true,#}
+        {#        data: [{#}
+        {#            name: 'Chrome',#}
+        {#            y: 61.41,#}
+        {#            sliced: true,#}
+        {#            selected: true#}
+        {#        } , {#}
+        {#            name: 'Sogou Explorer',#}
+        {#            y: 1.64#}
+        {#        }, {#}
+        {#            name: 'Opera',#}
+        {#            y: 1.6#}
+        {#        }, {#}
+        {#            name: 'QQ',#}
+        {#            y: 1.2#}
+        {#        }, {#}
+        {#            name: 'Other',#}
+        {#            y: 2.61#}
+        {#        }]#}
+        {#    }]#}
+        {#});#}
         $(function () {
+
+            $('[data-toggle="tooltip"]').tooltip()
             $('#datetimepicker5').datetimepicker({
                 defaultDate: "11/1/2013",
                 disabledDates: [
@@ -70,6 +156,7 @@
                 ]
             });
             $('#begin').datetimepicker({
+                defaultDate: "11/1/2013",
                 defaultDate: "11/1/2013",
                 disabledDates: [
                     moment("12/25/2013"),
@@ -89,6 +176,8 @@
         // You can modify the upload files to pdf's, docs etc
         //Currently it will upload only images
         $(document).ready(function ($) {
+            let width = $(".card-img-top").width();
+            $(".card-img-top").height(width);
             var table =$('#example').DataTable({
                 dom: 'Bfrtip',
                 scrollX: true,

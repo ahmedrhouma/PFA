@@ -36,31 +36,35 @@
                                         electeurs</a>
                                 </div>
                                 <div style="    margin-top: 50px;" class="row">
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="label-form">Nom et prenom :</label>
+                                        <p style="display: inline;">{{ elector.firstName }} {{ elector.lastName }}</p>
 
-                                    <table class="col-2 table" style="    margin-left: 41.66666667%;">
-                                        <tbody>
-                                        <tr>
-                                            <th>Nom et prenom</th>
-                                            <td>{{ elector.firstName }} {{ elector.lastName }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Email</th>
-                                            <td>{{ elector.email }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Telephone</th>
-                                            <td>{{ elector.phone }}</td>
-                                        </tr>
-                                        <tr>
-                                            <th>Sexe</th>
-                                            <td>{% if elector.gender == 0 %} Homme {% else %} Femme {% endif %}</td>
-                                        </tr>
-                                        </tbody>
-                                    </table>
+                                    </div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="label-form">Date du naissance :</label>
+                                        <p style="display: inline;">{{ elector.birth ? elector.birth|date('Y-m-d') : '' }}</p>
+
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-md-3"></div>
+                                    <div class="col-md-4 mb-3">
+                                        <label class="label-form">Email :</label>
+                                        <p style="display: inline;">{{ elector.email }}</p>
+
+                                    </div>
+
+
+                                    <div class="col-md-4 mb-3">
+                                        <label class="label-form">Sexe :</label>
+                                        <p style="display: inline;">{% if elector.gender == 0 %} Homme {% else %} Femme {% endif %}</p>
+
+                                    </div>
+
 
 
                                 </div>
-
                                         {{ include('admins/elector/_delete_form.html.twig') }}
 
                             </div>

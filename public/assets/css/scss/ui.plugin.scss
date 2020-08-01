@@ -155,7 +155,8 @@ Plugins
 
 // datatable
 .box .dataTables_wrapper {
-  //padding-top: 10px
+  padding-top: 10px;
+  width: 100%;
 }
 .box .dataTables_wrapper > .row > div {
   padding: 0 15px !important;

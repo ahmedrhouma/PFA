@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Candidats;
 use App\Entity\Elector;
 use App\Entity\Event;
+use App\Repository\EventRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
@@ -17,9 +18,11 @@ class DashboardController extends AbstractController
     /**
      * @Route("/", name="Accuiel")
      */
-    public function index( Request $request)
+    public function index(Request $request)
     {
+
         return $this->redirectToRoute('dashboard');
+
 
     }
 
@@ -27,8 +30,26 @@ class DashboardController extends AbstractController
     /**
      * @Route("/dashboard", name="dashboard")
      */
-    public function dashboard( Request $request)
+    public function dashboard(Request $request, EventRepository $eventRepository)
     {
+
+
+        $events = $eventRepository->findAll();
+        $json_array = array();
+        $i = 0;
+        foreach ($events as $event) {
+
+            $title[$i] = $event->getTitle();
+            $statElector[$i] = $event->getStatElector();
+            $data = array("name" => $title[$i], "y" => $statElector[$i]);
+            array_push($json_array, $data);
+
+            $i++;
+        }
+
+
+        $json_array = str_replace(';', ':', preg_replace('/"([a-zA-Z]+[a-zA-Z0-9_]*)":/', '$1;', json_encode($json_array)));
+
 
         // 1. Obtain doctrine manager
         $em = $this->getDoctrine()->getManager();
@@ -66,6 +87,7 @@ class DashboardController extends AbstractController
             'totalEvent' => $totalEvent,
             'totalElector' => $totalElector,
             'totalCandidats' => $totalCandidats,
+            'data' => $json_array,
 
         ]);
     }
