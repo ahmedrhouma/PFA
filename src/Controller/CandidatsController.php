@@ -148,7 +148,7 @@ class CandidatsController extends Controller
                             $user->setEmail($email);
                             $user->setEmailCanonical($email);
                             $user->setEnabled(1);
-                            $user->setRoles(['ROLE_ELECTOR', 'ROLE_CANDIDAT']);
+                            $user->setRoles(['ROLE_ELECTOR']);
                             $user->setPlainPassword($password);
                             $userManager->updateUser($user);
 
@@ -227,15 +227,6 @@ class CandidatsController extends Controller
                         'currentRoute' => $currentRoute
                     ]);
                 }
-                $password = $form->get('first_name')->getData() . uniqid();
-                $user = $userManager->createUser();
-                $user->setUsername($form->get('first_name')->getData() . ' ' . $form->get('last_name')->getData());
-                $user->setEmail($form->get('email')->getData());
-                $user->setEmailCanonical($form->get('photo')->getData());
-                $user->setEnabled(1);
-                $user->setRoles(['ROLE_ELECTOR', 'ROLE_CANDIDAT']);
-                $user->setPlainPassword($password);
-                $userManager->updateUser($user);
 
                 $Elector = new Elector();
                 $Elector->setPhone(intval($form->get('phone')->getData()));
@@ -255,6 +246,18 @@ class CandidatsController extends Controller
                 $entityManager->persist($Elector);
                 $entityManager->flush();
 
+                $password = $form->get('first_name')->getData() . uniqid();
+                $user = $userManager->createUser();
+                $user->setUsername($form->get('first_name')->getData() . ' ' . $form->get('last_name')->getData());
+                $user->setEmail($form->get('email')->getData());
+                $user->setEmailCanonical($form->get('photo')->getData());
+                $user->setEnabled(1);
+                $user->setRoles(['ROLE_ELECTOR']);
+                $user->setPlainPassword($password);
+                $user->setElector($Elector);
+                $userManager->updateUser($user);
+
+
                 $entityManager = $this->getDoctrine()->getManager();
                 $entityManager->persist($candidat);
                 $entityManager->flush();
@@ -262,7 +265,7 @@ class CandidatsController extends Controller
                     ->from('EvotePro@gmail.com')
                     ->to($form->get('email')->getData())
                     ->subject('Bienvenue a E-Vote!')
-                    ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $form->get('last_name')->getData() . ' ' . $form->get('first_name')->getData() . '</strong></div><div style="margin-bottom:10px">login : ' . $form->get('email')->getData() . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
+                    ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $form->get('last_name')->getData() . ' ' . $form->get('first_name')->getData() . '</strong></div><div style="margin-bottom:10px">login : ' . $form->get('first_name')->getData() . ' ' . $form->get('last_name')->getData() . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
 
                 $mailer->send($email);
 

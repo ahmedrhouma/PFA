@@ -256,7 +256,7 @@ class ElectorController extends Controller
                     ->from('EvotePro@gmail.com')
                     ->to($form->get('email')->getData())
                     ->subject('Bienvenue a E-Vote!')
-                    ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $form->get('last_name')->getData() . ' ' . $form->get('first_name')->getData() . '</strong></div><div style="margin-bottom:10px">login : ' . $form->get('email')->getData() . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
+                    ->html('<div style="text-align:center"><div style="margin-bottom:30px">Bonjour MR/MRS <strong>' . $form->get('last_name')->getData() . ' ' . $form->get('first_name')->getData() . '</strong></div><div style="margin-bottom:10px">login : ' . $form->get('username')->getData() . '</div><div style="margin-bottom:10px"> mot de passe : ' . $password . ' </div><div><button><a href="#">accedés a votre espace</a></button></div></div>');
 
                 $mailer->send($email);
 

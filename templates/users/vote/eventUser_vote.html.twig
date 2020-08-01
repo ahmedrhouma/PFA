@@ -1,64 +1,93 @@
 <div style="padding-left: 30px ; padding-right: 30px " class="row">
     {% if eventVoted == 0 %}
-    <h2 class="title-vote">{{title }} : choisir votre candidat </h2>
+        <h2 class="title-vote">{{ title }} : choisir votre candidat </h2>
 
 
-    <form action="{{ path('voter',{'id':eventId}) }}" method="POST" style="width: 100%">
-        <div class="row">
-            {% for candidat in candidats %}
+        <form action="{{ path('voter',{'id':eventId}) }}" method="POST" style="width: 100%">
+            <div class="row">
+                {% for candidat in candidats %}
 
-                <div class="col-3 col-md-2">
+                    <div class="col-3 col-md-2">
 
-                    <label>
-                        <input class="card-input-element" type="radio" name="choice" id="{{ candidat.id }}" value="{{ candidat.id }}"/>
+                        <label>
+                            <input class="card-input-element" type="radio" name="choice" id="{{ candidat.id }}"
+                                   value="{{ candidat.id }}"/>
 
-                        <div class="panel panel-default card-input">
-                            <div class="panel-heading"> <img style="height: 200px" id="" src="/uploads/{{ candidat.photo }}" class=" card-card-img-top" alt="..."></div>
-                            <div class="panel-body">
-                                {{ candidat.firstname }}
-                                {{ candidat.lastname }}
+                            <div class="panel panel-default card-input">
+                                <div class="panel-heading"><img style="height: 200px" id=""
+                                                                src="/uploads/{{ candidat.photo }}"
+                                                                class=" card-card-img-top" alt="..."></div>
+                                <div class="panel-body">
+                                    {{ candidat.firstname }}
+                                    {{ candidat.lastname }}
+                                </div>
                             </div>
-                        </div>
 
-                    </label>
+                        </label>
 
+                    </div>
+                {% endfor %}
+            </div>
+            <div class="row">
+                <div class="col-5"></div>
+                <div class="col-2">
+                    <button type="submit" class=" col-12 btn btn-primary btn-votes">Voter</button>
                 </div>
-            {% endfor %}
-        </div>
-        <div class="row">
-            <div class="col-5"></div>
-        <div class="col-2">
-            <button type="submit" class=" col-12 btn btn-primary btn-votes">Voter</button>
-        </div>
-        </div>
-    </form>
+            </div>
+        </form>
 
     {% elseif eventVoted == 1 %}
 
-        <h2 class="title-vote">{{event.title }} </h2>
-
-    <div class="col-12">
-    <div class="row d-flex justify-content-center">
-
-           <p style="    font-size: 50px;color: red; font-weight: 500;">Vous avez deja voté  </p>
-
-    </div>
-
-    </div>
+        <h2 class="title-vote">{{ event.title }} </h2>
 
         <div class="col-12">
-    <div class="row d-flex justify-content-center">
+            <div class="row d-flex justify-content-center">
+
+                <p style="    font-size: 24px;color: red; font-weight: 500;">Vous avez deja voté pour</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-12">
+            <div class="row d-flex justify-content-center">
+
+                <div style="margin-left:1%; padding: 0px;box-shadow: 0 19px 38px rgba(0,0,0,0.30), 0 15px 12px rgba(0,0,0,0.22);"
+                     class="card mb-3 col-2">
+
+                    <img class="card-img-top card-votes" src="/uploads/{{ candidat.photo }}" alt="Card image cap">
+                    <div class="card-body">
+                        <h5 class="card-title"
+                            style="font-size: 17px; text-transform: uppercase; font-weight: 700;   margin-bottom: 0.35rem;">
+                            {{ candidat.firstname }}
+                            {{ candidat.lastname }}
+                        </h5>
 
 
-        <p style="font-size: 15px; font-weight: 500;">le resultat sera affiché le    {{ event.dateEnd ? event.dateEnd|date('d-m-Y') : '' }}</p>
+                        <div style="margin-top: 20px">
+                            <a style="width: 80px;" class="  pull-right label success  "
+                               href="{{ path('eventUser_candidat_show', {'id': candidat.id}) }}">Voir plus</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <div class="col-12">
+            <div class="row d-flex justify-content-center">
 
 
-    </div>
+                <p style="font-size: 15px; font-weight: 500; color: #14213d ">le resultat sera affiché
+                    le {{ event.dateEnd ? event.dateEnd|date('d-m-Y') : '' }}</p>
 
-    </div>
+
+            </div>
+
+        </div>
     {% endif %}
-<script>
+    <script>
 
-</script>
+    </script>
 </div>
 

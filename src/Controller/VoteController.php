@@ -293,19 +293,15 @@ class VoteController extends Controller
             if($already){
                 $event->setVoted(1);
             }else $event->setVoted(0);
-//            $vote = $encryptedVoteRepository->findOneBy(['event'=>$event,'elector'=>$userId]);
-//            foreach ($event->getCandidats() as $candidat){
-//                $id = password_hash('hahaha',PASSWORD_DEFAULT);
-//                $id1 = password_hash('hahaha',PASSWORD_DEFAULT);
-//                var_dump($id);
-//                var_dump($vote->getVote());
-//                var_dump(password_verify($id,$id1));
-//die();
-//                if (password_verify($id,$vote->getVote())){
-//                    $name = $candidat->getFirstName();
-//                }
-//            }
-//        die();
+            $vote = $encryptedVoteRepository->findOneBy(['event'=>$event,'elector'=>$userId]);
+            foreach ($event->getCandidats() as $candidat){
+
+
+                if (password_verify($candidat->getId(),$vote->getVote())){
+                    $candidats = $candidat;
+                }
+            }
+
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'candidats' => $event->getCandidats(),
@@ -317,7 +313,7 @@ class VoteController extends Controller
             'userPhoto' => $userPhoto,
             'userId' => $userId,
             'eventVoted' => $event->getVoted(),
-//            'nn'=> $name
+            'candidat'=> $candidats
         ]);
     }
 
