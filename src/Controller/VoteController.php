@@ -330,6 +330,7 @@ class VoteController extends Controller
         $choice = $_POST['choice'];
         $already = $encryptedVoteRepository->findBy(['event' => $EventRepository->find($id), 'elector' => $this->getUser()->getElector()->getId()]);
         if (!$already) {
+            
             $vote = new EncryptedVote();
             $VoteEntityManager = $this->getDoctrine()->getManager();
             $vote->setEvent($EventRepository->find($id));
@@ -357,7 +358,6 @@ class VoteController extends Controller
         }
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
-
             'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
@@ -370,7 +370,7 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser/resultat/{id}", name="eventUser_result" , methods={"GET"})
      */
-    public function result($id,Event $event, Candidats $candidat, Request $request, EventRepository $EventRepository, EncryptedVoteRepository $EncryptedVoteRepository)
+    public function result($id,Event $event, Request $request, EventRepository $EventRepository, EncryptedVoteRepository $EncryptedVoteRepository)
     {
         $eventNumber = 0;
         $userPhoto = null;
@@ -385,20 +385,17 @@ class VoteController extends Controller
         $votes = $EncryptedVoteRepository->findBy(['event'=>$event]);
         $candidats = $event->getCandidats();
         foreach ($candidats as  $candidat) {
-            $id =password_hash($candidat->getId(),PASSWORD_DEFAULT);
             foreach($votes as $vote){
-                if(password_verify($vote->getVote(),$id)){
+                if(password_verify($candidat->getId(),$vote->getVote())){
                     $candidat->addVotes();
                 }
             }
-            var_dump($candidat->getVotes());
+            $candidat->setPercentage(($candidat->getVotes()/count($votes))*100);
         }
-        die;
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [
             'event' => $EventRepository->find($id),
-            'candidat' => $candidat,
-            'candidats' => $event->getCandidats(),
+            'candidats' => $candidats,
             'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
