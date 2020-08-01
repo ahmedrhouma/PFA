@@ -133,15 +133,7 @@ class ElectorController extends Controller
                                     'currentRoute' => $currentRoute
                                 ]);
                             }
-                            $password = $firstname . uniqid();
-                            $user = $userManager->createUser();
-                            $user->setUsername($firstname . $lastname);
-                            $user->setEmail($email);
-                            $user->setEmailCanonical($email);
-                            $user->setEnabled(1);
-                            $user->setRoles(['ROLE_ELECTOR']);
-                            $user->setPlainPassword($password);
-                            $userManager->updateUser($user);
+                           
                             $elector = new Elector();
                             $elector->setPhone(intval($phone));
                             $elector->setFirstName($firstname);
@@ -152,6 +144,8 @@ class ElectorController extends Controller
                             $elector->addEvent($event);
                             $elector->setBirth(new \DateTime($birth));
                             $elector->setPhoto('profile.jpg');
+                            $password = $firstname . uniqid();
+
                             $emailSend = (new Email())
                                 ->from('EvotePro@gmail.com')
                                 ->to($email)
@@ -161,12 +155,20 @@ class ElectorController extends Controller
                             $mailer->send($emailSend);
                             $entityManager->persist($elector);
                             $entityManager->flush();
+                            $user = $userManager->createUser();
+                            $user->setUsername($email);
+                            $user->setEmail($email);
+                            $user->setEmailCanonical($email);
+                            $user->setEnabled(1);
+                            $user->setRoles(['ROLE_ELECTOR']);
+                            $user->setPlainPassword($password);
+                            $user->setElector($elector);
+                            $userManager->updateUser($user);
                         }
                         $row++;
                     }
                     return $this->redirectToRoute('elector');
                 }
-
                 foreach ($elector->getEvent() as $event) {
                     $elector->addEvent($event);
                 }
@@ -209,17 +211,6 @@ class ElectorController extends Controller
                     $entityManager->persist($candidat);
                     $entityManager->flush();
                 }
-
-
-                $password = $form->get('first_name')->getData() . uniqid();
-                $user = $userManager->createUser();
-                $user->setUsername($form->get('first_name')->getData() . $form->get('last_name')->getData());
-                $user->setEmail($form->get('email')->getData());
-                $user->setEmailCanonical($form->get('email')->getData());
-                $user->setEnabled(1);
-                $user->setRoles(['ROLE_ELECTOR']);
-                $user->setPlainPassword($password);
-                $userManager->updateUser($user);
             }
             if ($form->isSubmitted() && $form->isValid()) {
                 $password = $elector->getFirstName() . uniqid();
