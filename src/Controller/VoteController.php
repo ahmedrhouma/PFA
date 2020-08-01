@@ -52,9 +52,8 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser", name="eventUser")
      */
-    public function showEvent(Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
+    public function showEvent(Request $request, EventRepository $EventRepository, EncryptedVoteRepository $encryptedVoteRepository)
     {
-
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
         $eventNumber = 0;
@@ -65,10 +64,22 @@ class VoteController extends Controller
             $userPhoto = $this->getUser()->getElector()->getPhoto();
             $userId = $this->getUser()->getElector()->getId();
         }
+        $events = $user->getElector()->getEvent();
+        foreach($events as $event){
+            $already = $encryptedVoteRepository->findBy(['event' => $EventRepository->find($event->getId()), 'elector' => $this->getUser()->getElector()->getId()]);
+            if($already){
+                $event->setVoted(1);
+            }else $event->setVoted(0);
+        }
         return $this->render('users/baseUsers.html.twig', [
 
+<<<<<<< HEAD
             'events' => $user->getElector()->getEvent(),
             'eventNumber' => $eventNumber,
+=======
+            'events' => $events,
+            'eventNumber' =>  $eventNumber,
+>>>>>>> origin/master
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
@@ -288,18 +299,21 @@ class VoteController extends Controller
     /**
      * @Route("/voter/{id}", name="voter" , methods={"GET","POST"})
      */
-    public function vote($id, Request $request, EventRepository $EventRepository)
+    public function vote($id, Request $request, EventRepository $EventRepository, EncryptedVoteRepository $encryptedVoteRepository)
     {
         $idUser = $this->getUser()->getId();
         $choice = $_POST['choice'];
-        $vote = new EncryptedVote();
-        $VoteEntityManager = $this->getDoctrine()->getManager();
-        $vote->setEvent($EventRepository->find($id));
-        $vote->setVote(password_hash($choice, PASSWORD_DEFAULT));
-        $vote->setDate(new \DateTime(date("Y-m-d H:i:s")));
-        $vote->addElector($this->getUser()->getElector());
-        $VoteEntityManager->persist($vote);
-        $VoteEntityManager->flush();
+        $already = $encryptedVoteRepository->findBy(['event' => $EventRepository->find($id), 'elector' => $this->getUser()->getElector()->getId()]);
+        if (!$already) {
+            $vote = new EncryptedVote();
+            $VoteEntityManager = $this->getDoctrine()->getManager();
+            $vote->setEvent($EventRepository->find($id));
+            $vote->setVote(password_hash($choice, PASSWORD_DEFAULT));
+            $vote->setDate(new \DateTime(date("Y-m-d H:i:s")));
+            $vote->setElector($this->getUser()->getElector()->getId());
+            $VoteEntityManager->persist($vote);
+            $VoteEntityManager->flush();
+        }
         return $this->redirectToRoute('eventUser');
     }
 

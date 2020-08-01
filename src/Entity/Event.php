@@ -69,6 +69,7 @@ class Event
      * @ORM\Column(type="integer")
      */
     private $duration;
+    private $voted;
 
 
 
@@ -94,7 +95,16 @@ class Event
 
         return $this;
     }
+    public function setVoted(int $voted): self
+    {
+        $this->voted = $voted;
 
+        return $this;
+    }
+    public function getVoted(): ?int
+    {
+        return $this->voted;
+    }
     public function getDescription(): ?string
     {
         return $this->description;
