@@ -8,6 +8,7 @@ use App\Entity\Elector;
 use App\Entity\EncryptedVote;
 use App\Form\EncryptedVoteType;
 use App\Repository\ElectorRepository;
+use phpDocumentor\Reflection\Types\Null_;
 use Symfony\Component\HttpFoundation\Response;
 use App\Form\ElectorType;
 use App\Repository\EventRepository;
@@ -17,6 +18,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Routing\Annotation\Route;
 use FOS\UserBundle\Form\Factory\FactoryInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+
 class VoteController extends Controller
 {
 
@@ -65,16 +67,16 @@ class VoteController extends Controller
             $userId = $this->getUser()->getElector()->getId();
         }
         $events = $user->getElector()->getEvent();
-        foreach($events as $event){
+        foreach ($events as $event) {
             $already = $encryptedVoteRepository->findBy(['event' => $eventRepository->find($event->getId()), 'elector' => $this->getUser()->getElector()->getId()]);
-            if($already){
+            if ($already) {
                 $event->setVoted(1);
-            }else $event->setVoted(0);
+            } else $event->setVoted(0);
         }
         return $this->render('users/baseUsers.html.twig', [
 
             'events' => $events,
-            'eventNumber' =>  $eventNumber,
+            'eventNumber' => $eventNumber,
             'currentRoute' => $currentRoute,
             'userPhoto' => $userPhoto,
             'userId' => $userId,
@@ -127,11 +129,11 @@ class VoteController extends Controller
         }
 
         $events = $user->getElector()->getEvent();
-        foreach($events as $event){
+        foreach ($events as $event) {
             $already = $encryptedVoteRepository->findBy(['event' => $eventRepository->find($event->getId()), 'elector' => $this->getUser()->getElector()->getId()]);
-            if($already){
+            if ($already) {
                 $event->setVoted(1);
-            }else $event->setVoted(0);
+            } else $event->setVoted(0);
         }
 
         return $this->render('users/baseUsers.html.twig', [
@@ -199,9 +201,9 @@ class VoteController extends Controller
     /**
      * @Route("/eventResultat", name="eventResultat")
      */
-    public function showEventTer(UserPasswordEncoderInterface $encoder,Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
+    public function showEventTer(UserPasswordEncoderInterface $encoder, Request $request, EventRepository $eventRepository, ElectorRepository $electorRepository)
     {
-        
+
         $currentRoute = $request->attributes->get('_route');
         $user = $this->getUser();
         $eventNumber = 0;
@@ -278,10 +280,11 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser/vote/{id}", name="eventUser_vote" , methods={"GET"})
      */
-    public function voter(Event $event, Request $request ,EncryptedVoteRepository $encryptedVoteRepository )
+    public function voter(Event $event, Request $request, EncryptedVoteRepository $encryptedVoteRepository)
     {
         $eventNumber = 0;
         $userPhoto = null;
+        $candidats = null;
         if ($this->getUser()->getElector() != null) {
             $eventNumber = $this->getUser()->getElector()->getEvent();
             $eventNumber = count($eventNumber);
@@ -289,20 +292,25 @@ class VoteController extends Controller
             $userId = $this->getUser()->getElector()->getId();
         }
 
-            $already = $encryptedVoteRepository->findBy(['event' =>$event->getId(), 'elector' => $this->getUser()->getElector()->getId()]);
-            if($already){
-                $event->setVoted(1);
-            }else $event->setVoted(0);
-            $vote = $encryptedVoteRepository->findOneBy(['event'=>$event,'elector'=>$userId]);
-            foreach ($event->getCandidats() as $candidat){
+        $already = $encryptedVoteRepository->findBy(['event' => $event->getId(), 'elector' => $this->getUser()->getElector()->getId()]);
+        if ($already) {
+            $event->setVoted(1);
+        } else $event->setVoted(0);
+        $vote = $encryptedVoteRepository->findOneBy(['event' => $event, 'elector' => $userId]);
 
+        foreach ($event->getCandidats() as $candidat) {
 
-                if (password_verify($candidat->getId(),$vote->getVote())){
+            if ($vote != Null) {
+                if (password_verify($candidat->getId(), $vote->getVote())) {
                     $candidats = $candidat;
                 }
             }
 
+        }
+
         $currentRoute = $request->attributes->get('_route');
+
+
         return $this->render('users/baseUsers.html.twig', [
             'candidats' => $event->getCandidats(),
             'eventNumber' => $eventNumber,
@@ -313,7 +321,8 @@ class VoteController extends Controller
             'userPhoto' => $userPhoto,
             'userId' => $userId,
             'eventVoted' => $event->getVoted(),
-            'candidat'=> $candidats
+            'candidat' => $candidats,
+            'candidatNumber' => count($event->getCandidats()),
         ]);
     }
 
@@ -326,7 +335,7 @@ class VoteController extends Controller
         $choice = $_POST['choice'];
         $already = $encryptedVoteRepository->findBy(['event' => $EventRepository->find($id), 'elector' => $this->getUser()->getElector()->getId()]);
         if (!$already) {
-            
+
             $vote = new EncryptedVote();
             $VoteEntityManager = $this->getDoctrine()->getManager();
             $vote->setEvent($EventRepository->find($id));
@@ -366,7 +375,7 @@ class VoteController extends Controller
     /**
      * @Route("/eventUser/resultat/{id}", name="eventUser_result" , methods={"GET"})
      */
-    public function result($id,Event $event, Request $request, EventRepository $EventRepository, EncryptedVoteRepository $EncryptedVoteRepository)
+    public function result($id, Event $event, Request $request, EventRepository $EventRepository, EncryptedVoteRepository $EncryptedVoteRepository)
     {
         $eventNumber = 0;
         $userPhoto = null;
@@ -378,15 +387,15 @@ class VoteController extends Controller
             $userId = $this->getUser()->getElector()->getId();
         }
         $event = $EventRepository->find($id);
-        $votes = $EncryptedVoteRepository->findBy(['event'=>$event]);
+        $votes = $EncryptedVoteRepository->findBy(['event' => $event]);
         $candidats = $event->getCandidats();
-        foreach ($candidats as  $candidat) {
-            foreach($votes as $vote){
-                if(password_verify($candidat->getId(),$vote->getVote())){
+        foreach ($candidats as $candidat) {
+            foreach ($votes as $vote) {
+                if (password_verify($candidat->getId(), $vote->getVote())) {
                     $candidat->addVotes();
                 }
             }
-            $candidat->setPercentage(($candidat->getVotes()/count($votes))*100);
+            $candidat->setPercentage(($candidat->getVotes() / count($votes)) * 100);
         }
         $currentRoute = $request->attributes->get('_route');
         return $this->render('users/baseUsers.html.twig', [

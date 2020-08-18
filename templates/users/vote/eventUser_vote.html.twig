@@ -28,10 +28,15 @@
                     </div>
                 {% endfor %}
             </div>
+
             <div class="row">
                 <div class="col-5"></div>
                 <div class="col-2">
+                    {% if candidatNumber == 0 %}
+                    <p class="col-12" style="font-size: 18px; font-weight: 500; color: red;">Il n'ya pas des candidats</p>
+                    {% else %}
                     <button type="submit" class=" col-12 btn btn-primary btn-votes">Voter</button>
+                    {% endif %}
                 </div>
             </div>
         </form>
